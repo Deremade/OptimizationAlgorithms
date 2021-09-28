@@ -77,9 +77,7 @@ class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<
 	@Override
 	public double value() {
 		// TODO Auto-generated method stub
-		Random r = new Random();
-		return r.nextDouble();
-		//return problem.value(this);
+		return problem.value(this);
 	}
 
 	@Override
