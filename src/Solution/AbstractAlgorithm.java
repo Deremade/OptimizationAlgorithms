@@ -22,6 +22,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 
 	@Override
 	public void iteration(AlgorithmType at) {
+		removeInvalid(solutions);
 		// TODO Auto-generated method stub
 		HashMap<OptimizationSolution<E>, OptimizationSolution<E>> hm = new HashMap<OptimizationSolution<E>, OptimizationSolution<E>>();
 		if(at == AlgorithmType.SimpleChange) {
