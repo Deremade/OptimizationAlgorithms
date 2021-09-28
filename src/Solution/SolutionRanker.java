@@ -24,9 +24,9 @@ public class SolutionRanker {
 	 * @return valuedSolutions,
 	 * all solutions mapped to their value()
 	 */
-	public static HashMap<OptimizationSolution<?>, Double> valuedsolutions(Collection<OptimizationSolution<?>> solutions) {
-		HashMap<OptimizationSolution<?>, Double> valuedSolutions = new HashMap<OptimizationSolution<?>, Double>();
-		for(OptimizationSolution<?> os : solutions) {
+	public static <T> HashMap<OptimizationSolution<T>, Double> valuedsolutions(Collection<OptimizationSolution<T>> solutions) {
+		HashMap<OptimizationSolution<T>, Double> valuedSolutions = new HashMap<OptimizationSolution<T>, Double>();
+		for(OptimizationSolution<T> os : solutions) {
 			valuedSolutions.put(os, os.value());
 		}
 		return valuedSolutions;
@@ -39,16 +39,16 @@ public class SolutionRanker {
 	 * a HashMap with solutions mapped to their value
 	 * @return list of all solutions ranked by their value()
 	 */
-	public static LinkedList<Map.Entry<OptimizationSolution<?>, Double>> sortByValue(HashMap<OptimizationSolution<?>, Double> hm)
+	public static <T> LinkedList<Map.Entry<OptimizationSolution<T>, Double>> sortByValue(HashMap<OptimizationSolution<T>, Double> hm)
     {
         // Create a list from elements of HashMap
-        LinkedList<Map.Entry<OptimizationSolution<?>, Double> > list =
-               new LinkedList<Map.Entry<OptimizationSolution<?>, Double>>(hm.entrySet());
+        LinkedList<Map.Entry<OptimizationSolution<T>, Double> > list =
+               new LinkedList<Map.Entry<OptimizationSolution<T>, Double>>(hm.entrySet());
  
         // Sort the list
-        Collections.sort(list, new Comparator<Map.Entry<OptimizationSolution<?>, Double> >() {
-            public int compare(Map.Entry<OptimizationSolution<?>, Double> o1,
-                               Map.Entry<OptimizationSolution<?>, Double> o2)
+        Collections.sort(list, new Comparator<Map.Entry<OptimizationSolution<T>, Double> >() {
+            public int compare(Map.Entry<OptimizationSolution<T>, Double> o1,
+                               Map.Entry<OptimizationSolution<T>, Double> o2)
             {
                 return (o1.getValue()).compareTo(o2.getValue());
             }
@@ -64,7 +64,7 @@ public class SolutionRanker {
 	 * a list of solutions to be mapped to their value()
 	 * @return a HashMap of solutions mapped to their value()
 	 */
-	public static LinkedList<Entry<OptimizationSolution<?>, Double>> sortByValue(Collection<OptimizationSolution<?>> solutions) {
+	public static <T> LinkedList<Entry<OptimizationSolution<T>, Double>> sortByValue(Collection<OptimizationSolution<T>> solutions) {
 		return sortByValue(valuedsolutions(solutions));
 	}
 	
@@ -77,18 +77,18 @@ public class SolutionRanker {
 	 * how many survivors there will be
 	 * @return survivors, the top {size} amoung the solutions
 	 */
-	public static LinkedList<OptimizationSolution<?>> mostFit(LinkedList<Entry<OptimizationSolution<?>, Double>> linkedList, int size) {
+	public static <T> LinkedList<OptimizationSolution<T>> mostFit(LinkedList<Entry<OptimizationSolution<T>, Double>> linkedList, int size) {
 		// TODO Auto-generated method stub
 		if(linkedList.size() <= size) { //retunn all solutions if there is less then the number you want
-			LinkedList<OptimizationSolution<?>> survivors = new LinkedList<OptimizationSolution<?>>();
-			for(Entry<OptimizationSolution<?>, Double> entry : linkedList) {
+			LinkedList<OptimizationSolution<T>> survivors = new LinkedList<OptimizationSolution<T>>();
+			for(Entry<OptimizationSolution<T>, Double> entry : linkedList) {
 					survivors.add(entry.getKey());
 			}
 			return survivors;
 		}
-		LinkedList<OptimizationSolution<?>> survivors = new LinkedList<OptimizationSolution<?>>();
+		LinkedList<OptimizationSolution<T>> survivors = new LinkedList<OptimizationSolution<T>>();
 		for(int i = linkedList.size()-1; i > Math.max(linkedList.size()-size, 0); i--) {
-				survivors.add((OptimizationSolution<?>) linkedList.get(i).getKey());
+				survivors.add((OptimizationSolution<T>) linkedList.get(i).getKey());
 		}
 		return survivors;
 	}
@@ -102,7 +102,7 @@ public class SolutionRanker {
 	 * how many survivors there will be
 	 * @return survivors, the top {size} amoung the solutions
 	 */
-	public static LinkedList<OptimizationSolution<?>> mostFit(Collection<OptimizationSolution<?>> solutions, int size) {
+	public static <T> LinkedList<OptimizationSolution<T>> mostFit(Collection<OptimizationSolution<T>> solutions, int size) {
 		return mostFit(sortByValue(solutions), size);
 	}
 	
@@ -113,7 +113,7 @@ public class SolutionRanker {
 	 * candidates to be selected from
 	 * @return highest value() solution
 	 */
-	public static OptimizationSolution<?> mostFitsolution(Collection<OptimizationSolution<?>> solutions) {
+	public static <T> OptimizationSolution<T> mostFitsolution(Collection<OptimizationSolution<T>> solutions) {
 		return mostFit(sortByValue(solutions), 2).get(0);
 	}
 }
