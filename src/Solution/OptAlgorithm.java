@@ -11,6 +11,10 @@ import java.util.Collection;
  */
 public interface OptAlgorithm<E> {
 	
+	enum AlgorithmType {
+		SimpleChange
+	}
+	
 	/**
 	 * @return a random solution
 	 */
@@ -20,6 +24,13 @@ public interface OptAlgorithm<E> {
 	 * @return a list of all solutions
 	 */
 	public Collection<OptimizationSolution<E>> solutions();
+	
+	/**
+	 * Fills the collection of solutions with {size} random solutions
+	 * 
+	 * @param size how many solutions generated
+	 */
+	public void fillSolutions(int size);
 	
 	/**
 	 * Generates a number of random solutions and puts them in an existing collection
@@ -34,6 +45,17 @@ public interface OptAlgorithm<E> {
 	}
 	
 	/**
+	 * Generates a number of random solutions and puts them in the main collection
+	 * 
+	 * @param numOfsolutions the number of solutions
+	 */
+	public default void generateSolutions(int numOfsolutions){
+		while(solutions().size() < numOfsolutions) {
+			solutions().add(randomSolution());
+		}
+	}
+	
+	/**
 	 * prunes a collection of solutions of all invalid options
 	 * 
 	 * @param solutions - a collection to be pruned
@@ -43,5 +65,53 @@ public interface OptAlgorithm<E> {
 			if(!os.isValid())
 				solutions.remove(os);
 		}
+	}
+	
+	/**
+	 * runs a single iteration of the optimization algorithm
+	 */
+	public void iteration(AlgorithmType type);
+	
+	public default void iteration() {
+		iteration(algorithmType());
+	}
+	
+	AlgorithmType algorithmType();
+	
+	/**
+	 * @param num
+	 * ID of Algorithm Type
+	 * @return the AlgorithmType
+	 */
+	public static AlgorithmType getAlgorithmType(int num) {
+		switch (num) {
+			default : return AlgorithmType.SimpleChange;
+		}
+	}
+	
+	/**
+	 * Runs a number of iterations
+	 * 
+	 * @param iterations
+	 * how many iterations are run
+	 */
+	public default void iterations(int iterations) {
+		while(iterations > 0) {
+			iteration();
+			iterations--;
+		}
+	}
+	
+
+	
+	/**
+	 * @return a String representing all solutions currently considered by the algorithm
+	 */
+	public default String displaySolutions() {
+		String s = "<";
+		for(OptimizationSolution<E> solution : solutions()) {
+			s += solution.solutionDetails() + ",";
+		}
+		return s.substring(0, s.length()-1)+">";
 	}
 }

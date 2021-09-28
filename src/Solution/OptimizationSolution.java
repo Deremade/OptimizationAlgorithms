@@ -55,7 +55,7 @@ public interface OptimizationSolution<E> extends List<E> {
 	 * @param newSolution
 	 */
 	default void copyAndChange(OptimizationSolution<E> newSolution) {
-		copyInto(this);
+		copyInto(newSolution);
 		newSolution.change();
 	}
 	
@@ -63,22 +63,5 @@ public interface OptimizationSolution<E> extends List<E> {
 	 * @return an empty solution, (usually) a constructor
 	 */
 	OptimizationSolution<E> emptySolution();
-	
-	/**
-	 * Creates an emptySolution(), Copies all data in this solution into the emptySolution()
-	 */
-	default void copyInto() {
-		emptySolution().addAll(this);
-	}
-	
-	/**
-	 * Creates an emptySolution(), Copies this solution into emptySolution(), and then performs the change() function on the emptySolution()
-	 * 
-	 * @param newSolution
-	 */
-	default void copyAndChange() {
-		copyInto(this);
-		emptySolution().change();
-	}
 	
 }
