@@ -12,6 +12,7 @@ import Solution.OptAlgorithm.AlgorithmType;
 public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
 	AlgorithmType algType;
+	Problem<E> problem;
 
 	@Override
 	public Collection<OptimizationSolution<E>> solutions() {
@@ -20,31 +21,47 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 	}
 	
 
+	public AbstractAlgorithm(AlgorithmType algTp, Problem<E> problem) {
+		super();
+		this.algType = algTp;
+		this.problem = problem;
+	}
+	
+	public AbstractAlgorithm(int algTp, Problem<E> problem) {
+		super();
+		this.algType = OptAlgorithm.getAlgorithmType(algTp);
+		this.problem = problem;
+	}
+
+
 	@Override
 	public void iteration(AlgorithmType at) {
 		removeInvalid(solutions);
 		// TODO Auto-generated method stub
+		if(at == AlgorithmType.SimpleChange)
+			simpleChange();
+	}
+	
+	public void simpleChange() {
 		HashMap<OptimizationSolution<E>, OptimizationSolution<E>> hm = new HashMap<OptimizationSolution<E>, OptimizationSolution<E>>();
-		if(at == AlgorithmType.SimpleChange) {
-			for(OptimizationSolution<E> solution : solutions) {
-				OptimizationSolution<E> newSolution = solution.emptySolution();
-				solution.copyAndChange(newSolution);
-				System.out.println(solution + " : " + newSolution);
-				if(solution.value() < newSolution.value()) {
+		for(OptimizationSolution<E> solution : solutions) {
+			OptimizationSolution<E> newSolution = solution.emptySolution();
+			solution.copyAndChange(newSolution);
+			if(solution.value() < newSolution.value()) {
+				if(newSolution.isValid())
 					hm.put(solution, newSolution);
-				}
 			}
-			for(Entry<OptimizationSolution<E>, OptimizationSolution<E>> replace : hm.entrySet()) {
-				solutions.remove(replace.getKey());
-				solutions.add(replace.getValue());
-			}
+		}
+		for(Entry<OptimizationSolution<E>, OptimizationSolution<E>> replace : hm.entrySet()) {
+			solutions.remove(replace.getKey());
+			solutions.add(replace.getValue());
 		}
 	}
 	
 	@Override
 	public AlgorithmType algorithmType() {
 		// TODO Auto-generated method stub
-		return OptAlgorithm.getAlgorithmType(1);
+		return algType;
 	}
 
 	@Override
