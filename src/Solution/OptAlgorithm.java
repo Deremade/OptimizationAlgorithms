@@ -10,10 +10,8 @@ import java.util.Collection;
  * @param <E> The Elements of the solution
  */
 public interface OptAlgorithm<E> {
+
 	
-	enum AlgorithmType {
-		SimpleChange
-	}
 	
 	/**
 	 * @return a random solution
@@ -70,22 +68,22 @@ public interface OptAlgorithm<E> {
 	/**
 	 * runs a single iteration of the optimization algorithm
 	 */
-	public void iteration(AlgorithmType type);
+	public void iteration(Mutation.mutate type);
 	
 	public default void iteration() {
-		iteration(algorithmType());
+		iteration(mutationType());
 	}
 	
-	AlgorithmType algorithmType();
+	Mutation.mutate mutationType();
 	
 	/**
 	 * @param num
 	 * ID of Algorithm Type
 	 * @return the AlgorithmType
 	 */
-	public static AlgorithmType getAlgorithmType(int num) {
+	public static Mutation.mutate getMutationmType(int num) {
 		switch (num) {
-			default : return AlgorithmType.SimpleChange;
+			default : return Mutation.mutate.reRoll;
 		}
 	}
 	

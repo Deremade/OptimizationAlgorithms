@@ -1,8 +1,9 @@
 package Solution;
 
+import java.util.Collection;
 import java.util.Random;
 
-import Solution.OptAlgorithm.AlgorithmType;
+import Solution.Mutation.mutate;
 import Test.CircleProblem;
 
 public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
@@ -17,7 +18,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 		this.step = step;
 	}
 	
-	public NumericAlgorithm(AlgorithmType algTp, Problem<N> problem, int initialSize, N min, N max, N step) {
+	public NumericAlgorithm(Mutation.mutate algTp, Problem<N> problem, int initialSize, N min, N max, N step) {
 		super(algTp, problem);
 		this.initialSize = initialSize;
 		this.min = min;
@@ -53,21 +54,64 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@SuppressWarnings("unchecked")
 	N rng() {
 		if(min instanceof Integer) {
-			int range = (int) NumbersComparitor.addNumbers(max, NumbersComparitor.multiplyNumbers(min, -1));
+			int range = (int) NumbersComparitor.addNumbers(max, negate(min));
 			return (N) NumbersComparitor.addNumbers(r.nextInt(range+1), min);
 		}
-		Number range = NumbersComparitor.addNumbers(max, NumbersComparitor.multiplyNumbers(min, -1));
+		Number range = NumbersComparitor.addNumbers(max, negate(min));
 		N point = (N) NumbersComparitor.multiplyNumbers(range, r.nextDouble());
 		N result = (N) NumbersComparitor.addNumbers(point, min);
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
 	N wrap(N number) {
-		if(NumbersComparitor.lessThan(number, min)) return min;
-		if(NumbersComparitor.moreThan(number, max)) return max;
-		return number;
+		return (N) NumbersComparitor.cycle(min, max, number);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public N upCycle(N gene) {
+		N up = (N) NumbersComparitor.addNumbers(gene, step);
+		up = wrap(up);
+		return up;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public N singleStep(N gene) {
+		// TODO Auto-generated method stub
+		N stepped = null;
+		if(r.nextBoolean())
+			stepped = (N) NumbersComparitor.addNumbers(gene, step);
+		else
+			stepped = (N) NumbersComparitor.addNumbers(gene, negate(step));
+		return wrap(stepped);
+	}
+
+	@Override
+	public N randomSelect()  {
+		return rng();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public N split(Collection<N> genes) {
+		N average = (N) NumbersComparitor.addNumbers(0, 0);
+		int size = 0;
+		for(N gene : genes) {
+			size++;
+			//Dynamically add to the average
+			average = (N) NumbersComparitor.divideNumbers(
+					NumbersComparitor.addNumbers(gene, negate(average))
+					, size);
+		}
+		return average;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public N negate(N input) {
+		return (N) NumbersComparitor.multiplyNumbers(input, -1);
+	}
 	
 }
 

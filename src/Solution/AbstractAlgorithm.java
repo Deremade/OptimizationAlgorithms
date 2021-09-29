@@ -5,15 +5,21 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import java.util.Random;
 
-import Solution.OptAlgorithm.AlgorithmType;
-
-public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
+public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
-	AlgorithmType algType;
+	mutate algType;
 	Problem<E> problem;
 
+
+	@Override
+	public mutate mutationType() {
+		// TODO Auto-generated method stub
+		return algType;
+	}
+	
 	@Override
 	public Collection<OptimizationSolution<E>> solutions() {
 		// TODO Auto-generated method stub
@@ -21,7 +27,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 	}
 	
 
-	public AbstractAlgorithm(AlgorithmType algTp, Problem<E> problem) {
+	public AbstractAlgorithm(mutate algTp, Problem<E> problem) {
 		super();
 		this.algType = algTp;
 		this.problem = problem;
@@ -29,16 +35,16 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 	
 	public AbstractAlgorithm(int algTp, Problem<E> problem) {
 		super();
-		this.algType = OptAlgorithm.getAlgorithmType(algTp);
+		this.algType = OptAlgorithm.getMutationmType(algTp);
 		this.problem = problem;
 	}
 
 
 	@Override
-	public void iteration(AlgorithmType at) {
+	public void iteration(mutate at) {
 		removeInvalid(solutions);
 		// TODO Auto-generated method stub
-		if(at == AlgorithmType.SimpleChange)
+		if(at == mutate.reRoll)
 			simpleChange();
 	}
 	
@@ -56,12 +62,6 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E> {
 			solutions.remove(replace.getKey());
 			solutions.add(replace.getValue());
 		}
-	}
-	
-	@Override
-	public AlgorithmType algorithmType() {
-		// TODO Auto-generated method stub
-		return algType;
 	}
 
 	@Override
