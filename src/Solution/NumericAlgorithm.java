@@ -54,7 +54,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	N rng() {
 		if(min instanceof Integer) {
 			int range = (int) NumbersComparitor.addNumbers(max, NumbersComparitor.multiplyNumbers(min, -1));
-			return (N) NumbersComparitor.addNumbers(r.nextInt(range), min);
+			return (N) NumbersComparitor.addNumbers(r.nextInt(range+1), min);
 		}
 		Number range = NumbersComparitor.addNumbers(max, NumbersComparitor.multiplyNumbers(min, -1));
 		N point = (N) NumbersComparitor.multiplyNumbers(range, r.nextDouble());
