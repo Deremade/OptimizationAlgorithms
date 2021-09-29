@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import Solution.Mutation.mutate;
+
 public interface GeneticAlgorithm<E> extends Mutation<E>{
 	public static Random r = new  Random();
 
@@ -15,6 +17,17 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 	 */
 	public enum crossover{
 		Random, Crisscross, SplitSection, SplitDifference, randomSplit;
+	}
+	
+	public static crossover getCrossoverType(int num) {
+		switch (num) {
+			case 0 : return crossover.Random;
+			case 1 : return crossover.Crisscross;
+			case 2 : return crossover.SplitSection;
+			case 3 : return crossover.SplitDifference;
+			case 4 : return crossover.randomSplit;
+			default : return crossover.Random;
+		}
 	}
 
 	/**

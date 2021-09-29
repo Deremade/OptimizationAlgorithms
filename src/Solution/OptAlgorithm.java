@@ -77,17 +77,6 @@ public interface OptAlgorithm<E> {
 	Mutation.mutate mutationType();
 	
 	/**
-	 * @param num
-	 * ID of Algorithm Type
-	 * @return the AlgorithmType
-	 */
-	public static Mutation.mutate getMutationmType(int num) {
-		switch (num) {
-			default : return Mutation.mutate.reRoll;
-		}
-	}
-	
-	/**
 	 * Runs a number of iterations
 	 * 
 	 * @param iterations

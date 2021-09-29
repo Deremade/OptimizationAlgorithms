@@ -44,7 +44,22 @@ public interface Mutation<E> {
 		
 		}
 	}
-
+	
+	/**
+	 * @param num
+	 * ID of Algorithm Type
+	 * @return the AlgorithmType
+	 */
+	public static mutate getMutationmType(int num) {
+		switch (num) {
+			case 0 : return mutate.reRoll;
+			case 1 : return mutate.pureRandom;
+			case 2 : return mutate.SplitDifference;
+			case 3 : return mutate.step;
+			case 4 : return mutate.cycle;
+			default : return mutate.reRoll;
+		}
+	}
 	/**
 	 * Makes every part of the solution increment once through the cycle described in upCycle();
 	 * @param genome
