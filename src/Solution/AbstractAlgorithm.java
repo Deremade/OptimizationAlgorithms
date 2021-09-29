@@ -35,7 +35,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 	
 	public AbstractAlgorithm(int algTp, Problem<E> problem) {
 		super();
-		this.algType = OptAlgorithm.getMutationmType(algTp);
+		this.algType = Mutation.getMutationmType(algTp);
 		this.problem = problem;
 	}
 
