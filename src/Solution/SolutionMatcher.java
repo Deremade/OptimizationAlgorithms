@@ -14,7 +14,7 @@ public abstract class SolutionMatcher implements matchingAlgorithm {
 
 interface matchingAlgorithm {
 	
-	public <E> Collection<LinkedList<OptimizationSolution<?>>> genMatches(Collection<OptimizationSolution<E>> solutions);
+	public <E> Collection<LinkedList<OptimizationSolution<E>>> genMatches(Collection<OptimizationSolution<E>> solutions);
 }
 
 class randomMatching extends SolutionMatcher{
@@ -31,15 +31,15 @@ class randomMatching extends SolutionMatcher{
 	int perMatch;
 
 	@Override
-	public <E> Collection<LinkedList<OptimizationSolution<?>>> genMatches(Collection<OptimizationSolution<E>> solutions) {
+	public <E> Collection<LinkedList<OptimizationSolution<E>>> genMatches(Collection<OptimizationSolution<E>> solutions) {
 		// TODO Auto-generated method stub
-		LinkedList<OptimizationSolution<?>> indexedSolutions = new LinkedList<OptimizationSolution<?>>();
-		for(OptimizationSolution<?> s : solutions) {
+		LinkedList<OptimizationSolution<E>> indexedSolutions = new LinkedList<OptimizationSolution<E>>();
+		for(OptimizationSolution<E> s : solutions) {
 			indexedSolutions.add(s);
 		}
-		Collection<LinkedList<OptimizationSolution<?>>> matches = new LinkedList<LinkedList<OptimizationSolution<?>>>();
+		Collection<LinkedList<OptimizationSolution<E>>> matches = new LinkedList<LinkedList<OptimizationSolution<E>>>();
 		while(indexedSolutions.size() >= perMatch) {
-			LinkedList<OptimizationSolution<?>> match = new LinkedList<OptimizationSolution<?>>();
+			LinkedList<OptimizationSolution<E>> match = new LinkedList<OptimizationSolution<E>>();
 			while(match.size() < perMatch) {
 				int index = r.nextInt(Math.min(perMatch, (indexedSolutions.size())));
 				match.add(indexedSolutions.get(index));
