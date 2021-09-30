@@ -73,8 +73,8 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 while(newSolution.size() < maxSize) {
 			 LinkedList<E> list = new LinkedList<E>();
 			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() <= newSolution.size())
-					 if(Math.random() <= 1/parents.size())
+				 if (parent.size() > newSolution.size())
+					 if(Math.random()*parents.size() >= 1)
 						 list.add(parent.get(newSolution.size()));
 			 }
 			 if(!list.isEmpty())
@@ -107,9 +107,10 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 }
 		 while(newSolution.size() < maxSize) {
 			 for(OptimizationSolution<E> parent : parents) {
-				int sectionLength = r.nextInt(Math.min(0, parent.size()-newSolution.size()));
+				int sectionLength = r.nextInt(Math.max(0, parent.size()+1-newSolution.size()));
 				while(sectionLength > 0) {
 					newSolution.add(parent.get(newSolution.size()));
+					sectionLength--;
 				}
 			 }
 		 }
@@ -155,8 +156,8 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 }
 		 while(newSolution.size() < maxSize) {
 			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() <= newSolution.size())
-					 if(Math.random() <= 1/parents.size())
+				 if (parent.size() > newSolution.size())
+					 if(Math.random()*parents.size() >= 1)
 					 	newSolution.add(parent.get(newSolution.size()));
 			 }
 		 }
@@ -179,7 +180,7 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 }
 		 while(newSolution.size() < maxSize) {
 			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() <= newSolution.size())
+				 if (parent.size() > newSolution.size())
 					 newSolution.add(parent.get(newSolution.size()));
 			 }
 		 }
@@ -221,7 +222,7 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 	default Collection<OptimizationSolution<E>> matingSeason(Collection<OptimizationSolution<E>> solutions){
 		Collection<LinkedList<OptimizationSolution<E>>> matches = genMatches(solutions);
 		LinkedList<OptimizationSolution<E>> children = new LinkedList<OptimizationSolution<E>>();
-		for(LinkedList<OptimizationSolution<E>> parents : matches)
+		for(LinkedList<OptimizationSolution<E>> parents : matches) 
 			children.add(mate(crossoverMethod(), parents));
 		return children;
 	}
@@ -229,10 +230,7 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 	default Collection<OptimizationSolution<E>> mutateAll(Collection<OptimizationSolution<E>> solutions){
 		LinkedList<OptimizationSolution<E>> newSolutions = new LinkedList<OptimizationSolution<E>>();
 		for(OptimizationSolution<E> base : solutions) {
-			OptimizationSolution<E> mutant = base.emptySolution();
-			base.copyInto(mutant);
-			solutionMutation(mutationMethod(), mutant);
-			
+			newSolutions.add(mutatedCopy(base, mutationMethod()));
 		}
 		return newSolutions;
 	}
@@ -253,6 +251,7 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 	 */
 	default void generation(Collection<OptimizationSolution<E>> population) {
 		population.addAll(matingSeason(population));
+		population.addAll(mutateAll(population));
 		subjectToSelection(population);
 	}
 }

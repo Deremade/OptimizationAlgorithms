@@ -2,6 +2,8 @@ package Solution;
 
 import java.util.List;
 
+import Solution.Mutation.mutate;
+
 /**
  *  Defines the methods for interacting with a "Solution" to an optimization problem.
  *  
@@ -33,31 +35,6 @@ public interface OptimizationSolution<E> extends List<E> {
 	 * Function to make the Solution invalid
 	 */
 	public void makeInvalid();
-	
-	
-	/**
-	 * Changes the solution according to the specifics of the optimization algorithm
-	 */
-	public void change();
-	
-	/**
-	 * Copies all data in this solution into the newSoltuion
-	 * 
-	 * @param newSolution a new solution (usually empty) which the data will be copied into
-	 */
-	default void copyInto(OptimizationSolution<E> newSolution) {
-		newSolution.addAll(this);
-	}
-	
-	/**
-	 * Copies this solution into newSolution, and then performs the change() function on the newSolution
-	 * 
-	 * @param newSolution
-	 */
-	default void copyAndChange(OptimizationSolution<E> newSolution) {
-		copyInto(newSolution);
-		newSolution.change();
-	}
 	
 	/**
 	 * @return an empty solution, (usually) a constructor

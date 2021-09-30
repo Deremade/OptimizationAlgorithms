@@ -6,18 +6,28 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import Solution.GeneticAlgorithm.crossover;
+
 import java.util.Random;
 
 public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
-	mutate algType;
+	mutate mutationType;
 	Problem<E> problem;
+	GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
+	int algType = 0;
+	
+	
+	public void setGeneticAlgorithm(crossover crossMethod, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
+		evolutionary_algorithm = new GeneticAlgorithmInstance<E>(crossMethod, selectivePressures,
+				matingStrategy, this);
+	}
 
 
 	@Override
-	public mutate mutationType() {
+	public mutate mutationMethod() {
 		// TODO Auto-generated method stub
-		return algType;
+		return mutationType;
 	}
 	
 	@Override
@@ -29,30 +39,35 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	public AbstractAlgorithm(mutate algTp, Problem<E> problem) {
 		super();
-		this.algType = algTp;
+		this.mutationType = algTp;
 		this.problem = problem;
 	}
 	
 	public AbstractAlgorithm(int algTp, Problem<E> problem) {
 		super();
-		this.algType = Mutation.getMutationmType(algTp);
+		this.mutationType = Mutation.getMutationmType(algTp);
 		this.problem = problem;
 	}
 
 
 	@Override
-	public void iteration(mutate at) {
+	public void iteration() {
 		removeInvalid(solutions);
 		// TODO Auto-generated method stub
-		if(at == mutate.reRoll)
+		if(algType == 0)
 			simpleChange();
+		if(algType == 1)
+			evolutionary_algorithm.generation(solutions);
+	}
+	
+	public void setAlgType(int i) {
+		algType = i;
 	}
 	
 	public void simpleChange() {
 		HashMap<OptimizationSolution<E>, OptimizationSolution<E>> hm = new HashMap<OptimizationSolution<E>, OptimizationSolution<E>>();
 		for(OptimizationSolution<E> solution : solutions) {
-			OptimizationSolution<E> newSolution = solution.emptySolution();
-			solution.copyAndChange(newSolution);
+			OptimizationSolution<E> newSolution = mutatedCopy(solution, mutationMethod());
 			if(solution.value() < newSolution.value()) {
 				if(newSolution.isValid())
 					hm.put(solution, newSolution);
@@ -115,12 +130,6 @@ class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<
 	public void makeInvalid() {
 		// TODO Auto-generated method stub
 		autoRemove = true;
-	}
-
-	@Override
-	public void change() {
-		// TODO Auto-generated method stub
-		AA.change(this);
 	}
 
 	@Override

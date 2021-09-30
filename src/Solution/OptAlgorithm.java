@@ -10,8 +10,6 @@ import java.util.Collection;
  * @param <E> The Elements of the solution
  */
 public interface OptAlgorithm<E> {
-
-	
 	
 	/**
 	 * @return a random solution
@@ -67,14 +65,12 @@ public interface OptAlgorithm<E> {
 	
 	/**
 	 * runs a single iteration of the optimization algorithm
-	 */
-	public void iteration(Mutation.mutate type);
-	
+	 */	
 	public default void iteration() {
-		iteration(mutationType());
+		iteration();
 	}
 	
-	Mutation.mutate mutationType();
+	Mutation.mutate mutationMethod();
 	
 	/**
 	 * Runs a number of iterations

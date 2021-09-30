@@ -10,26 +10,29 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	public static Random r = new Random();
 	int initialSize;
 
-	public NumericAlgorithm(int algTp, Problem<N> problem, int initialSize, N min, N max, N step) {
+	public NumericAlgorithm(int algTp, Problem<N> problem, int initialSize) {
 		super(algTp, problem);
 		this.initialSize = initialSize;
-		this.min = min;
-		this.max = max;
-		this.step = step;
 	}
 	
-	public NumericAlgorithm(Mutation.mutate algTp, Problem<N> problem, int initialSize, N min, N max, N step) {
+	public NumericAlgorithm(Mutation.mutate algTp, Problem<N> problem, int initialSize) {
 		super(algTp, problem);
 		this.initialSize = initialSize;
+	}
+	
+	public void setBounds(N min, N max, N step) {
 		this.min = min;
 		this.max = max;
 		this.step = step;
 	}
 	
 
-	N min;
-	N max;
-	N step;
+	@SuppressWarnings("unchecked")
+	N min = (N) NumbersComparitor.addNumbers(0, -10);
+	@SuppressWarnings("unchecked")
+	N max  = (N) NumbersComparitor.addNumbers(0, 10);
+	@SuppressWarnings("unchecked")
+	N step = (N) NumbersComparitor.addNumbers(0, 1);
 	
 	@Override
 	public OptimizationSolution<N> randomSolution() {

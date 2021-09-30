@@ -45,6 +45,14 @@ public interface Mutation<E> {
 		}
 	}
 	
+	public default OptimizationSolution<E> mutatedCopy(OptimizationSolution<E> base, mutate method) {
+		OptimizationSolution<E> mutant = base.emptySolution();
+		for(E element : base)
+			mutant.add(element);
+		solutionMutation(method, mutant);
+		return mutant;
+	}
+	
 	/**
 	 * @param num
 	 * ID of Algorithm Type
@@ -65,9 +73,13 @@ public interface Mutation<E> {
 	 * @param genome
 	 */
 	public default void cycle(OptimizationSolution<E> genome) {
+		OptimizationSolution<E> newGenome = genome.emptySolution();
 		for(E gene : genome)
 			if(r.nextBoolean())
 				gene = upCycle(gene);
+			else newGenome.add(gene);
+		genome.clear();
+		genome.addAll(newGenome);
 	}
 	
 	/**
@@ -83,9 +95,13 @@ public interface Mutation<E> {
 	 * The solution being modified
 	 */
 	public default void step(OptimizationSolution<E> genome) {
+		OptimizationSolution<E> newGenome = genome.emptySolution();
 		for(E gene : genome)
 			if(r.nextBoolean())
-				gene = singleStep(gene);
+				newGenome.add(singleStep(gene));
+			else newGenome.add(gene);
+		genome.clear();
+		genome.addAll(newGenome);
 	}
 	
 	/**
@@ -103,9 +119,14 @@ public interface Mutation<E> {
 	 * The solution being modified
 	 */
 	public default void random(OptimizationSolution<E> genome) {
+		OptimizationSolution<E> newGenome = genome.emptySolution();
 		for(E gene : genome)
 			if(r.nextBoolean())
-				gene = randomSelect();
+				newGenome.add(randomSelect());
+			else
+				newGenome.add(gene);
+		genome.clear();
+		genome.addAll(newGenome);
 	}
 	
 	/**
@@ -114,8 +135,11 @@ public interface Mutation<E> {
 	 * The solution being modified
 	 */
 	public default void reRoll(OptimizationSolution<E> genome) {
+		OptimizationSolution<E> newGenome = genome.emptySolution();
 		for(E gene : genome)
-			gene = randomSelect();
+			newGenome.add(randomSelect());
+		genome.clear();
+		genome.addAll(newGenome);
 	}
 	
 	/**

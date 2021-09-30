@@ -65,7 +65,7 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	@Override
 	public mutate mutationMethod() {
 		// TODO Auto-generated method stub
-		return AA.mutationType();
+		return AA.mutationMethod();
 	}
 
 }

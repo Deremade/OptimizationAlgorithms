@@ -1,0 +1,8 @@
+Test : Evolutionaary Algorithm
+
+The "crossover.Random" seems to be stopping at line  if(Math.random() <= (1/parents.size())), as it never returns true
+Original reason was to randomly choose an element
+
+Fixed with the following replacement line : if(Math.random()*parents.size() >= 1)
+
+For randomSplit it accidently only added if the newsolution had MORE elements than the parent, it should have been the other way around, fixed.
