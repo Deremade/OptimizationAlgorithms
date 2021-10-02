@@ -51,24 +51,6 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	}
 
 	@Override
-	public E upCycle(E gene) {
-		// TODO Auto-generated method stub
-		return AA.upCycle(gene);
-	}
-
-	@Override
-	public E singleStep(E gene) {
-		// TODO Auto-generated method stub
-		return AA.singleStep(gene);
-	}
-
-	@Override
-	public E randomSelect() {
-		// TODO Auto-generated method stub
-		return AA.randomSelect();
-	}
-
-	@Override
 	public E split(Collection<E> genes) {
 		// TODO Auto-generated method stub
 		return AA.split(genes);
@@ -78,12 +60,6 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	public mutate mutationMethod() {
 		// TODO Auto-generated method stub
 		return AA.mutationMethod();
-	}
-
-	@Override
-	public double changeSizeChance() {
-		// TODO Auto-generated method stub
-		return AA.changeSizeChance();
 	}
 
 }

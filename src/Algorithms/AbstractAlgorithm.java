@@ -69,7 +69,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 		if(algType == 0)
 			simpleChange();
 		if(algType == 1)
-			evolutionary_algorithm.generation(solutions);
+			evolutionary_algorithm.generation(solutions, this);
 	}
 	
 	public void setAlgType(int i) {

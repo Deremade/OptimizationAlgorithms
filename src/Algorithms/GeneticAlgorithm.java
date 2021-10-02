@@ -8,10 +8,11 @@ import java.util.Random;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.SelectionMethod;
+import Solution.Splitting;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
-public interface GeneticAlgorithm<E> extends Mutation<E>{
+public interface GeneticAlgorithm<E> extends Splitting<E>{
 	public static Random r = new  Random();
 
 	/**
@@ -231,14 +232,6 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		return children;
 	}
 	
-	default Collection<OptimizationSolution<E>> mutateAll(Collection<OptimizationSolution<E>> solutions){
-		LinkedList<OptimizationSolution<E>> newSolutions = new LinkedList<OptimizationSolution<E>>();
-		for(OptimizationSolution<E> base : solutions) {
-			newSolutions.add(mutatedCopy(base, mutationMethod()));
-		}
-		return newSolutions;
-	}
-	
 	/**
 	 * @return the crossover method to be used in this algorithm
 	 */
@@ -253,9 +246,9 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 	 * Simulates a generation of the algorithm
 	 * @param population
 	 */
-	default void generation(Collection<OptimizationSolution<E>> population) {
+	default void generation(Collection<OptimizationSolution<E>> population, Mutation<E> mutation) {
 		population.addAll(matingSeason(population));
-		population.addAll(mutateAll(population));
+		population.addAll(mutation.mutateAll(population, mutationMethod()));
 		subjectToSelection(population);
 	}
 }

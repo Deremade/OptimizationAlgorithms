@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
 
-public interface Mutation<E> {
+public interface Mutation<E> extends Splitting<E>{
 	public static Random r = new Random();
 
 	/**
@@ -60,7 +60,15 @@ public interface Mutation<E> {
 		solutionMutation(method, mutant);
 		return mutant;
 	}
+
 	
+	default Collection<OptimizationSolution<E>> mutateAll(Collection<OptimizationSolution<E>> solutions, mutate method){
+		LinkedList<OptimizationSolution<E>> newSolutions = new LinkedList<OptimizationSolution<E>>();
+		for(OptimizationSolution<E> base : solutions) {
+			newSolutions.add(mutatedCopy(base, method));
+		}
+		return newSolutions;
+	}
 	/**
 	 * @param base
 	 * The base solution being added to
@@ -200,25 +208,4 @@ public interface Mutation<E> {
 			if(Math.random() < 1/genome.size())
 				gene = split(gene, randomSelect());
 	}
-	
-	/**
-	 * performs split() on 2 specific genes
-	 * @param gene1
-	 * @param gene2
-	 * @return a result of splitting the difference
-	 */
-	public default E split(E gene1, E gene2) {
-		LinkedList<E> list = new LinkedList<E>();
-		list.add(gene1);
-		list.add(gene2);
-		return split(list);
-	}
-	
-	/**
-	 * Splits the difference between a set of elements
-	 * @param genes
-	 * the set of elements
-	 * @return the element representing splitting the difference between the "genes"
-	 */
-	public E split(Collection<E> genes);
 }
