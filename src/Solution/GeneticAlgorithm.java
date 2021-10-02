@@ -107,8 +107,8 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 }
 		 while(newSolution.size() < maxSize) {
 			 for(OptimizationSolution<E> parent : parents) {
-				int sectionLength = r.nextInt(Math.max(0, parent.size()+1-newSolution.size()));
-				while(sectionLength > 0) {
+				int sectionLength = r.nextInt(Math.max(1, parent.size()+(2-newSolution.size())));
+				while(sectionLength > 1) {
 					newSolution.add(parent.get(newSolution.size()));
 					sectionLength--;
 				}
@@ -133,7 +133,7 @@ public interface GeneticAlgorithm<E> extends Mutation<E>{
 		 while(newSolution.size() < maxSize) {
 			 LinkedList<E> list = new LinkedList<E>();
 			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() <= newSolution.size())
+				 if (parent.size() > newSolution.size())
 					list.add(parent.get(newSolution.size()));
 			 }
 			 newSolution.add(split(list));

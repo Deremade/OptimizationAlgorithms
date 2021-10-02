@@ -77,4 +77,10 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 		return AA.mutationMethod();
 	}
 
+	@Override
+	public double changeSizeChance() {
+		// TODO Auto-generated method stub
+		return AA.changeSizeChance();
+	}
+
 }

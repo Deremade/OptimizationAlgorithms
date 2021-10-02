@@ -26,4 +26,6 @@ public interface Problem<E> {
 	 * @return boolean value of weather the solution is valid or not
 	 */
 	public boolean isValid(OptimizationSolution<E> solution);
+
+	public double changeSizeChance();
 }

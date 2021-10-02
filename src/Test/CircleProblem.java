@@ -32,4 +32,10 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 		return true;
 	}
 
+	@Override
+	public double changeSizeChance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

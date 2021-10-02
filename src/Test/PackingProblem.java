@@ -62,4 +62,10 @@ public class PackingProblem implements Problem<Boolean> {
 		return value <= carryingCap;
 	}
 
+	@Override
+	public double changeSizeChance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

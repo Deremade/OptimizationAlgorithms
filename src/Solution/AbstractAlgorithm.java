@@ -3,12 +3,9 @@ package Solution;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import Solution.GeneticAlgorithm.crossover;
-
-import java.util.Random;
 
 public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
@@ -28,7 +25,10 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 		setGeneticAlgorithm(GeneticAlgorithm.getCrossoverType(crossoverType), selectivePressures, matingStrategy);
 	}
 
-
+	public double changeSizeChance() {
+		return problem.changeSizeChance();
+	}
+	
 	@Override
 	public mutate mutationMethod() {
 		// TODO Auto-generated method stub

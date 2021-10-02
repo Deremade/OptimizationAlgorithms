@@ -43,6 +43,7 @@ public interface Mutation<E> {
 			break;
 		
 		}
+		changeSize(genome);
 	}
 	
 	/**
@@ -58,6 +59,42 @@ public interface Mutation<E> {
 			mutant.add(element);
 		solutionMutation(method, mutant);
 		return mutant;
+	}
+	
+	/**
+	 * @param base
+	 * The base solution being added to
+	 */
+	public default void addElement(OptimizationSolution<E> base) {
+		base.add(r.nextInt(base.size()), randomSelect());
+	}
+	
+	/**
+	 * @param base
+	 * the base solution being removed from
+	 */
+	public default void removeElement(OptimizationSolution<E> base) {
+		if(base.size() > 1)
+			base.remove(r.nextInt(base.size()));
+	}
+	
+	/**
+	 * @return the probability of the solution changing it's size during mutation
+	 */
+	public double changeSizeChance();
+	
+	/**
+	 * add or remove an element from the solution
+	 * @param base
+	 * The base solution being modified
+	 */
+	public default void changeSize(OptimizationSolution<E> base) {
+		if(r.nextDouble() <= changeSizeChance()) {
+			if(r.nextBoolean())
+				addElement(base);
+			else
+				removeElement(base);
+		}
 	}
 	
 	/**

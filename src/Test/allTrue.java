@@ -26,4 +26,10 @@ public class allTrue implements Problem<Boolean> {
 		return true;
 	}
 
+	@Override
+	public double changeSizeChance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
