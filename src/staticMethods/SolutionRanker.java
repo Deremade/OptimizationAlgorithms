@@ -1,4 +1,4 @@
-package Solution;
+package staticMethods;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import Solution.OptimizationSolution;
 
 /**
  * Ranks solutions by their value

@@ -1,11 +1,5 @@
 package Test;
 
-import java.util.LinkedList;
-
-import Solution.NumericAlgorithm;
-import Solution.OptimizationSolution;
-import Solution.SelectionMethod;
-
 /**
  * The Main class for testing
  * 
@@ -13,8 +7,8 @@ import Solution.SelectionMethod;
  */
 public class Main {
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws InterruptedException {
+				
 	}
 
 }

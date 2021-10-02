@@ -1,8 +1,10 @@
-package Solution;
+package staticMethods;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
+
+import Solution.OptimizationSolution;
 
 public abstract class SolutionMatcher implements matchingAlgorithm {
 	public static Random r = new Random();

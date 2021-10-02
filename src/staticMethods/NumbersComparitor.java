@@ -1,4 +1,4 @@
-package Solution;
+package staticMethods;
 
 public class NumbersComparitor {
 	public static Number addNumbers(Number a, Number b) {

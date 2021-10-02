@@ -2,6 +2,8 @@ package Solution;
 
 import java.util.Collection;
 
+import staticMethods.SolutionRanker;
+
 /**
  * The interface to run an optimization algorithm
  * 

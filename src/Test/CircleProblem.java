@@ -1,6 +1,6 @@
 package Test;
 
-import Solution.NumericAlgorithm;
+import Algorithms.NumericAlgorithm;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 

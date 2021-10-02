@@ -1,8 +1,11 @@
-package Solution;
+package Algorithms;
 
 import java.util.Collection;
 
+import Solution.Mutation;
+import Solution.SelectionMethod;
 import Solution.Mutation.mutate;
+import staticMethods.SolutionMatcher;
 
 public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	crossover crossMethod;

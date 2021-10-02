@@ -1,10 +1,14 @@
-package Solution;
+package Algorithms;
 
 import java.util.Collection;
 import java.util.Random;
 
+import Solution.Mutation;
+import Solution.OptimizationSolution;
+import Solution.Problem;
 import Solution.Mutation.mutate;
 import Test.CircleProblem;
+import staticMethods.NumbersComparitor;
 
 public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	public static Random r = new Random();

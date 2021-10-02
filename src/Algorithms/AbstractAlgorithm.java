@@ -1,11 +1,18 @@
-package Solution;
+package Algorithms;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import Solution.GeneticAlgorithm.crossover;
+import Algorithms.GeneticAlgorithm.crossover;
+import Solution.Mutation;
+import Solution.OptAlgorithm;
+import Solution.OptimizationSolution;
+import Solution.Problem;
+import Solution.SelectionMethod;
+import Solution.Mutation.mutate;
+import staticMethods.SolutionMatcher;
 
 public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();

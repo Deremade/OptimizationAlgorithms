@@ -2,6 +2,8 @@ package Solution;
 
 import java.util.Collection;
 
+import staticMethods.SolutionRanker;
+
 public abstract class SelectionMethod implements Selector{
 
 	public static SelectionMethod topSurvivors(int capacity) {

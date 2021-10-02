@@ -1,11 +1,15 @@
-package Solution;
+package Algorithms;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import Solution.Mutation;
+import Solution.OptimizationSolution;
+import Solution.SelectionMethod;
 import Solution.Mutation.mutate;
+import staticMethods.SolutionMatcher;
 
 public interface GeneticAlgorithm<E> extends Mutation<E>{
 	public static Random r = new  Random();
