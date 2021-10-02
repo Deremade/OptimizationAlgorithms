@@ -97,4 +97,15 @@ public interface OptAlgorithm<E> {
 		}
 		return s.substring(0, s.length()-1)+">";
 	}
+	
+	public default int interationsToScore(double score) {
+		double maxScore = SolutionRanker.mostFitsolution(solutions()).value();
+		int iterations = 1;
+		while(maxScore < score && iterations < 10000) {
+			iterations++;
+			iteration();
+			maxScore = SolutionRanker.mostFitsolution(solutions()).value();
+		}
+		return iterations;
+	}
 }

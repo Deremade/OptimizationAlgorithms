@@ -23,6 +23,11 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 				matingStrategy, this);
 	}
 
+	public void setGeneticAlgorithm(int crossoverType, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
+		// TODO Auto-generated method stub
+		setGeneticAlgorithm(GeneticAlgorithm.getCrossoverType(crossoverType), selectivePressures, matingStrategy);
+	}
+
 
 	@Override
 	public mutate mutationMethod() {

@@ -45,6 +45,13 @@ public interface Mutation<E> {
 		}
 	}
 	
+	/**
+	 * @param base
+	 * The solution to be copied and mutated
+	 * @param method
+	 * the method of mutation
+	 * @return A new mutated copy seperate from the original
+	 */
 	public default OptimizationSolution<E> mutatedCopy(OptimizationSolution<E> base, mutate method) {
 		OptimizationSolution<E> mutant = base.emptySolution();
 		for(E element : base)
@@ -76,7 +83,7 @@ public interface Mutation<E> {
 		OptimizationSolution<E> newGenome = genome.emptySolution();
 		for(E gene : genome)
 			if(r.nextBoolean())
-				gene = upCycle(gene);
+				newGenome.add(upCycle(gene));
 			else newGenome.add(gene);
 		genome.clear();
 		genome.addAll(newGenome);

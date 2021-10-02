@@ -16,6 +16,15 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 		this.matingStrategy = matingStrategy;
 		AA = aA;
 	}
+	
+	public GeneticAlgorithmInstance(int crossMethod, SelectionMethod selectivePressures,
+			SolutionMatcher matingStrategy, AbstractAlgorithm<E> aA) {
+		super();
+		this.crossMethod = GeneticAlgorithm.getCrossoverType(crossMethod);
+		this.selectivePressures = selectivePressures;
+		this.matingStrategy = matingStrategy;
+		AA = aA;
+	}
 
 	SolutionMatcher matingStrategy;
 	AbstractAlgorithm<E> AA;

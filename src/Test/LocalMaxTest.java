@@ -3,6 +3,12 @@ package Test;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 
+/**
+ * @author David
+ *
+ * @param <N> Type of number
+ * Is used to test for local optimum, or local minimum, as it uses a sun function such that there are a lot of local optimal functions
+ */
 public class LocalMaxTest<N extends Number> implements Problem<N> {
 
 	@Override
@@ -10,9 +16,9 @@ public class LocalMaxTest<N extends Number> implements Problem<N> {
 		// TODO Auto-generated method stub
 		double error = 0;
 		for(Number n : solution) {
-			error += Math.pow(n.doubleValue(), 3)+ Math.pow(2*n.doubleValue(), 2);
+			error += 2*Math.sin(n.doubleValue()+11/8)-(n.doubleValue()+11.8);
 		}
-		return 0-error;
+		return error;
 	}
 
 	@Override
