@@ -1,7 +1,10 @@
-package Solution;
+package Algorithms;
 
 import java.util.Collection;
 
+import Solution.Mutation;
+import Solution.OptimizationSolution;
+import Solution.Mutation.mutate;
 import staticMethods.SolutionRanker;
 
 /**

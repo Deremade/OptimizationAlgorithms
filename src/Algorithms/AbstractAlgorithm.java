@@ -6,11 +6,12 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import Algorithms.GeneticAlgorithm.crossover;
+import Solution.AbstractSolution;
 import Solution.Mutation;
-import Solution.OptAlgorithm;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 import Solution.SelectionMethod;
+import Solution.VectorOperations;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
@@ -102,52 +103,42 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	protected abstract void change(OptimizationSolution<E> solution);
 
+	public abstract E add(Collection<E> elements);
+
+	public abstract E difference(E elm1, E elm2);
+
+	public abstract E scale(E elm, double scale);
+
+	public abstract double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
+
 }
 
-class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<E> {
-	boolean autoRemove = false;
-	Problem<E> problem;
+
+class VectorOpInstance<E> implements VectorOperations<E> {
 	AbstractAlgorithm<E> AA;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	public AbstractSolution(Problem<E> problem, AbstractAlgorithm<E> aA) {
-		super();
-		this.problem = problem;
-		AA = aA;
+	@Override
+	public E add(Collection<E> elements) {
+		// TODO Auto-generated method stub
+		return AA.add(elements);
 	}
 
 	@Override
-	public double value() {
+	public E difference(E elm1, E elm2) {
 		// TODO Auto-generated method stub
-		return problem.value(this);
+		return AA.difference(elm1, elm2);
 	}
 
 	@Override
-	public String solutionDetails() {
+	public E scale(E elm, double scale) {
 		// TODO Auto-generated method stub
-		return problem.solutionDetails(this);
+		return AA.scale(elm, scale);
 	}
 
 	@Override
-	public boolean isValid() {
+	public double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2) {
 		// TODO Auto-generated method stub
-		if(autoRemove) return false;
-		return problem.isValid(this);
-	}
-
-	@Override
-	public void makeInvalid() {
-		// TODO Auto-generated method stub
-		autoRemove = true;
-	}
-
-	@Override
-	public OptimizationSolution<E> emptySolution() {
-		// TODO Auto-generated method stub
-		return new AbstractSolution<E>(problem, AA);
+		return AA.distance(elm1, elm2);
 	}
 	
 }

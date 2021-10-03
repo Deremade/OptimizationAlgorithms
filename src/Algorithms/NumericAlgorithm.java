@@ -3,6 +3,7 @@ package Algorithms;
 import java.util.Collection;
 import java.util.Random;
 
+import Solution.AbstractSolution;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
@@ -118,6 +119,30 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@SuppressWarnings("unchecked")
 	public N negate(N input) {
 		return (N) NumbersComparitor.multiplyNumbers(input, -1);
+	}
+
+	@Override
+	public N add(Collection<N> elements) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public N difference(N elm1, N elm2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public N scale(N elm, double scale) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double distance(OptimizationSolution<N> elm1, OptimizationSolution<N> elm2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }
