@@ -127,8 +127,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 		N result = (N) NumbersComparitor.addNumbers(0, 0);
 		for(N element : elements)
 			result = (N) NumbersComparitor.addNumbers(result, element);
-		result = (N) NumbersComparitor.addNumbers(result.intValue(), 0);
-		return result;
+		return wrap(result);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -140,7 +139,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public N scale(N elm, double scale) {
-		return (N) NumbersComparitor.multiplyNumbers(elm, scale);
+		return wrap((N) NumbersComparitor.multiplyNumbers(elm, scale));
 	}
 
 	@Override
