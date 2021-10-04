@@ -74,7 +74,7 @@ public interface Mutation<E> extends Splitting<E>{
 	 * The base solution being added to
 	 */
 	public default void addElement(OptimizationSolution<E> base) {
-		base.add(r.nextInt(base.size()), randomSelect());
+		base.add(randomSelect());
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default void removeElement(OptimizationSolution<E> base) {
 		if(base.size() > 1)
-			base.remove(r.nextInt(base.size()));
+			base.remove(base.grabRandom() );      
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public interface Mutation<E> extends Splitting<E>{
 	}
 	
 	/**
-	 * @returna random Element
+	 * @returna randomly generated Element
 	 */
 	public E randomSelect();
 	

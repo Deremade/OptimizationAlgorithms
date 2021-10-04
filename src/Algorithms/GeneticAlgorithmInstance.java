@@ -5,6 +5,7 @@ import java.util.Collection;
 import Solution.Mutation;
 import Solution.SelectionMethod;
 import Solution.Mutation.mutate;
+import Solution.OptimizationSolution;
 import staticMethods.SolutionMatcher;
 
 public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
@@ -60,6 +61,36 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	public mutate mutationMethod() {
 		// TODO Auto-generated method stub
 		return AA.mutationMethod();
+	}
+
+	@Override
+	public OptimizationSolution<E> randomSplit(Collection<OptimizationSolution<E>> parents) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OptimizationSolution<E> splitSection(Collection<OptimizationSolution<E>> parents) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OptimizationSolution<E> splitDifferenceCrossover(Collection<OptimizationSolution<E>> parents) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OptimizationSolution<E> crisscross(Collection<OptimizationSolution<E>> parents) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

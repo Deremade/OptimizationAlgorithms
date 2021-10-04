@@ -8,7 +8,7 @@ import Solution.VectorOperations;
 
 public interface PSOalgorithm<E> {
 
-	public VectorOperations<E> vectorOperations();
+	public VectorOperations<E, ?> vectorOperations();
 	
 	public default void changeAll(Collection<OptimizationSolution<E>> solutions) {
 		for(OptimizationSolution<E> sp : solutions) {

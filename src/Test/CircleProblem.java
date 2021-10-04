@@ -4,7 +4,7 @@ import Algorithms.NumericAlgorithm;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 
-public class CircleProblem<N extends Number> implements Problem<N> {
+public class CircleProblem<N extends Number> implements Problem<N, OptimizationSolution<N>> {
 
 	@Override
 	public double value(OptimizationSolution<N> solution) {

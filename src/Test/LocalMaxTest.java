@@ -9,7 +9,7 @@ import Solution.Problem;
  * @param <N> Type of number
  * Is used to test for local optimum, or local minimum, as it uses a sun function such that there are a lot of local optimal functions
  */
-public class LocalMaxTest<N extends Number> implements Problem<N> {
+public class LocalMaxTest<N extends Number> implements Problem<N, OptimizationSolution<N>> {
 
 	@Override
 	public double value(OptimizationSolution<N> solution) {

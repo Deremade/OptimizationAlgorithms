@@ -2,10 +2,11 @@ package Test;
 
 import java.util.LinkedList;
 
+import Solution.IndexedSolution;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 
-public class PackingProblem implements Problem<Boolean> {
+public class PackingProblem implements Problem<Boolean, IndexedSolution<Boolean>> {
 	public static LinkedList<String> item;
 	public static LinkedList<Integer> values;
 	public static LinkedList<Double> weights;
@@ -36,7 +37,7 @@ public class PackingProblem implements Problem<Boolean> {
 	}
 
 	@Override
-	public double value(OptimizationSolution<Boolean> solution) {
+	public double value(IndexedSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
 		double value = 0;
 		for(int i = 0; i < values.size(); i++)
@@ -45,7 +46,7 @@ public class PackingProblem implements Problem<Boolean> {
 	}
 
 	@Override
-	public String solutionDetails(OptimizationSolution<Boolean> solution) {
+	public String solutionDetails(IndexedSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
 		String s = "[";
 		for(int i = 0; i < item.size(); i++)
@@ -54,7 +55,7 @@ public class PackingProblem implements Problem<Boolean> {
 	}
 
 	@Override
-	public boolean isValid(OptimizationSolution<Boolean> solution) {
+	public boolean isValid(IndexedSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
 		int value = 0;
 		for(int i = 0; i < weights.size(); i++)

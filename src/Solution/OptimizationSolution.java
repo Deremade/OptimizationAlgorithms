@@ -1,5 +1,6 @@
 package Solution;
 
+import java.util.Collection;
 import java.util.List;
 
 import Solution.Mutation.mutate;
@@ -14,7 +15,7 @@ import Solution.Mutation.mutate;
 
  */
  
-public interface OptimizationSolution<E> extends List<E> {
+public interface OptimizationSolution<E> extends Collection<E> {
 
 	/**
 	 * @return Return the value or fitness of the solution so that it can be compared as better or worse than other solutions
@@ -41,4 +42,5 @@ public interface OptimizationSolution<E> extends List<E> {
 	 */
 	OptimizationSolution<E> emptySolution();
 	
+	E grabRandom();
 }
