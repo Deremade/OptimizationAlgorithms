@@ -15,13 +15,18 @@ import Solution.VectorOperations;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
-public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E> {
+public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E>, VectorOperations<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
 	mutate mutationType;
-	Problem<E> problem;
+	public Problem<E> problem;
 	GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
+	PSOalgorithmInstance<E> pos_algorithm;
+	public VectorOperations<E> vo = new VectorOpInstance<E>(this);
 	int algType = 0;
 	
+	public void setParticleSwarmOpt(double nearDist, double localBestScale, double overallBestscale, double localWorstScale, double curVelScale) {
+		pos_algorithm = new PSOalgorithmInstance<E>(nearDist, localBestScale,overallBestscale,localWorstScale, curVelScale, vo);
+	}
 	
 	public void setGeneticAlgorithm(crossover crossMethod, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
 		evolutionary_algorithm = new GeneticAlgorithmInstance<E>(crossMethod, selectivePressures,
@@ -71,6 +76,8 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 			simpleChange();
 		if(algType == 1)
 			evolutionary_algorithm.generation(solutions, this);
+		if(algType == 2)
+			pos_algorithm.changeAll(solutions);
 	}
 	
 	public void setAlgType(int i) {
@@ -115,6 +122,11 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 
 class VectorOpInstance<E> implements VectorOperations<E> {
+	public VectorOpInstance(AbstractAlgorithm<E> aA) {
+		super();
+		AA = aA;
+	}
+
 	AbstractAlgorithm<E> AA;
 
 	@Override
@@ -136,9 +148,8 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	}
 
 	@Override
-	public double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2) {
-		// TODO Auto-generated method stub
-		return AA.distance(elm1, elm2);
+	public double distance(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
+		return AA.distance(sol1, sol2);
 	}
 	
 }

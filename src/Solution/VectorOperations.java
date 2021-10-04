@@ -30,6 +30,8 @@ public interface VectorOperations<E> {
 	
 	public default OptimizationSolution<E> difference(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
 		LinkedList<OptimizationSolution<E>> ll = new LinkedList<OptimizationSolution<E>>();
+		if(sol1 == null) sol1 = sol2.emptySolution();
+		if(sol2 == null) sol2 = sol1.emptySolution();
 		ll.add(sol1);
 		ll.add(scaleSolution(sol2, -1));
 		return addSolutions(ll);
@@ -64,23 +66,30 @@ public interface VectorOperations<E> {
 	 * The solutions being summed
 	 * @return The sum of all solutions
 	 */
-	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> parents) {
+	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
 		 int maxSize = 0;
 		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
+		 for(OptimizationSolution<E> sol : solutions) {
+			 if(sol == null) break;
+			 if (sol.size() > maxSize)
+				 maxSize = sol.size();
+			 if(newSolution == null) newSolution = sol.emptySolution();
 		 }
 		 while(newSolution.size() < maxSize) {
 			 LinkedList<E> list = new LinkedList<E>();
-			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() > newSolution.size())
-					list.add(parent.get(newSolution.size()));
+			 for(OptimizationSolution<E> sol : solutions) {
+				 if(sol == null) break;
+				 if (sol.size() > newSolution.size())
+					list.add(sol.get(newSolution.size()));
 			 }
 			 newSolution.add(add(list));
 		 }
 		 return newSolution;
+	}
+	
+	public default OptimizationSolution<E> addAllTo(Collection<OptimizationSolution<E>> adding, OptimizationSolution<E> added) {
+		adding.add(added);
+		return addSolutions(adding);
 	}
 	
 	/**
@@ -90,4 +99,32 @@ public interface VectorOperations<E> {
 	 * @return The "distance"
 	 */
 	public double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
+	
+	public default Collection<OptimizationSolution<E>> nearbySolutions(Collection<OptimizationSolution<E>> sample, OptimizationSolution<E> selectedSolution, double nearDist) {
+		Collection<OptimizationSolution<E>> nearby = new LinkedList<OptimizationSolution<E>>();
+		for(OptimizationSolution<E> particle : sample) 
+			if(distance(particle, selectedSolution) <= nearDist)
+				nearby.add(particle);
+		return nearby;
+	}
+	
+	public default OptimizationSolution<E> bestSolution(Collection<OptimizationSolution<E>> nearbySolutions) {
+		OptimizationSolution<E> best = null;
+		for(OptimizationSolution<E> sp : nearbySolutions) 
+			if(best == null) best = sp;
+			else
+				if(sp.value() > best.value())
+					best = sp;
+		return best;
+	}
+	
+	public default OptimizationSolution<E> worstSolution(Collection<OptimizationSolution<E>> nearbySolutions) {
+		OptimizationSolution<E> worst = null;
+		for(OptimizationSolution<E> sp : nearbySolutions) 
+			if(worst == null) worst = sp;
+			else
+				if(sp.value() < worst.value())
+					worst = sp;
+		return worst;
+	}
 }
