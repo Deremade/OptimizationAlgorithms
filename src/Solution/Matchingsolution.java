@@ -3,6 +3,8 @@ package Solution;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import staticMethods.CollectionMethods;
+
 public interface Matchingsolution<E> extends OptimizationSolution<E> {
 
 	/**
@@ -33,18 +35,8 @@ public interface Matchingsolution<E> extends OptimizationSolution<E> {
 	 * Can this function return null
 	 * @return a randomly matching element
 	 */
-	default E randomMatch(E element, Collection<OptimizationSolution<E>> solutions, boolean allownull) {
-		E selected = null;
-		boolean valid = false;
-		while(!valid)
-			for(E elm : matingElements(element, solutions)) 
-				if(Math.random() > 1/solutions.size()) {
-					selected = elm;
-					if(allownull) valid = true;
-					else
-						valid = (selected != null);
-				}
-		return selected;
+	default E randomMatch(E element, Collection<OptimizationSolution<E>> solutions) {
+		return CollectionMethods.random(matingElements(element, solutions));
 	}
 	
 	/**
@@ -52,8 +44,8 @@ public interface Matchingsolution<E> extends OptimizationSolution<E> {
 	 * @param solutions
 	 * @return a "Fully matching" solution
 	 */
-	Matchingsolution<E> fullyMatching(Collection<OptimizationSolution<E>> solutions);
+	OptimizationSolution<E> fullyMatching(Collection<OptimizationSolution<E>> solutions);
 
-	Matchingsolution<E> fullyMatching(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
+	OptimizationSolution<E> fullyMatching(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
 
 }

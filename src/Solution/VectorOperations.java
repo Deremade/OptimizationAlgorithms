@@ -3,6 +3,8 @@ package Solution;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import staticMethods.CollectionMethods;
+
 public interface VectorOperations<E> {
 
 	public E addElements(Collection<E> elements);
@@ -73,22 +75,25 @@ public interface VectorOperations<E> {
 	 * The solutions being summed
 	 * @return The sum of all solutions
 	 */
-	@SuppressWarnings("unused")
 	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> sol : solutions) {
-			 if(newSolution == null) newSolution = sol.emptySolution();
+		OptimizationSolution<E> newSolution = CollectionMethods.random(solutions).emptySolution();
+		 OptimizationSolution<E> fullyMixed = fullMix(solutions, newSolution);
+		 for(E elm : fullyMixed) {
+			 if(newSolution instanceof Matchingsolution<?>)
+					newSolution.add(addElements(((Matchingsolution<E>) newSolution).matingElements(elm, solutions)));
+			if(newSolution instanceof CountingSolution<?>)
+				((CountingSolution<E>) newSolution).addCount(elm, 
+						CollectionMethods.sum(((CountingSolution<E>) newSolution).countAllElms(elm, solutions)));
 		 }
-		if(newSolution instanceof Matchingsolution<?>) {
-			Matchingsolution<E> fullyMatched = ((Matchingsolution<E>) newSolution).fullyMatching(solutions);
-			for(E elm : fullyMatched)
-				newSolution.add(addElements(((Matchingsolution<E>) newSolution).matingElements(elm, solutions)));
-		}
-		if(newSolution instanceof CountingSolution<?>) {
-			for(OptimizationSolution<E> os : solutions)
-				newSolution.addAll(os);
-		}
 		 return newSolution;
+	}
+	
+	static <E> OptimizationSolution<E> fullMix(Collection<OptimizationSolution<E>> solutions, OptimizationSolution<E> solution){
+		if(solution instanceof Matchingsolution<?>)
+			return ((Matchingsolution<E>) solution).fullyMatching(solutions);
+		if(solution instanceof CountingSolution<?>)
+			return ((CountingSolution<E>) solution).allElms(solutions);
+		return null;
 	}
 	
 	public default OptimizationSolution<E> addAllTo(Collection<OptimizationSolution<E>> adding, OptimizationSolution<E> added) {
