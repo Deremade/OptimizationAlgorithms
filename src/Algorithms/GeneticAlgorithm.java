@@ -67,7 +67,26 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * The solutions being crossed
 	 * @return child solution
 	 */
-	public OptimizationSolution<E> randomSplit(Collection<OptimizationSolution<E>> parents);
+	public default OptimizationSolution<E> randomSplit(Collection<OptimizationSolution<E>> parents) {
+		 int maxSize = 0;
+		 OptimizationSolution<E> newSolution = null;
+		 for(OptimizationSolution<E> parent : parents) {
+			 if (parent.size() > maxSize)
+				 maxSize = parent.size();
+			 if(newSolution == null) newSolution = parent.emptySolution();
+		 }
+		 while(newSolution.size() < maxSize) {
+			 LinkedList<E> list = new LinkedList<E>();
+			 for(OptimizationSolution<E> parent : parents) {
+				 if (parent.size() > newSolution.size())
+					 if(Math.random()*parents.size() >= 1)
+						 list.add(parent.get(newSolution.size()));
+			 }
+			 if(!list.isEmpty())
+				 newSolution.add(split(list));
+		 }
+		 return newSolution;
+	}
 
 	public default LinkedList<OptimizationSolution<E>> makeList(Collection<OptimizationSolution<E>> parents) {
 		LinkedList<OptimizationSolution<E>> list = new LinkedList<OptimizationSolution<E>>();
@@ -83,21 +102,72 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return child solution
 	 */
-	public OptimizationSolution<E> splitSection(Collection<OptimizationSolution<E>> parents);
+	public default OptimizationSolution<E> splitSection(Collection<OptimizationSolution<E>> parents) {
+		 int maxSize = 0;
+		 OptimizationSolution<E> newSolution = null;
+		 for(OptimizationSolution<E> parent : parents) {
+			 if (parent.size() > maxSize)
+				 maxSize = parent.size();
+			 if(newSolution == null) newSolution = parent.emptySolution();
+		 }
+		 while(newSolution.size() < maxSize) {
+			 for(OptimizationSolution<E> parent : parents) {
+				int sectionLength = r.nextInt(Math.max(1, parent.size()+(2-newSolution.size())));
+				while(sectionLength > 1) {
+					newSolution.add(parent.get(newSolution.size()));
+					sectionLength--;
+				}
+			 }
+		 }
+		 return newSolution;
+	}
 
 	/**
 	 * Crosses solutions by splitting the difference between each gene index
 	 * @param parents
 	 * @return new solution
 	 */
-	public OptimizationSolution<E> splitDifferenceCrossover(Collection<OptimizationSolution<E>> parents);
+	public default OptimizationSolution<E> splitDifferenceCrossover(Collection<OptimizationSolution<E>> parents) {
+		 int maxSize = 0;
+		 OptimizationSolution<E> newSolution = null;
+		 for(OptimizationSolution<E> parent : parents) {
+			 if (parent.size() > maxSize)
+				 maxSize = parent.size();
+			 if(newSolution == null) newSolution = parent.emptySolution();
+		 }
+		 while(newSolution.size() < maxSize) {
+			 LinkedList<E> list = new LinkedList<E>();
+			 for(OptimizationSolution<E> parent : parents) {
+				 if (parent.size() > newSolution.size())
+					list.add(parent.get(newSolution.size()));
+			 }
+			 newSolution.add(split(list));
+		 }
+		 return newSolution;
+	}
 
 	/**
 	 * Randomly selects a parent at each index to give a child solution that parent's index's element
 	 * @param parents
 	 * @return child
 	 */
-	public OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents);
+	public default OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents)  {
+		 int maxSize = 0;
+		 OptimizationSolution<E> newSolution = null;
+		 for(OptimizationSolution<E> parent : parents) {
+			 if (parent.size() > maxSize)
+				 maxSize = parent.size();
+			 if(newSolution == null) newSolution = parent.emptySolution();
+		 }
+		 while(newSolution.size() < maxSize) {
+			 for(OptimizationSolution<E> parent : parents) {
+				 if (parent.size() > newSolution.size())
+					 if(Math.random()*parents.size() >= 1)
+					 	newSolution.add(parent.get(newSolution.size()));
+			 }
+		 }
+		 return newSolution;
+	}
 
 	/**
 	 * Generates a child solution by cycling through each parent
@@ -105,7 +175,22 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return
 	 */
-	public OptimizationSolution<E> crisscross(Collection<OptimizationSolution<E>> parents);
+	public default OptimizationSolution<E> crisscross(Collection<OptimizationSolution<E>> parents) {
+		 int maxSize = 0;
+		 OptimizationSolution<E> newSolution = null;
+		 for(OptimizationSolution<E> parent : parents) {
+			 if (parent.size() > maxSize)
+				 maxSize = parent.size();
+			 if(newSolution == null) newSolution = parent.emptySolution();
+		 }
+		 while(newSolution.size() < maxSize) {
+			 for(OptimizationSolution<E> parent : parents) {
+				 if (parent.size() > newSolution.size())
+					 newSolution.add(parent.get(newSolution.size()));
+			 }
+		 }
+		 return newSolution;
+	}
 	
 	/**
 	 * @return a selection method to be used in the evolutionary selection process

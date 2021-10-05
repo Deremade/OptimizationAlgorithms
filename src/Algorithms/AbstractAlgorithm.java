@@ -7,8 +7,6 @@ import java.util.Map.Entry;
 
 import Algorithms.GeneticAlgorithm.crossover;
 import Solution.AbstractSolution;
-import Solution.IndexedSolution;
-import Solution.IndexedVectorOperations;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
@@ -17,13 +15,13 @@ import Solution.VectorOperations;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
-public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E>, VectorOperations<E, IndexedSolution<E>> {
+public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E>, VectorOperations<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
 	mutate mutationType;
-	public Problem<E, ?> problem;
+	public Problem<E> problem;
 	GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
 	PSOalgorithmInstance<E> pos_algorithm;
-	public VectorOperations<E, IndexedSolution<E>> vo = new VectorOpInstance<E>(this);
+	public VectorOperations<E> vo = new VectorOpInstance<E>(this);
 	int algType = 0;
 	
 	public void setParticleSwarmOpt(double nearDist, double localBestScale, double overallBestscale, double localWorstScale, double curVelScale) {
@@ -57,17 +55,18 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 	}
 	
 
-	public AbstractAlgorithm(mutate algTp, Problem<E, ?> problem) {
+	public AbstractAlgorithm(mutate algTp, Problem<E> problem) {
 		super();
 		this.mutationType = algTp;
 		this.problem = problem;
 	}
 	
-	public AbstractAlgorithm(int algTp, Problem<E, ?> problem) {
+	public AbstractAlgorithm(int algTp, Problem<E> problem) {
 		super();
 		this.mutationType = Mutation.getMutationmType(algTp);
 		this.problem = problem;
 	}
+
 
 	@Override
 	public void iteration() {
@@ -122,7 +121,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 }
 
 
-class VectorOpInstance<E> implements IndexedVectorOperations<E> {
+class VectorOpInstance<E> implements VectorOperations<E> {
 	public VectorOpInstance(AbstractAlgorithm<E> aA) {
 		super();
 		AA = aA;
@@ -151,12 +150,6 @@ class VectorOpInstance<E> implements IndexedVectorOperations<E> {
 	@Override
 	public double distance(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
 		return AA.distance(sol1, sol2);
-	}
-
-	@Override
-	public IndexedSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

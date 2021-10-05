@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Random;
 
 import Solution.AbstractSolution;
-import Solution.IndexedSolution;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
@@ -16,12 +15,12 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	public static Random r = new Random();
 	int initialSize;
 
-	public NumericAlgorithm(int algTp, Problem<N, ?> problem, int initialSize) {
+	public NumericAlgorithm(int algTp, Problem<N> problem, int initialSize) {
 		super(algTp, problem);
 		this.initialSize = initialSize;
 	}
 	
-	public NumericAlgorithm(Mutation.mutate algTp, Problem<N, ?> problem, int initialSize) {
+	public NumericAlgorithm(Mutation.mutate algTp, Problem<N> problem, int initialSize) {
 		super(algTp, problem);
 		this.initialSize = initialSize;
 	}
@@ -43,8 +42,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@Override
 	public OptimizationSolution<N> randomSolution() {
 		// TODO Auto-generated method stub
-		@SuppressWarnings("unchecked")
-		AbstractSolution<N> newSolution = new AbstractSolution<N>((Problem<N, AbstractSolution<N>>) problem, this);
+		AbstractSolution<N> newSolution = new AbstractSolution<N>(problem, this);
 		int i = 0;
 		while(i < initialSize) {
 			newSolution.add(rng());
@@ -139,20 +137,24 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public N scale(N elm, double scale) {
 		return wrap((N) NumbersComparitor.multiplyNumbers(elm, scale));
 	}
 
 	@Override
-	public double distance(OptimizationSolution<N> elm1, OptimizationSolution<N> elm2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public IndexedSolution<N> addSolutions(Collection<OptimizationSolution<N>> solutions) {
-		// TODO Auto-generated method stub
-		return null;
+	public double distance(OptimizationSolution<N> sol1, OptimizationSolution<N> sol2) {
+		double d = 0.0;
+		for(N element : sol1) {
+			if(sol2.size() < sol1.indexOf(element))
+				d += difference(element, sol2.get(sol1.indexOf(element))).doubleValue();
+			else
+				d += element.doubleValue();
+		}
+		if(sol2.size() > sol1.size())
+			for(int i = sol1.size(); i < sol2.size(); i++)
+				d += sol2.get(i).doubleValue();
+		return d;
 	}
 	
 }

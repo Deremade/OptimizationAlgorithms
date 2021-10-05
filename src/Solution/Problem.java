@@ -7,25 +7,25 @@ package Solution;
  *
  * @param <E> Solution Element
  */
-public interface Problem<E, S extends OptimizationSolution<E>> {
+public interface Problem<E> {
 
 	/**
 	 * @param solution
 	 * @return the value of the solution
 	 */
-	public double value(S solution);
+	public double value(OptimizationSolution<E> solution);
 	
 	/**
 	 * @param solution
 	 * @return A human readable string to display the solution's details
 	 */
-	public String solutionDetails(S solution);
+	public String solutionDetails(OptimizationSolution<E> solution);
 	
 	/**
 	 * @param solution
 	 * @return boolean value of weather the solution is valid or not
 	 */
-	public boolean isValid(S solution);
+	public boolean isValid(OptimizationSolution<E> solution);
 
 	public double changeSizeChance();
 }

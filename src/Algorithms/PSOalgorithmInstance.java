@@ -1,5 +1,4 @@
 package Algorithms;
-import Solution.IndexedSolution;
 import Solution.VectorOperations;
 
 public class PSOalgorithmInstance<E> implements PSOalgorithm<E> {
@@ -10,7 +9,7 @@ public class PSOalgorithmInstance<E> implements PSOalgorithm<E> {
 	curVelScale;
 	
 	public PSOalgorithmInstance(double nearDist, double localBestScale, double overallBestscale, double localWorstScale,
-			double curVelScale, VectorOperations<E, ?> vo) {
+			double curVelScale, VectorOperations<E> vo) {
 		super();
 		this.nearDist = nearDist;
 		this.localBestScale = localBestScale;
@@ -19,11 +18,11 @@ public class PSOalgorithmInstance<E> implements PSOalgorithm<E> {
 		this.curVelScale = curVelScale;
 		this.vo = vo;
 	}
-	
-	VectorOperations<E, ?> vo;
+
+	VectorOperations<E> vo;
 
 	@Override
-	public VectorOperations<E, ?> vectorOperations() {
+	public VectorOperations<E> vectorOperations() {
 		// TODO Auto-generated method stub
 		return vo;
 	}

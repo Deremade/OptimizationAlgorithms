@@ -6,14 +6,14 @@ import Algorithms.AbstractAlgorithm;
 
 public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<E> {
 	boolean autoRemove = false;
-	private Problem<E, AbstractSolution<E>> problem;
+	private Problem<E> problem;
 	public AbstractAlgorithm<E> AA;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public AbstractSolution(Problem<E, AbstractSolution<E>> problem, AbstractAlgorithm<E> aA) {
+	public AbstractSolution(Problem<E> problem, AbstractAlgorithm<E> aA) {
 		super();
 		this.setProblem(problem);
 		AA = aA;
@@ -50,18 +50,12 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 		return new AbstractSolution<E>(getProblem(), AA);
 	}
 
-	public Problem<E, AbstractSolution<E>> getProblem() {
+	public Problem<E> getProblem() {
 		return problem;
 	}
 
-	public void setProblem(Problem<E, AbstractSolution<E>> problem) {
+	public void setProblem(Problem<E> problem) {
 		this.problem = problem;
-	}
-
-	@Override
-	public E grabRandom() {
-		// TODO Auto-generated method stub
-		return this.get((int) (Math.random()*this.size()));
 	}
 	
 }

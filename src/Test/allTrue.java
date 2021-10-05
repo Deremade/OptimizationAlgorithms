@@ -3,7 +3,7 @@ package Test;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 
-public class allTrue implements Problem<Boolean, OptimizationSolution<Boolean>> {
+public class allTrue implements Problem<Boolean> {
 
 	@Override
 	public double value(OptimizationSolution<Boolean> solution) {
