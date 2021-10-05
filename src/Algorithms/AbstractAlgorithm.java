@@ -110,13 +110,11 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	protected abstract void change(OptimizationSolution<E> solution);
 
-	public abstract E add(Collection<E> elements);
+	public abstract E addElements(Collection<E> elements);
 
 	public abstract E difference(E elm1, E elm2);
 
 	public abstract E scale(E elm, double scale);
-
-	public abstract double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
 
 }
 
@@ -130,9 +128,9 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	AbstractAlgorithm<E> AA;
 
 	@Override
-	public E add(Collection<E> elements) {
+	public E addElements(Collection<E> elements) {
 		// TODO Auto-generated method stub
-		return AA.add(elements);
+		return AA.addElements(elements);
 	}
 
 	@Override
@@ -148,8 +146,9 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	}
 
 	@Override
-	public double distance(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
-		return AA.distance(sol1, sol2);
+	public double solutionLength(OptimizationSolution<E> sol) {
+		// TODO Auto-generated method stub
+		return AA.solutionLength(sol);
 	}
 	
 }

@@ -123,7 +123,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public N add(Collection<N> elements) {
+	public N addElements(Collection<N> elements) {
 		N result = (N) NumbersComparitor.addNumbers(0, 0);
 		for(N element : elements)
 			result = (N) NumbersComparitor.addNumbers(result, element);
@@ -143,18 +143,13 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	}
 
 	@Override
-	public double distance(OptimizationSolution<N> sol1, OptimizationSolution<N> sol2) {
-		double d = 0.0;
-		for(N element : sol1) {
-			if(sol2.size() < sol1.indexOf(element))
-				d += difference(element, sol2.get(sol1.indexOf(element))).doubleValue();
-			else
-				d += element.doubleValue();
+	public double solutionLength(OptimizationSolution<N> sol) {
+		// TODO Auto-generated method stub
+		double result =0.0;
+		for(N number : sol) {
+			result += Math.pow(number.doubleValue(), 2);
 		}
-		if(sol2.size() > sol1.size())
-			for(int i = sol1.size(); i < sol2.size(); i++)
-				d += sol2.get(i).doubleValue();
-		return d;
+		return result += Math.pow(result, 0.5);
 	}
 	
 }

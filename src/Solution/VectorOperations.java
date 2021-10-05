@@ -5,18 +5,18 @@ import java.util.LinkedList;
 
 public interface VectorOperations<E> {
 
-	public E add(Collection<E> elements);
+	public E addElements(Collection<E> elements);
 	
 	/**
 	 * @param elm1
 	 * @param elm2
 	 * @return the sum of the elements
 	 */
-	public default E add(E elm1, E elm2) {
+	public default E addElements(E elm1, E elm2) {
 		LinkedList<E> ll = new LinkedList<E>();
 		ll.add(elm1);
 		ll.add(elm2);
-		return add(ll);
+		return addElements(ll);
 	}
 	
 	/**
@@ -36,6 +36,13 @@ public interface VectorOperations<E> {
 		ll.add(scaleSolution(sol2, -1));
 		return addSolutions(ll);
 	}
+	
+	/**
+	 * Returns the "length" of a solution, a single numerical representation of the solution
+	 * @param sol
+	 * @return "length"
+	 */
+	public double solutionLength(OptimizationSolution<E> sol);
 	
 	/**
 	 * @param elm
@@ -66,24 +73,21 @@ public interface VectorOperations<E> {
 	 * The solutions being summed
 	 * @return The sum of all solutions
 	 */
+	@SuppressWarnings("unused")
 	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
-		 int maxSize = 0;
 		 OptimizationSolution<E> newSolution = null;
 		 for(OptimizationSolution<E> sol : solutions) {
-			 if(sol == null) break;
-			 if (sol.size() > maxSize)
-				 maxSize = sol.size();
 			 if(newSolution == null) newSolution = sol.emptySolution();
 		 }
-		 while(newSolution.size() < maxSize) {
-			 LinkedList<E> list = new LinkedList<E>();
-			 for(OptimizationSolution<E> sol : solutions) {
-				 if(sol == null) break;
-				 if (sol.size() > newSolution.size())
-					list.add(sol.get(newSolution.size()));
-			 }
-			 newSolution.add(add(list));
-		 }
+		if(newSolution instanceof Matchingsolution<?>) {
+			Matchingsolution<E> fullyMatched = ((Matchingsolution<E>) newSolution).fullyMatching(solutions);
+			for(E elm : fullyMatched)
+				newSolution.add(addElements(((Matchingsolution<E>) newSolution).matingElements(elm, solutions)));
+		}
+		if(newSolution instanceof CountingSolution<?>) {
+			for(OptimizationSolution<E> os : solutions)
+				newSolution.addAll(os);
+		}
 		 return newSolution;
 	}
 	
@@ -98,8 +102,10 @@ public interface VectorOperations<E> {
 	 * @param elm2
 	 * @return The "distance"
 	 */
-	public double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
-	
+	public default double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2) {
+		return solutionLength(difference(elm1, elm2));
+	}
+
 	public default Collection<OptimizationSolution<E>> nearbySolutions(Collection<OptimizationSolution<E>> sample, OptimizationSolution<E> selectedSolution, double nearDist) {
 		Collection<OptimizationSolution<E>> nearby = new LinkedList<OptimizationSolution<E>>();
 		for(OptimizationSolution<E> particle : sample) 
