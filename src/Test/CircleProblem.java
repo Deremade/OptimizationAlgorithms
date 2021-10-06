@@ -10,7 +10,7 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 	public double value(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		double error = 0;
-		for(Number n : solution) {
+		for(N n : solution) {
 			error += Math.pow(n.doubleValue(), 2);
 		}
 		return 0-Math.pow(error, 0.5);
