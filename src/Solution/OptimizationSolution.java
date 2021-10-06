@@ -1,5 +1,6 @@
 package Solution;
 
+import java.util.Collection;
 import java.util.List;
 
 import Solution.Mutation.mutate;
@@ -39,6 +40,79 @@ public interface OptimizationSolution<E> extends List<E> {
 	/**
 	 * @return an empty solution, (usually) a constructor
 	 */
-	OptimizationSolution<E> emptySolution();
+	<S extends OptimizationSolution<E>> S emptySolution();
 	
+	/**
+	 * Replace the current element at a location with a new element
+	 * @param elm
+	 * The element the position is being set to
+	 * @param placeCode
+	 * The position or "place code" of the element being replaced
+	 */
+	public void setElm(E elm, String placeCode);
+	
+	/**
+	 * Place an element at a place code (move other elements around as necessary)
+	 * @param elm
+	 * The newly inserted element
+	 * @param placeCode
+	 * The place it will be inserted
+	 */
+	public void placeElm(E elm, String placeCode);
+	
+	/**
+	 * Find the place code of the element
+	 * @param elm
+	 * @return the place code of the element
+	 */
+	public String findElm(E elm);
+	
+	/**
+	 * Get an element based on it's place code
+	 * @param placeCode
+	 * @return the element at the place code
+	 */
+	public E getElm(String placeCode);
+	
+	/**
+	 * @return a collection of all place codes
+	 */
+	public Collection<String> placeCodes();
+	
+	/**
+	 * Find the place code of the element in another solution, and set the place code in this solution to that element
+	 * @param elm
+	 * @param solution
+	 */
+	public default <S extends OptimizationSolution<E>> void setElmFrom(E elm, S solution) {
+		setElm(elm, solution.findElm(elm));
+	}
+	
+	/**
+	 * Find the element at the place code of the other solution and set this solution's place code to hold that element
+	 * @param placeCode
+	 * @param solution
+	 */
+	public default <S extends OptimizationSolution<E>> void setElmFrom(String placeCode, S solution) {
+		setElm(solution.getElm(placeCode), placeCode);
+	}
+	
+
+	/**
+	 * Place an element from annother solution at the same place code
+	 * @param elm
+	 * @param solution
+	 */
+	public default <S extends OptimizationSolution<E>> void placeElmFrom(E elm, S solution) {
+		placeElm(elm, solution.findElm(elm));
+	}
+	
+	/**
+	 * Place the element held at the place code of another solution at that same place code in this solution
+	 * @param placeCode
+	 * @param solution
+	 */
+	public default <S extends OptimizationSolution<E>> void placeElmFrom(String placeCode, S solution) {
+		placeElm(solution.getElm(placeCode), placeCode);
+	}
 }
