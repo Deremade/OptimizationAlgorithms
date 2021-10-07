@@ -1,0 +1,82 @@
+public static void main(String[] args) throws InterruptedException {
+		NumericAlgorithm<Integer> na = new NumericAlgorithm<Integer>(1, new CircleProblem<Integer>(), 3);
+		na.setAlgType(2);
+		na.generateSolutions(10);
+		
+		for(OptimizationSolution<Integer> os : na.solutions()) {
+			System.out.println(os.solutionDetails());
+			System.out.println(os.getElm("1"));
+		}
+				
+	}
+	
+[AbstractSolution.java]
+	@Override
+	public void setElm(E elm, String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		this.set(index, elm);
+	}
+
+	@Override
+	public void placeElm(E elm, String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		this.add(index, elm);
+	}
+
+	@Override
+	public String findElm(E elm) {
+		// TODO Auto-generated method stub
+		return ""+this.indexOf(elm);
+	}
+
+	@Override
+	public E getElm(String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		return this.get(index);
+	}
+	
+________________________________________________________
+ [ -7,-8,2 ] -11
+-8
+ [ 7,2,-2 ] -8
+2
+ [ 9,0,-9 ] -13
+0
+ [ 3,1,-5 ] -6
+1
+ [ -7,8,-5 ] -12
+8
+ [ 9,-5,10 ] -14
+-5
+ [ 0,1,-7 ] -7
+1
+ [ 7,10,-5 ] -13
+10
+ [ -3,2,-8 ] -9
+2
+ [ 10,8,3 ] -13
+8
+__________________________________________________________
+
+public static void main(String[] args) throws InterruptedException {
+		NumericAlgorithm<Integer> na = new NumericAlgorithm<Integer>(1, new CircleProblem<Integer>(), 3);
+		na.setAlgType(2);
+		na.generateSolutions(10);
+		
+		for(OptimizationSolution<Integer> os : na.solutions()) {
+			System.out.println(os.solutionDetails());
+			System.out.println(os.getElm("1"));
+			os.setElm(3, "1");
+			System.out.println(os.solutionDetails());
+			os.placeElm(4, "0");
+			System.out.println(os.solutionDetails());
+			System.out.println(os.findElm(3));
+			System.out.println("------------");
+		}
+				
+	}
+	
+__________________________________________________________

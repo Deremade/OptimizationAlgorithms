@@ -99,7 +99,7 @@ public interface OptimizationSolution<E> extends List<E> {
 	
 
 	/**
-	 * Place an element from annother solution at the same place code
+	 * Place an element from another solution at the same place code
 	 * @param elm
 	 * @param solution
 	 */

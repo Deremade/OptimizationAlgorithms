@@ -1,5 +1,6 @@
 package Solution;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 import Algorithms.AbstractAlgorithm;
@@ -56,6 +57,42 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 
 	public void setProblem(Problem<E> problem) {
 		this.problem = problem;
+	}
+
+	@Override
+	public void setElm(E elm, String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		this.set(index, elm);
+	}
+
+	@Override
+	public void placeElm(E elm, String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		this.add(index, elm);
+	}
+
+	@Override
+	public String findElm(E elm) {
+		// TODO Auto-generated method stub
+		return ""+this.indexOf(elm);
+	}
+
+	@Override
+	public E getElm(String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		return this.get(index);
+	}
+
+	@Override
+	public Collection<String> placeCodes() {
+		// TODO Auto-generated method stub
+		LinkedList<String> ll = new LinkedList<String>();
+		for(E elm : this)
+			ll.add(""+this.indexOf(elm));
+		return ll;
 	}
 	
 }
