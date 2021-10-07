@@ -11,6 +11,7 @@ import Solution.SelectionMethod;
 import Solution.Splitting;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
+import staticMethods.SolutionMethods;
 
 public interface GeneticAlgorithm<E> extends Splitting<E>{
 	public static Random r = new  Random();
@@ -88,9 +89,9 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 		 return newSolution;
 	}
 
-	public default LinkedList<OptimizationSolution<E>> makeList(Collection<OptimizationSolution<E>> parents) {
-		LinkedList<OptimizationSolution<E>> list = new LinkedList<OptimizationSolution<E>>();
-		for(OptimizationSolution<E> solution : parents) {
+	public default <S extends OptimizationSolution<E>> LinkedList<S> makeList(Collection<S> parents) {
+		LinkedList<S> list = new LinkedList<S>();
+		for(S solution : parents) {
 			list.add(solution);
 		}
 		return list;
@@ -173,23 +174,17 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * Generates a child solution by cycling through each parent
 	 * the index incremented each step though the cycle to give the child node one element from each parent each cycle
 	 * @param parents
+	 * @return 
 	 * @return
 	 */
-	public default OptimizationSolution<E> crisscross(Collection<OptimizationSolution<E>> parents) {
-		 int maxSize = 0;
+	public default <S extends OptimizationSolution<E>> S crisscross(Collection<S> parents) {
 		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
+		 LinkedList<S> ll = makeList(parents);
+		 int index = 0;
+		 for(String s : SolutionMethods.placeCodes(parents)) {
+			 
 		 }
-		 while(newSolution.size() < maxSize) {
-			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() > newSolution.size())
-					 newSolution.add(parent.get(newSolution.size()));
-			 }
-		 }
-		 return newSolution;
+		 return null;
 	}
 	
 	/**

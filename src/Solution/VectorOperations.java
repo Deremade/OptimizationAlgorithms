@@ -28,6 +28,8 @@ public interface VectorOperations<E> {
 	 */
 	public E difference(E elm1, E elm2);
 	
+	public <S extends OptimizationSolution<E>> double solutionLength(S solution);
+	
 	public default OptimizationSolution<E> difference(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
 		LinkedList<OptimizationSolution<E>> ll = new LinkedList<OptimizationSolution<E>>();
 		if(sol1 == null) sol1 = sol2.emptySolution();
@@ -98,7 +100,9 @@ public interface VectorOperations<E> {
 	 * @param elm2
 	 * @return The "distance"
 	 */
-	public double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2);
+	public default double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2) {
+		return solutionLength(difference(elm1, elm2));
+	}
 	
 	public default Collection<OptimizationSolution<E>> nearbySolutions(Collection<OptimizationSolution<E>> sample, OptimizationSolution<E> selectedSolution, double nearDist) {
 		Collection<OptimizationSolution<E>> nearby = new LinkedList<OptimizationSolution<E>>();

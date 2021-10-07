@@ -94,5 +94,12 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 			ll.add(""+this.indexOf(elm));
 		return ll;
 	}
+
+	@Override
+	public boolean hasPlaceCode(String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		return this.size() > index;
+	}
 	
 }

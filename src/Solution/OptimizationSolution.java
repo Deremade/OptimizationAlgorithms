@@ -79,6 +79,8 @@ public interface OptimizationSolution<E> extends List<E> {
 	 */
 	public Collection<String> placeCodes();
 	
+	public boolean hasPlaceCode(String placeCode);
+	
 	/**
 	 * Find the place code of the element in another solution, and set the place code in this solution to that element
 	 * @param elm

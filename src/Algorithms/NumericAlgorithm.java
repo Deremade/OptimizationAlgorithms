@@ -143,18 +143,15 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	}
 
 	@Override
-	public double distance(OptimizationSolution<N> sol1, OptimizationSolution<N> sol2) {
-		double d = 0.0;
-		for(N element : sol1) {
-			if(sol2.size() < sol1.indexOf(element))
-				d += difference(element, sol2.get(sol1.indexOf(element))).doubleValue();
-			else
-				d += element.doubleValue();
-		}
-		if(sol2.size() > sol1.size())
-			for(int i = sol1.size(); i < sol2.size(); i++)
-				d += sol2.get(i).doubleValue();
-		return d;
+	public <S extends OptimizationSolution<N>> double solutionLength(S solution) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double distance(OptimizationSolution<N> elm1, OptimizationSolution<N> elm2) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

@@ -151,5 +151,11 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	public double distance(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
 		return AA.distance(sol1, sol2);
 	}
+
+	@Override
+	public <S extends OptimizationSolution<E>> double solutionLength(S solution) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
