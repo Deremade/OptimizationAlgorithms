@@ -3,20 +3,22 @@ package Solution;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import staticMethods.SolutionMethods;
+
 public interface VectorOperations<E> {
 
-	public E add(Collection<E> elements);
+	public E addElms(Collection<E> elements);
 	
 	/**
 	 * @param elm1
 	 * @param elm2
 	 * @return the sum of the elements
 	 */
-	public default E add(E elm1, E elm2) {
+	public default E addElms(E elm1, E elm2) {
 		LinkedList<E> ll = new LinkedList<E>();
 		ll.add(elm1);
 		ll.add(elm2);
-		return add(ll);
+		return addElms(ll);
 	}
 	
 	/**
@@ -68,24 +70,10 @@ public interface VectorOperations<E> {
 	 * The solutions being summed
 	 * @return The sum of all solutions
 	 */
-	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
-		 int maxSize = 0;
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> sol : solutions) {
-			 if(sol == null) break;
-			 if (sol.size() > maxSize)
-				 maxSize = sol.size();
-			 if(newSolution == null) newSolution = sol.emptySolution();
-		 }
-		 while(newSolution.size() < maxSize) {
-			 LinkedList<E> list = new LinkedList<E>();
-			 for(OptimizationSolution<E> sol : solutions) {
-				 if(sol == null) break;
-				 if (sol.size() > newSolution.size())
-					list.add(sol.get(newSolution.size()));
-			 }
-			 newSolution.add(add(list));
-		 }
+	public default <S extends OptimizationSolution<E>> S addSolutions(Collection<S> solutions) {
+		S newSolution = SolutionMethods.getRandom(solutions).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(solutions))
+			 newSolution.placeElm(addElms(SolutionMethods.getElms(code, solutions)), code);
 		 return newSolution;
 	}
 	

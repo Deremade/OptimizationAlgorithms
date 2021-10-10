@@ -40,7 +40,7 @@ public class PackingProblem implements Problem<Boolean> {
 		// TODO Auto-generated method stub
 		double value = 0;
 		for(int i = 0; i < values.size(); i++)
-			if(solution.get(i)) value += values.get(i);
+			if(solution.getElm(""+i)) value += values.get(i);
 		return value;
 	}
 
@@ -49,7 +49,7 @@ public class PackingProblem implements Problem<Boolean> {
 		// TODO Auto-generated method stub
 		String s = "[";
 		for(int i = 0; i < item.size(); i++)
-			if(solution.get(i)) s += item.get(i);
+			if(solution.getElm(""+i)) s += item.get(i);
 		return s.substring(0, s.length()-1)+" ] "+Math.round(solution.value());
 	}
 
@@ -58,7 +58,7 @@ public class PackingProblem implements Problem<Boolean> {
 		// TODO Auto-generated method stub
 		int value = 0;
 		for(int i = 0; i < weights.size(); i++)
-			if(solution.get(i)) value += weights.get(i);
+			if(solution.getElm(""+i)) value += weights.get(i);
 		return value <= carryingCap;
 	}
 

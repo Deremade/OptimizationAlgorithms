@@ -60,34 +60,6 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 			return null;
 		}
 	}
-	
-	/**
-	 * For each index of each solution, their elements at each index are randomly selected
-	 * the result of splitting the difference is then put in the child solution
-	 * @param parents
-	 * The solutions being crossed
-	 * @return child solution
-	 */
-	public default OptimizationSolution<E> randomSplit(Collection<OptimizationSolution<E>> parents) {
-		 int maxSize = 0;
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
-		 }
-		 while(newSolution.size() < maxSize) {
-			 LinkedList<E> list = new LinkedList<E>();
-			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() > newSolution.size())
-					 if(Math.random()*parents.size() >= 1)
-						 list.add(parent.get(newSolution.size()));
-			 }
-			 if(!list.isEmpty())
-				 newSolution.add(split(list));
-		 }
-		 return newSolution;
-	}
 
 	public default <S extends OptimizationSolution<E>> LinkedList<S> makeList(Collection<S> parents) {
 		LinkedList<S> list = new LinkedList<S>();
@@ -96,6 +68,27 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 		}
 		return list;
 	}
+	
+	/**
+	 * For each index of each solution, their elements at each index are randomly selected
+	 * the result of splitting the difference is then put in the child solution
+	 * @param parents
+	 * The solutions being crossed
+	 * @return child solution
+	 */
+	public default <S extends OptimizationSolution<E>> S randomSplit(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents)) {
+			 Collection<E> elms = SolutionMethods.getElms(code, parents);
+			 Collection<E> splitElms = new LinkedList<E>();
+			 while(splitElms.isEmpty())
+				 for(E elm : elms)
+					 if(Math.random() > 0.5)
+						 splitElms.add(elm);
+			 newSolution.setElm(split(splitElms), code);
+		 }
+		 return newSolution;
+	}
 
 	/**
 	 * Splits all parent solutions into sections
@@ -103,22 +96,15 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return child solution
 	 */
-	public default OptimizationSolution<E> splitSection(Collection<OptimizationSolution<E>> parents) {
-		 int maxSize = 0;
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
-		 }
-		 while(newSolution.size() < maxSize) {
-			 for(OptimizationSolution<E> parent : parents) {
-				int sectionLength = r.nextInt(Math.max(1, parent.size()+(2-newSolution.size())));
-				while(sectionLength > 1) {
-					newSolution.add(parent.get(newSolution.size()));
-					sectionLength--;
-				}
-			 }
+	public default <S extends OptimizationSolution<E>> S splitSection(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		Collection<String> codes = SolutionMethods.placeCodes(parents);
+		LinkedList<S> ll = makeList(parents);
+		int splitSize = (int) Math.ceil(codes.size()/parents.size());
+		int index = 0;
+		 for(String code : codes) {
+			 newSolution.placeElm(ll.get((int) Math.floorDiv(index, splitSize)).getElm(code), code);
+			 index++;
 		 }
 		 return newSolution;
 	}
@@ -128,22 +114,10 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return new solution
 	 */
-	public default OptimizationSolution<E> splitDifferenceCrossover(Collection<OptimizationSolution<E>> parents) {
-		 int maxSize = 0;
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
-		 }
-		 while(newSolution.size() < maxSize) {
-			 LinkedList<E> list = new LinkedList<E>();
-			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() > newSolution.size())
-					list.add(parent.get(newSolution.size()));
-			 }
-			 newSolution.add(split(list));
-		 }
+	public default <S extends OptimizationSolution<E>> S splitDifferenceCrossover(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents))
+			 newSolution.setElm(split(SolutionMethods.getElms(code, parents)), code);
 		 return newSolution;
 	}
 
@@ -153,20 +127,9 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @return child
 	 */
 	public default OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents)  {
-		 int maxSize = 0;
-		 OptimizationSolution<E> newSolution = null;
-		 for(OptimizationSolution<E> parent : parents) {
-			 if (parent.size() > maxSize)
-				 maxSize = parent.size();
-			 if(newSolution == null) newSolution = parent.emptySolution();
-		 }
-		 while(newSolution.size() < maxSize) {
-			 for(OptimizationSolution<E> parent : parents) {
-				 if (parent.size() > newSolution.size())
-					 if(Math.random()*parents.size() >= 1)
-					 	newSolution.add(parent.get(newSolution.size()));
-			 }
-		 }
+		 OptimizationSolution<E> newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents))
+			 newSolution.setElm(SolutionMethods.randomElmAtPlaceCode(code, parents), code);
 		 return newSolution;
 	}
 
@@ -178,13 +141,22 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @return
 	 */
 	public default <S extends OptimizationSolution<E>> S crisscross(Collection<S> parents) {
-		 OptimizationSolution<E> newSolution = null;
+		 S newSolution = SolutionMethods.getRandom(parents).emptySolution();
 		 LinkedList<S> ll = makeList(parents);
 		 int index = 0;
-		 for(String s : SolutionMethods.placeCodes(parents)) {
-			 
+		 S currSolution = ll.get(0);
+		 Collection<String> codes = SolutionMethods.placeCodes(parents);
+		 for(String code : codes) {
+			 currSolution = ll.get(index % ll.size());
+			 while(!currSolution.hasPlaceCode(code)) {
+				 ll.remove(currSolution);
+				 if(ll.isEmpty()) ll = makeList(parents);
+				 currSolution = ll.get(index % ll.size());
+			 }
+			newSolution.setElm(currSolution.getElm(code), code);
+			index++;
 		 }
-		 return null;
+		 return newSolution;
 	}
 	
 	/**

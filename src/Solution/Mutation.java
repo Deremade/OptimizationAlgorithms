@@ -73,8 +73,8 @@ public interface Mutation<E> extends Splitting<E>{
 	 * @param base
 	 * The base solution being added to
 	 */
-	public default void addElement(OptimizationSolution<E> base) {
-		base.add(r.nextInt(base.size()), randomSelect());
+	public default <S extends OptimizationSolution<E>> void addElement(S base) {
+		base.placeElm(randomSelect(), base.emptyPlaceCode());
 	}
 	
 	/**
