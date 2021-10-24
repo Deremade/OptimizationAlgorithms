@@ -65,6 +65,8 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	@Override
 	public void placeElm(E elm, String placeCode) {
 		int index = Integer.parseInt(placeCode);
+		while(this.size() < index)
+			this.add(getFirst());
 		this.add(index, elm);
 		
 	}
@@ -99,6 +101,17 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 		LinkedList<String> ll = new LinkedList<String>();
 		ll.add(""+this.size());
 		return ll;
+	}
+
+	@Override
+	public boolean removeItem(String placeCode) {
+		// TODO Auto-generated method stub
+		if(this.hasPlaceCode(placeCode)) {
+			int index = Integer.parseInt(placeCode);
+			this.remove(index);
+			return true;
+		}
+		return false;
 	}
 	
 }

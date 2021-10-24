@@ -55,8 +55,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@Override
 	protected void change(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
-		solution.clear();;
-		solution.addAll(randomSolution());
+		solution = randomSolution();
 	}
 
 	@SuppressWarnings("unchecked")

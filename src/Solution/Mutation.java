@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Random;
 
+import staticMethods.SolutionMethods;
+
 public interface Mutation<E> extends Splitting<E>{
 	public static Random r = new Random();
 
@@ -55,8 +57,8 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default OptimizationSolution<E> mutatedCopy(OptimizationSolution<E> base, mutate method) {
 		OptimizationSolution<E> mutant = base.emptySolution();
-		for(E element : base)
-			mutant.add(element);
+		for(String gene : base.placeCodes())
+			mutant.placeElm(base.getElm(gene), gene);
 		solutionMutation(method, mutant);
 		return mutant;
 	}
@@ -82,8 +84,10 @@ public interface Mutation<E> extends Splitting<E>{
 	 * the base solution being removed from
 	 */
 	public default void removeElement(OptimizationSolution<E> base) {
-		if(base.size() > 1)
-			base.remove(r.nextInt(base.size()));
+		if(base.placeCodes().size() > 1)
+			base.removeItem(
+					SolutionMethods.getRandom(base.placeCodes())
+					);
 	}
 	
 	/**
@@ -126,12 +130,11 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default void cycle(OptimizationSolution<E> genome) {
 		OptimizationSolution<E> newGenome = genome.emptySolution();
-		for(E gene : genome)
+		for(String gene : genome.placeCodes())
 			if(r.nextBoolean())
-				newGenome.add(upCycle(gene));
-			else newGenome.add(gene);
-		genome.clear();
-		genome.addAll(newGenome);
+				newGenome.placeElm(upCycle(genome.getElm(gene)), gene);
+			else newGenome.placeElm(genome.getElm(gene), gene);
+		genome = newGenome;
 	}
 	
 	/**
@@ -148,12 +151,11 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default void step(OptimizationSolution<E> genome) {
 		OptimizationSolution<E> newGenome = genome.emptySolution();
-		for(E gene : genome)
+		for(String gene : genome.placeCodes())
 			if(r.nextBoolean())
-				newGenome.add(singleStep(gene));
-			else newGenome.add(gene);
-		genome.clear();
-		genome.addAll(newGenome);
+				newGenome.placeElm(singleStep(genome.getElm(gene)), gene);
+			else newGenome.placeElm(genome.getElm(gene), gene);
+		genome = newGenome;
 	}
 	
 	/**
@@ -172,13 +174,12 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default void random(OptimizationSolution<E> genome) {
 		OptimizationSolution<E> newGenome = genome.emptySolution();
-		for(E gene : genome)
+		for(String gene : genome.placeCodes())
 			if(r.nextBoolean())
-				newGenome.add(randomSelect());
+				newGenome.placeElm(randomSelect(), gene);
 			else
-				newGenome.add(gene);
-		genome.clear();
-		genome.addAll(newGenome);
+				newGenome.placeElm(genome.getElm(gene), gene);
+		genome = newGenome;
 	}
 	
 	/**
@@ -188,10 +189,9 @@ public interface Mutation<E> extends Splitting<E>{
 	 */
 	public default void reRoll(OptimizationSolution<E> genome) {
 		OptimizationSolution<E> newGenome = genome.emptySolution();
-		for(E gene : genome)
-			newGenome.add(randomSelect());
-		genome.clear();
-		genome.addAll(newGenome);
+		for(String gene : genome.placeCodes())
+			newGenome.placeElm(randomSelect(), gene);
+		genome = newGenome;
 	}
 	
 	/**
@@ -204,8 +204,8 @@ public interface Mutation<E> extends Splitting<E>{
 	 * @param genome
 	 */
 	public default void splitDifference(OptimizationSolution<E> genome) {
-		for(E gene : genome)
-			if(Math.random() < 1/genome.size())
-				gene = split(gene, randomSelect());
+		for(String gene : genome.placeCodes())
+			if(Math.random() < 1/genome.placeCodes().size())
+				genome.setElm( split(genome.getElm(gene), randomSelect()), gene);
 	}
 }

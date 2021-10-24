@@ -58,9 +58,8 @@ public interface VectorOperations<E> {
 	 */
 	public default OptimizationSolution<E> scaleSolution(OptimizationSolution<E> solution, double scale){
 		OptimizationSolution<E> scaled = solution.emptySolution();
-		for(E element : solution) {
-			scaled.add(scale(element, scale));
-		}
+		for(String placeCode : solution.placeCodes())
+			scaled.placeElm(scale(solution.getElm(placeCode), scale), placeCode);
 		return scaled;
 	}
 	

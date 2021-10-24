@@ -15,7 +15,8 @@ public class LocalMaxTest<N extends Number> implements Problem<N> {
 	public double value(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		double error = 0;
-		for(Number n : solution) {
+		for(String elm : solution.placeCodes()) {
+			Number n = solution.getElm(elm);
 			error += 2*Math.sin(n.doubleValue()+11/8)-(n.doubleValue()+11.8);
 		}
 		return error;
@@ -25,7 +26,8 @@ public class LocalMaxTest<N extends Number> implements Problem<N> {
 	public String solutionDetails(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		String s = " [ ";
-		for(N n : solution) {
+		for(String elm : solution.placeCodes()) {
+			Number n = solution.getElm(elm);
 			s += "="+(0-Math.round(Math.pow(n.doubleValue(), 3)+ Math.pow(2*n.doubleValue(), 2)))+",";
 		}
 		return s.substring(0, s.length()-1)+" ] "+Math.round(solution.value());

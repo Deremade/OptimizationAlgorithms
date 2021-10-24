@@ -9,8 +9,8 @@ public class allTrue implements Problem<Boolean> {
 	public double value(OptimizationSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
 		int right = 0;
-		for(Boolean p : solution)
-			if(p) right++;
+		for(String p : solution.placeCodes())
+			if(solution.getElm(p)) right++;
 		return right;
 	}
 

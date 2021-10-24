@@ -14,8 +14,7 @@ public interface PSOalgorithm<E> {
 		for(OptimizationSolution<E> sp : solutions) {
 			//System.out.println("Before "+sp.solutionDetails());
 			OptimizationSolution<E> newSolution = vectorOperations().addAllTo(calcMovement(solutions, sp), sp);
-			sp.clear();
-			sp.addAll(newSolution);
+			sp = newSolution;
 			//System.out.println("After "+sp.solutionDetails());
 		}
 	}

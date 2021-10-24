@@ -16,7 +16,7 @@ import staticMethods.SolutionMethods;
 
  */
  
-public interface OptimizationSolution<E> extends Collection<E> {
+public interface OptimizationSolution<E> {
 
 	/**
 	 * @return Return the value or fitness of the solution so that it can be compared as better or worse than other solutions
@@ -124,4 +124,12 @@ public interface OptimizationSolution<E> extends Collection<E> {
 	public default <S extends OptimizationSolution<E>> void placeElmFrom(String placeCode, S solution) {
 		placeElm(solution.getElm(placeCode), placeCode);
 	}
+	
+	/**
+	 * Remove an item at their place code
+	 * @param placeCode
+	 * The place code of the item being removed
+	 * @return false if no such place code exists
+	 */
+	public boolean removeItem(String placeCode);
 }

@@ -10,8 +10,8 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 	public double value(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		double error = 0;
-		for(N n : solution) {
-			error += Math.pow(n.doubleValue(), 2);
+		for(String n : solution.placeCodes()) {
+			error += Math.pow(solution.getElm(n).doubleValue(), 2);
 		}
 		return 0-Math.pow(error, 0.5);
 	}
@@ -20,8 +20,8 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 	public String solutionDetails(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		String s = " [ ";
-		for(N n : solution) {
-			s += n.toString()+",";
+		for(String n : solution.placeCodes()) {
+			s += solution.getElm(n).toString()+",";
 		}
 		return s.substring(0, s.length()-1)+" ] "+Math.round(solution.value());
 	}
