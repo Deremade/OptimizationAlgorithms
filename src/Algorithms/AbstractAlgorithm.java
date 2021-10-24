@@ -19,7 +19,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
 	mutate mutationType;
 	public Problem<E> problem;
-	GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
+	public GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
 	PSOalgorithmInstance<E> pos_algorithm;
 	public VectorOperations<E> vo = new VectorOpInstance<E>(this);
 	int algType = 0;
@@ -110,7 +110,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	protected abstract void change(OptimizationSolution<E> solution);
 
-	public abstract E addElements(Collection<E> elements);
+	public abstract E addElms(Collection<E> elements);
 
 	public abstract E difference(E elm1, E elm2);
 
@@ -128,9 +128,9 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	AbstractAlgorithm<E> AA;
 
 	@Override
-	public E addElements(Collection<E> elements) {
+	public E addElms(Collection<E> elements) {
 		// TODO Auto-generated method stub
-		return AA.addElements(elements);
+		return AA.addElms(elements);
 	}
 
 	@Override
@@ -146,9 +146,9 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	}
 
 	@Override
-	public double solutionLength(OptimizationSolution<E> sol) {
+	public <S extends OptimizationSolution<E>> double solutionLength(S solution) {
 		// TODO Auto-generated method stub
-		return AA.solutionLength(sol);
+		return AA.solutionLength(solution);
 	}
 	
 }

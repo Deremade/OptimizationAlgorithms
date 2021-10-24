@@ -1,0 +1,58 @@
+public static void main(String[] args) throws InterruptedException {
+		NumericAlgorithm<Integer> na = new NumericAlgorithm<Integer>(1, new CircleProblem<Integer>(), 3);
+		na.setAlgType(2);
+		na.generateSolutions(10);
+		
+		System.out.println(na.displaySolutions());
+		System.out.println(SolutionMethods.placeCodes(na.solutions()));
+		System.out.println(SolutionMethods.getElms("2", na.solutions()));
+		System.out.println(SolutionMethods.randomElmAtPlaceCode("2", na.solutions()));
+	}
+}
+_____________________________________________________________
+< [ -8,7,5 ] -12, [ -1,6,0 ] -6, [ 2,6,-10 ] -12, [ -7,-3,3 ] -8, [ 0,3,1 ] -3, [ -4,-10,5 ] -12, [ 0,-3,8 ] -9, [ 4,-3,2 ] -5, [ -9,0,-6 ] -11, [ 7,-5,3 ] -9>
+[0, 1, 2]
+[5, 0, -10, 3, 1, 5, 8, 2, -6, 3]
+8
+______________________________________________________________
+public static void main(String[] args) throws InterruptedException {
+		NumericAlgorithm<Integer> na = new NumericAlgorithm<Integer>(1, new CircleProblem<Integer>(), 3);
+		na.setAlgType(2);
+		na.generateSolutions(10);
+		
+		System.out.println(na.displaySolutions());
+		System.out.println(SolutionMethods.placeCodes(na.solutions()));
+		System.out.println(SolutionMethods.getElms("2", na.solutions()));
+		System.out.println(SolutionMethods.randomElmAtPlaceCode("2", na.solutions()));
+		SolutionMethods.getRandom(na.solutions()).add(4);
+		System.out.println(SolutionMethods.placeCodes(na.solutions()));
+		System.out.println(SolutionMethods.getElms("3", na.solutions()));
+	}
+_______________________________________________________________
+< [ 7,7,-7 ] -12, [ 8,4,8 ] -12, [ -6,4,-2 ] -7, [ -8,-7,-3 ] -11, [ 2,-4,10 ] -11, [ 4,9,1 ] -10, [ 3,-4,6 ] -8, [ 3,5,-9 ] -11, [ -10,10,10 ] -17, [ -3,-4,-10 ] -11>
+[0, 2, 1]
+[-7, 8, -2, -3, 10, 1, 6, -9, 10, -10]
+6
+[0, 2, 1]
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index: 3, Size: 3
+	at java.util.LinkedList.checkElementIndex(Unknown Source)
+	at java.util.LinkedList.get(Unknown Source)
+	at Solution.AbstractSolution.getElm(AbstractSolution.java:86)
+	at staticMethods.SolutionMethods.getElms(SolutionMethods.java:27)
+	at Test.Main.main(Main.java:25)
+__________________________________________________________________
+Changed AbstractAlgorithm.java
+@Override
+	public boolean hasPlaceCode(String placeCode) {
+		// TODO Auto-generated method stub
+		int index = Integer.parseInt(placeCode);
+		return this.size() > index;
+	}
+__________________________________________________________________
+< [ 10,6,-3 ] -12, [ -10,-3,-2 ] -11, [ -5,3,-3 ] -7, [ -4,-1,0 ] -4, [ 7,-8,2 ] -11, [ -7,5,-4 ] -9, [ 8,-8,-1 ] -11, [ -2,-3,8 ] -9, [ -2,9,-2 ] -9, [ 0,-7,-6 ] -9>
+[0, 1, 2]
+[-3, -2, -3, 0, 2, -4, -1, 8, -2, -6]
+-2
+< [ 10,6,-3 ] -12, [ -10,-3,-2 ] -11, [ -5,3,-3 ] -7, [ -4,-1,0 ] -4, [ 7,-8,2 ] -11, [ -7,5,-4 ] -9, [ 8,-8,-1 ] -11, [ -2,-3,8 ] -9, [ -2,9,-2,4 ] -10, [ 0,-7,-6 ] -9>
+[0, 1, 2, 3]
+[4]

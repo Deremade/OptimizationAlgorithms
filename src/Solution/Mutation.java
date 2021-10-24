@@ -2,7 +2,6 @@ package Solution;
 
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 
 public interface Mutation<E> extends Splitting<E>{
@@ -74,12 +73,8 @@ public interface Mutation<E> extends Splitting<E>{
 	 * @param base
 	 * The base solution being added to
 	 */
-	@SuppressWarnings("unchecked")
-	public default void addElement(OptimizationSolution<E> base) {
-		if(base instanceof List<?>)
-			((List<E>) base).add(r.nextInt(base.size()), randomSelect());
-		else
-			base.add(randomSelect());
+	public default <S extends OptimizationSolution<E>> void addElement(S base) {
+		base.placeElm(randomSelect(), base.emptyPlaceCode());
 	}
 	
 	/**

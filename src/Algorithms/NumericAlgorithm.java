@@ -109,9 +109,10 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 		for(N gene : genes) {
 			size++;
 			//Dynamically add to the average
-			average = (N) NumbersComparitor.divideNumbers(
+			average = (N) NumbersComparitor.addNumbers(average,
+					NumbersComparitor.divideNumbers(
 					NumbersComparitor.addNumbers(gene, negate(average))
-					, size);
+					, size));
 		}
 		return average;
 	}
@@ -123,7 +124,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public N addElements(Collection<N> elements) {
+	public N addElms(Collection<N> elements) {
 		N result = (N) NumbersComparitor.addNumbers(0, 0);
 		for(N element : elements)
 			result = (N) NumbersComparitor.addNumbers(result, element);
@@ -143,14 +144,10 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	}
 
 	@Override
-	public double solutionLength(OptimizationSolution<N> sol) {
+	public <S extends OptimizationSolution<N>> double solutionLength(S solution) {
 		// TODO Auto-generated method stub
-		double result =0.0;
-		for(N number : sol) {
-			result += Math.pow(number.doubleValue(), 2);
-		}
-		return result += Math.pow(result, 0.5);
+		return 0;
 	}
-	
+
 }
 

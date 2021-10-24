@@ -5,15 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import Solution.CountingSolution;
-import Solution.Matchingsolution;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.SelectionMethod;
 import Solution.Splitting;
 import Solution.Mutation.mutate;
-import staticMethods.CollectionMethods;
 import staticMethods.SolutionMatcher;
+import staticMethods.SolutionMethods;
 
 public interface GeneticAlgorithm<E> extends Splitting<E>{
 	public static Random r = new  Random();
@@ -62,6 +60,14 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 			return null;
 		}
 	}
+
+	public default <S extends OptimizationSolution<E>> LinkedList<S> makeList(Collection<S> parents) {
+		LinkedList<S> list = new LinkedList<S>();
+		for(S solution : parents) {
+			list.add(solution);
+		}
+		return list;
+	}
 	
 	/**
 	 * For each index of each solution, their elements at each index are randomly selected
@@ -70,32 +76,18 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * The solutions being crossed
 	 * @return child solution
 	 */
-	public default OptimizationSolution<E> randomSplit(Collection<OptimizationSolution<E>> parents) {
-		OptimizationSolution<E> newSolution = CollectionMethods.random(parents).emptySolution();
-		OptimizationSolution<E> fullyMixed = fullMix(parents, newSolution);
-		LinkedList<OptimizationSolution<E>> solutions = makeList(parents);
-		int size = (int) fullyMixed.size()/parents.size();
-		OptimizationSolution<E> currSol = CollectionMethods.random(solutions);
-		int index = 0;
-		for(E elm : fullyMixed) {
-			if(newSolution instanceof Matchingsolution<?>)
-				newSolution.add( ((Matchingsolution<E>) newSolution)
-						.matchingElement(elm, 
-								currSol
-								));
-			if(newSolution instanceof CountingSolution<?>)
-				((CountingSolution<E>) newSolution)
-				.addCount(elm, 
-						((CountingSolution<E>) currSol)
-						.countElm(elm));
-			index = (index+1) % parents.size();
-			if((index+1) % size == 0) {
-				solutions.remove(currSol);
-				if(solutions.isEmpty()) solutions = makeList(parents);
-				currSol = CollectionMethods.random(solutions);
-			}
-		}
-		return newSolution;
+	public default <S extends OptimizationSolution<E>> S randomSplit(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents)) {
+			 Collection<E> elms = SolutionMethods.getElms(code, parents);
+			 Collection<E> splitElms = new LinkedList<E>();
+			 while(splitElms.isEmpty())
+				 for(E elm : elms)
+					 if(Math.random() > 0.5)
+						 splitElms.add(elm);
+			 newSolution.setElm(split(splitElms), code);
+		 }
+		 return newSolution;
 	}
 
 	/**
@@ -104,28 +96,17 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return child solution
 	 */
-	public default OptimizationSolution<E> splitSection(Collection<OptimizationSolution<E>> parents) {
-		OptimizationSolution<E> newSolution = CollectionMethods.random(parents).emptySolution();
-		OptimizationSolution<E> fullyMixed = fullMix(parents, newSolution);
-		LinkedList<OptimizationSolution<E>> solutions = makeList(parents);
-		int size = (int) fullyMixed.size()/parents.size();
+	public default <S extends OptimizationSolution<E>> S splitSection(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		Collection<String> codes = SolutionMethods.placeCodes(parents);
+		LinkedList<S> ll = makeList(parents);
+		int splitSize = (int) Math.ceil(codes.size()/parents.size());
 		int index = 0;
-		for(E elm : fullyMixed) {
-			if(newSolution instanceof Matchingsolution<?>)
-				newSolution.add( ((Matchingsolution<E>) newSolution)
-						.matchingElement(elm, 
-								solutions.get(0)
-								));
-			if(newSolution instanceof CountingSolution<?>)
-				((CountingSolution<E>) newSolution)
-				.addCount(elm, 
-						((CountingSolution<E>) solutions.get(0))
-						.countElm(elm));
-			index = (index+1) % parents.size();
-			if((index+1) % size == 0) solutions.remove(0);
-			if(solutions.isEmpty()) solutions = makeList(parents);
-		}
-		return newSolution;
+		 for(String code : codes) {
+			 newSolution.placeElm(ll.get((int) Math.floorDiv(index, splitSize)).getElm(code), code);
+			 index++;
+		 }
+		 return newSolution;
 	}
 
 	/**
@@ -133,19 +114,10 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @param parents
 	 * @return new solution
 	 */
-	public default OptimizationSolution<E> splitDifferenceCrossover(Collection<OptimizationSolution<E>> parents) {
-		OptimizationSolution<E> newSolution = CollectionMethods.random(parents).emptySolution();
-		OptimizationSolution<E> fullyMixed = fullMix(parents, newSolution);
-		for(E elm : fullyMixed) {
-			if(newSolution instanceof Matchingsolution<?>)
-					newSolution.add( split(
-							((Matchingsolution<E>) newSolution).matingElements(elm, parents)
-							));
-				if(newSolution instanceof CountingSolution<?>)
-					((CountingSolution<E>) newSolution).addCount(elm, 
-							CollectionMethods.average(((CountingSolution<E>) newSolution).countAllElms(elm, parents))
-							);
-		 }
+	public default <S extends OptimizationSolution<E>> S splitDifferenceCrossover(Collection<S> parents) {
+		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents))
+			 newSolution.setElm(split(SolutionMethods.getElms(code, parents)), code);
 		 return newSolution;
 	}
 
@@ -155,15 +127,9 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * @return child
 	 */
 	public default OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents)  {
-		 OptimizationSolution<E> newSolution = CollectionMethods.random(parents).emptySolution();
-		 OptimizationSolution<E> fullyMixed = fullMix(parents, newSolution);
-		 for(E elm : fullyMixed) {
-			 if(newSolution instanceof Matchingsolution<?>)
-					newSolution.add(((Matchingsolution<E>) newSolution).randomMatch(elm, parents));
-				if(newSolution instanceof CountingSolution<?>)
-					((CountingSolution<E>) newSolution).addCount(elm, 
-							((CountingSolution<E>) newSolution).randomCount(elm, parents));
-		 }
+		 OptimizationSolution<E> newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(parents))
+			 newSolution.setElm(SolutionMethods.randomElmAtPlaceCode(code, parents), code);
 		 return newSolution;
 	}
 
@@ -171,43 +137,26 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	 * Generates a child solution by cycling through each parent
 	 * the index incremented each step though the cycle to give the child node one element from each parent each cycle
 	 * @param parents
+	 * @return 
 	 * @return
 	 */
-	public default OptimizationSolution<E> crisscross(Collection<OptimizationSolution<E>> parents) {
-		OptimizationSolution<E> newSolution = CollectionMethods.random(parents).emptySolution();
-		OptimizationSolution<E> fullyMixed = fullMix(parents, newSolution);
-		LinkedList<OptimizationSolution<E>> solutions = makeList(parents);
-		int index = 0;
-		for(E elm : fullyMixed) {
-			if(newSolution instanceof Matchingsolution<?>)
-				newSolution.add( ((Matchingsolution<E>) newSolution)
-						.matchingElement(elm, 
-								solutions.get(index)
-								));
-			if(newSolution instanceof CountingSolution<?>)
-				((CountingSolution<E>) newSolution)
-				.addCount(elm, 
-						((CountingSolution<E>) solutions.get(index))
-						.countElm(elm));
-			index = (index+1) % parents.size();
-		}
-		return newSolution;
-	}
-	
-	static <E> OptimizationSolution<E> fullMix(Collection<OptimizationSolution<E>> solutions, OptimizationSolution<E> solution){
-		if(solution instanceof Matchingsolution<?>)
-			return ((Matchingsolution<E>) solution).fullyMatching(solutions);
-		if(solution instanceof CountingSolution<?>)
-			return ((CountingSolution<E>) solution).allElms(solutions);
-		return null;
-	}
-
-	public default LinkedList<OptimizationSolution<E>> makeList(Collection<OptimizationSolution<E>> parents) {
-		LinkedList<OptimizationSolution<E>> list = new LinkedList<OptimizationSolution<E>>();
-		for(OptimizationSolution<E> solution : parents) {
-			list.add(solution);
-		}
-		return list;
+	public default <S extends OptimizationSolution<E>> S crisscross(Collection<S> parents) {
+		 S newSolution = SolutionMethods.getRandom(parents).emptySolution();
+		 LinkedList<S> ll = makeList(parents);
+		 int index = 0;
+		 S currSolution = ll.get(0);
+		 Collection<String> codes = SolutionMethods.placeCodes(parents);
+		 for(String code : codes) {
+			 currSolution = ll.get(index % ll.size());
+			 while(!currSolution.hasPlaceCode(code)) {
+				 ll.remove(currSolution);
+				 if(ll.isEmpty()) ll = makeList(parents);
+				 currSolution = ll.get(index % ll.size());
+			 }
+			newSolution.setElm(currSolution.getElm(code), code);
+			index++;
+		 }
+		 return newSolution;
 	}
 	
 	/**

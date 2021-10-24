@@ -3,22 +3,22 @@ package Solution;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import staticMethods.CollectionMethods;
+import staticMethods.SolutionMethods;
 
 public interface VectorOperations<E> {
 
-	public E addElements(Collection<E> elements);
+	public E addElms(Collection<E> elements);
 	
 	/**
 	 * @param elm1
 	 * @param elm2
 	 * @return the sum of the elements
 	 */
-	public default E addElements(E elm1, E elm2) {
+	public default E addElms(E elm1, E elm2) {
 		LinkedList<E> ll = new LinkedList<E>();
 		ll.add(elm1);
 		ll.add(elm2);
-		return addElements(ll);
+		return addElms(ll);
 	}
 	
 	/**
@@ -30,6 +30,8 @@ public interface VectorOperations<E> {
 	 */
 	public E difference(E elm1, E elm2);
 	
+	public <S extends OptimizationSolution<E>> double solutionLength(S solution);
+	
 	public default OptimizationSolution<E> difference(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {
 		LinkedList<OptimizationSolution<E>> ll = new LinkedList<OptimizationSolution<E>>();
 		if(sol1 == null) sol1 = sol2.emptySolution();
@@ -38,13 +40,6 @@ public interface VectorOperations<E> {
 		ll.add(scaleSolution(sol2, -1));
 		return addSolutions(ll);
 	}
-	
-	/**
-	 * Returns the "length" of a solution, a single numerical representation of the solution
-	 * @param sol
-	 * @return "length"
-	 */
-	public double solutionLength(OptimizationSolution<E> sol);
 	
 	/**
 	 * @param elm
@@ -75,25 +70,11 @@ public interface VectorOperations<E> {
 	 * The solutions being summed
 	 * @return The sum of all solutions
 	 */
-	public default OptimizationSolution<E> addSolutions(Collection<OptimizationSolution<E>> solutions) {
-		OptimizationSolution<E> newSolution = CollectionMethods.random(solutions).emptySolution();
-		 OptimizationSolution<E> fullyMixed = fullMix(solutions, newSolution);
-		 for(E elm : fullyMixed) {
-			 if(newSolution instanceof Matchingsolution<?>)
-					newSolution.add(addElements(((Matchingsolution<E>) newSolution).matingElements(elm, solutions)));
-			if(newSolution instanceof CountingSolution<?>)
-				((CountingSolution<E>) newSolution).addCount(elm, 
-						CollectionMethods.sum(((CountingSolution<E>) newSolution).countAllElms(elm, solutions)));
-		 }
+	public default <S extends OptimizationSolution<E>> S addSolutions(Collection<S> solutions) {
+		S newSolution = SolutionMethods.getRandom(solutions).emptySolution();
+		 for(String code : SolutionMethods.placeCodes(solutions))
+			 newSolution.placeElm(addElms(SolutionMethods.getElms(code, solutions)), code);
 		 return newSolution;
-	}
-	
-	static <E> OptimizationSolution<E> fullMix(Collection<OptimizationSolution<E>> solutions, OptimizationSolution<E> solution){
-		if(solution instanceof Matchingsolution<?>)
-			return ((Matchingsolution<E>) solution).fullyMatching(solutions);
-		if(solution instanceof CountingSolution<?>)
-			return ((CountingSolution<E>) solution).allElms(solutions);
-		return null;
 	}
 	
 	public default OptimizationSolution<E> addAllTo(Collection<OptimizationSolution<E>> adding, OptimizationSolution<E> added) {
@@ -110,7 +91,7 @@ public interface VectorOperations<E> {
 	public default double distance(OptimizationSolution<E> elm1, OptimizationSolution<E> elm2) {
 		return solutionLength(difference(elm1, elm2));
 	}
-
+	
 	public default Collection<OptimizationSolution<E>> nearbySolutions(Collection<OptimizationSolution<E>> sample, OptimizationSolution<E> selectedSolution, double nearDist) {
 		Collection<OptimizationSolution<E>> nearby = new LinkedList<OptimizationSolution<E>>();
 		for(OptimizationSolution<E> particle : sample) 
