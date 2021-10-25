@@ -58,7 +58,7 @@ public interface Mutation<E> extends Splitting<E>{
 	public default OptimizationSolution<E> mutatedCopy(OptimizationSolution<E> base, mutate method) {
 		OptimizationSolution<E> mutant = base.emptySolution();
 		for(String gene : base.placeCodes())
-			mutant.placeElm(base.getElm(gene), gene);
+			mutant.placeElmFrom(gene, base);
 		solutionMutation(method, mutant);
 		return mutant;
 	}
@@ -133,7 +133,7 @@ public interface Mutation<E> extends Splitting<E>{
 		for(String gene : genome.placeCodes())
 			if(r.nextBoolean())
 				newGenome.placeElm(upCycle(genome.getElm(gene)), gene);
-			else newGenome.placeElm(genome.getElm(gene), gene);
+			else newGenome.placeElmFrom(gene, genome);
 		genome = newGenome;
 	}
 	
@@ -154,7 +154,7 @@ public interface Mutation<E> extends Splitting<E>{
 		for(String gene : genome.placeCodes())
 			if(r.nextBoolean())
 				newGenome.placeElm(singleStep(genome.getElm(gene)), gene);
-			else newGenome.placeElm(genome.getElm(gene), gene);
+			else newGenome.placeElmFrom(gene, genome);
 		genome = newGenome;
 	}
 	
@@ -178,7 +178,7 @@ public interface Mutation<E> extends Splitting<E>{
 			if(r.nextBoolean())
 				newGenome.placeElm(randomSelect(), gene);
 			else
-				newGenome.placeElm(genome.getElm(gene), gene);
+				newGenome.placeElmFrom(gene, genome);
 		genome = newGenome;
 	}
 	
