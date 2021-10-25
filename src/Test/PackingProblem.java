@@ -49,7 +49,7 @@ public class PackingProblem implements Problem<Boolean> {
 		String s = "[";
 		for(int i = 0; i < item.size(); i++)
 			if(solution.getElm(""+i)) s += item.get(i);
-		return s.substring(0, s.length()-1)+" ] "+Math.round(solution.value());
+		return s.substring(0, s.length()-1)+" ] "+Math.round(value(solution));
 	}
 
 	@Override
