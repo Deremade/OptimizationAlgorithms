@@ -88,7 +88,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 		HashMap<OptimizationSolution<E>, OptimizationSolution<E>> hm = new HashMap<OptimizationSolution<E>, OptimizationSolution<E>>();
 		for(OptimizationSolution<E> solution : solutions) {
 			OptimizationSolution<E> newSolution = mutatedCopy(solution, mutationMethod());
-			if(solution.value() < newSolution.value()) {
+			if(newSolution.betterThan(solution)) {
 				if(newSolution.isValid())
 					hm.put(solution, newSolution);
 			}

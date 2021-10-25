@@ -104,7 +104,7 @@ public interface VectorOperations<E> {
 		for(OptimizationSolution<E> sp : nearbySolutions) 
 			if(best == null) best = sp;
 			else
-				if(sp.value() > best.value())
+				if(sp.betterThan(best))
 					best = sp;
 		return best;
 	}
@@ -114,7 +114,7 @@ public interface VectorOperations<E> {
 		for(OptimizationSolution<E> sp : nearbySolutions) 
 			if(worst == null) worst = sp;
 			else
-				if(sp.value() < worst.value())
+				if(worst.betterThan(sp))
 					worst = sp;
 		return worst;
 	}

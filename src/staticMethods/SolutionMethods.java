@@ -38,4 +38,56 @@ public class SolutionMethods {
 	public static <E, S extends OptimizationSolution<E>> E randomElmAtPlaceCode(String placeCode, Collection<S> solutions) {
 		return getRandom(getElms(placeCode, solutions));
 	}
+	
+	
+	public static <E, S extends OptimizationSolution<E>> List<S> sort(Collection<S> solutions) {
+		List<S> solutionList = new LinkedList<S>();
+		for(S sol : solutions)
+			solutionList.add(sol);
+		return mergeSort(solutionList);
+	}
+	
+	public static <E, S extends OptimizationSolution<E>> List<S> mergeSort(List<S> solutions) {
+		if(solutions.size() > 1) {
+			List<S> left = new LinkedList<S>();
+			List<S> right = new LinkedList<S>(); 
+			int index = 0;
+			//fill left
+			while(index < solutions.size()/2) {
+				left.add(solutions.get(index));
+				index++;
+			}
+			//fill right
+			while(index < solutions.size()) {
+				right.add(solutions.get(index));
+				index++;
+			}
+			return merge(mergeSort(left), mergeSort(right));
+		}
+		else return solutions;
+	}
+	
+	public static <E, S extends OptimizationSolution<E>> List<S> merge(List<S> solutions0, List<S> solutions1) {
+		List<S> merged = new LinkedList<S>();
+		//While neither list is empty
+		while(!solutions0.isEmpty() && !solutions1.isEmpty()) {
+			//if the first list's first item is greater than the second, add the first item of the second list (lowest item first)
+			if(solutions0.get(0).betterThan(solutions1.get(0))) {
+				merged.add(solutions1.get(0));
+				solutions1.remove(0);
+			} else {
+				merged.add(solutions0.get(0));
+				solutions0.remove(0);
+			}
+		}
+		while(!solutions0.isEmpty()) {
+			merged.add(solutions0.get(0));
+			solutions0.remove(0);
+		}
+		while(!solutions1.isEmpty()) {
+			merged.add(solutions1.get(0));
+			solutions1.remove(0);
+		}
+		return merged;
+	}
 }

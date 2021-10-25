@@ -16,12 +16,7 @@ import staticMethods.SolutionMethods;
 
  */
  
-public interface OptimizationSolution<E> {
-
-	/**
-	 * @return Return the value or fitness of the solution so that it can be compared as better or worse than other solutions
-	 */
-	public double value();
+public interface OptimizationSolution<E> extends Comparable<OptimizationSolution<E>> {
 	
 	/**
 	 * @return A string to make the solution human readable instead of just an arbitrary list of Elements
@@ -132,4 +127,12 @@ public interface OptimizationSolution<E> {
 	 * @return false if no such place code exists
 	 */
 	public boolean removeItem(String placeCode);
+	
+	
+	public <S extends OptimizationSolution<E>> boolean betterThan(S other);
+	
+	public default int compareTo(OptimizationSolution<E> arg0) {
+		if (betterThan(arg0)) return 1;
+		else return -1;
+	}
 }

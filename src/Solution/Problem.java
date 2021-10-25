@@ -8,12 +8,6 @@ package Solution;
  * @param <E> Solution Element
  */
 public interface Problem<E> {
-
-	/**
-	 * @param solution
-	 * @return the value of the solution
-	 */
-	public double value(OptimizationSolution<E> solution);
 	
 	/**
 	 * @param solution
@@ -27,5 +21,16 @@ public interface Problem<E> {
 	 */
 	public boolean isValid(OptimizationSolution<E> solution);
 
+	/**
+	 * @return The chance the solution will change its size
+	 */
 	public double changeSizeChance();
+
+	/**
+	 * Compares two solutions and return weather or not sol0 is better than sol1
+	 * @param sol0
+	 * @param sol1
+	 * @return
+	 */
+	public <S extends OptimizationSolution<E>> boolean compare(S sol0, S sol1);
 }

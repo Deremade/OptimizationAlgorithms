@@ -35,7 +35,6 @@ public class PackingProblem implements Problem<Boolean> {
 		weights.add(weight);
 	}
 
-	@Override
 	public double value(OptimizationSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
 		double value = 0;
@@ -66,6 +65,12 @@ public class PackingProblem implements Problem<Boolean> {
 	public double changeSizeChance() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public <S extends OptimizationSolution<Boolean>> boolean compare(S sol0, S sol1) {
+		// TODO Auto-generated method stub
+		return value(sol0) > value(sol1);
 	}
 
 }

@@ -21,11 +21,6 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	}
 
 	@Override
-	public double value() {
-		return getProblem().value(this);
-	}
-
-	@Override
 	public String solutionDetails() {
 		return getProblem().solutionDetails(this);
 	}
@@ -112,6 +107,12 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public <S extends OptimizationSolution<E>> boolean betterThan(S other) {
+		// TODO Auto-generated method stub
+		return this.getProblem().compare(this, other);
 	}
 	
 }

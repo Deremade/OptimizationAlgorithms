@@ -1,12 +1,10 @@
 package Test;
 
-import Algorithms.NumericAlgorithm;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 
 public class CircleProblem<N extends Number> implements Problem<N> {
 
-	@Override
 	public double value(OptimizationSolution<N> solution) {
 		// TODO Auto-generated method stub
 		double error = 0;
@@ -23,7 +21,7 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 		for(String n : solution.placeCodes()) {
 			s += solution.getElm(n).toString()+",";
 		}
-		return s.substring(0, s.length()-1)+" ] "+Math.round(solution.value());
+		return s.substring(0, s.length()-1)+" ] "+Math.round(value(solution));
 	}
 
 	@Override
@@ -37,5 +35,12 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public <S extends OptimizationSolution<N>> boolean compare(S sol0, S sol1) {
+		// TODO Auto-generated method stub
+		return value(sol0) > value(sol1);
+	}
+	
 
 }

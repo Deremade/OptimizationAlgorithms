@@ -4,8 +4,6 @@ import java.util.Collection;
 
 import Solution.Mutation;
 import Solution.OptimizationSolution;
-import Solution.Mutation.mutate;
-import staticMethods.SolutionRanker;
 
 /**
  * The interface to run an optimization algorithm
@@ -101,16 +99,5 @@ public interface OptAlgorithm<E> {
 			s += solution.solutionDetails() + ",";
 		}
 		return s.substring(0, s.length()-1)+">";
-	}
-	
-	public default int interationsToScore(double score) {
-		double maxScore = SolutionRanker.mostFitsolution(solutions()).value();
-		int iterations = 1;
-		while(maxScore < score && iterations < 10000) {
-			iterations++;
-			iteration();
-			maxScore = SolutionRanker.mostFitsolution(solutions()).value();
-		}
-		return iterations;
 	}
 }
