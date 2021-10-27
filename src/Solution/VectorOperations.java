@@ -64,7 +64,7 @@ public interface VectorOperations<E> {
 	}
 	
 	/**
-	 * By default performs add() on all elements at all indexes
+	 * By default performs addElms() on all elements at all indexes
 	 * @param parents
 	 * The solutions being summed
 	 * @return The sum of all solutions

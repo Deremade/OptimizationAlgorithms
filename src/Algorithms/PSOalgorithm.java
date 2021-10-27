@@ -12,10 +12,9 @@ public interface PSOalgorithm<E> {
 	
 	public default void changeAll(Collection<OptimizationSolution<E>> solutions) {
 		for(OptimizationSolution<E> sp : solutions) {
-			//System.out.println("Before "+sp.solutionDetails());
 			OptimizationSolution<E> newSolution = vectorOperations().addAllTo(calcMovement(solutions, sp), sp);
-			sp = newSolution;
-			//System.out.println("After "+sp.solutionDetails());
+			for(String s : sp.placeCodes())
+				sp.setElmFrom(s, newSolution);
 		}
 	}
 

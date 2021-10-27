@@ -69,9 +69,7 @@ public interface OptAlgorithm<E> {
 	/**
 	 * runs a single iteration of the optimization algorithm
 	 */	
-	public default void iteration() {
-		iteration();
-	}
+	public void iteration();
 	
 	Mutation.mutate mutationMethod();
 	

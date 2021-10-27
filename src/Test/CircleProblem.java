@@ -19,7 +19,7 @@ public class CircleProblem<N extends Number> implements Problem<N> {
 		// TODO Auto-generated method stub
 		String s = " [ ";
 		for(String n : solution.placeCodes()) {
-			s += solution.getElm(n).toString()+",";
+			s += Math.round((solution.getElm(n).doubleValue()*100)/100)+",";
 		}
 		return s.substring(0, s.length()-1)+" ] "+Math.round(value(solution));
 	}

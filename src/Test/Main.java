@@ -18,10 +18,11 @@ import staticMethods.SolutionMatcher;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		NumericAlgorithm<Integer> na = new NumericAlgorithm<Integer>(1, new CircleProblem<Integer>(), 3);
-		na.setAlgType(2);
+		NumericAlgorithm<Double> na = new NumericAlgorithm<Double>(1, new CircleProblem<Double>(), 3);
+		na.setAlgType(1);
 		na.generateSolutions(10);
 		na.setParticleSwarmOpt(1, 0.25, 0.25, 0.25, 0.25);
+		na.setGeneticAlgorithm(1, SelectionMethod.topSurvivors(10), SolutionMatcher.randomMatching(2));
 		
 		System.out.println(na.displaySolutions());
 		na.iteration();

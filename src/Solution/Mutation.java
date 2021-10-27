@@ -101,6 +101,7 @@ public interface Mutation<E> extends Splitting<E>{
 	 * The base solution being modified
 	 */
 	public default void changeSize(OptimizationSolution<E> base) {
+		if(changeSizeChance() == 0) return;
 		if(r.nextDouble() <= changeSizeChance()) {
 			if(r.nextBoolean())
 				addElement(base);
