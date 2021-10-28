@@ -91,9 +91,9 @@ public interface VectorOperations<E> {
 		return solutionLength(difference(elm1, elm2));
 	}
 	
-	public default Collection<OptimizationSolution<E>> nearbySolutions(Collection<OptimizationSolution<E>> sample, OptimizationSolution<E> selectedSolution, double nearDist) {
-		Collection<OptimizationSolution<E>> nearby = new LinkedList<OptimizationSolution<E>>();
-		for(OptimizationSolution<E> particle : sample) 
+	public default <S extends OptimizationSolution<E>> Collection<S> nearbySolutions(Collection<S> sample, S selectedSolution, double nearDist) {
+		Collection<S> nearby = new LinkedList<S>();
+		for(S particle : sample) 
 			if(distance(particle, selectedSolution) <= nearDist)
 				nearby.add(particle);
 		return nearby;
@@ -118,4 +118,30 @@ public interface VectorOperations<E> {
 					worst = sp;
 		return worst;
 	}
+	
+	public default  <S extends OptimizationSolution<E>> S closest(Collection<S> sample, S sol) {
+		S closest = null;
+		sample.remove(sol);
+		if(sample.isEmpty()) return sol;
+		for(S candidate : sample)
+			if(closest == null) 
+				closest = candidate;
+			 else
+				 if(distance(sol, closest) < distance(sol, candidate))  
+					closest = candidate;
+		sample.add(sol);
+		return closest;
+	}
+	
+	public default  <S extends OptimizationSolution<E>> Collection<S> closestItems(Collection<S> sample, S sol, int num) {
+		LinkedList<S> returned = new LinkedList<S>();
+		while(returned.size() < num && !sample.isEmpty()) {
+			S closeSolution = closest(sample, sol);
+			returned.add(closeSolution);
+			sample.remove(closeSolution);
+		}
+		sample.addAll(returned);
+		return returned;
+	}
+
 }

@@ -3,7 +3,6 @@ package Algorithms;
 import java.util.Collection;
 
 import Solution.Mutation;
-import Solution.SelectionMethod;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 

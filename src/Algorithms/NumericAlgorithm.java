@@ -145,7 +145,11 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@Override
 	public <S extends OptimizationSolution<N>> double solutionLength(S solution) {
 		// TODO Auto-generated method stub
-		return 0;
+		double error = 0;
+		for(String n : solution.placeCodes()) {
+			error += Math.pow(solution.getElm(n).doubleValue(), 2);
+		}
+		return Math.pow(error, 0.5);
 	}
 
 }

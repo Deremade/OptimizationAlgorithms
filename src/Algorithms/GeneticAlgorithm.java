@@ -7,7 +7,6 @@ import java.util.Random;
 
 import Solution.Mutation;
 import Solution.OptimizationSolution;
-import Solution.SelectionMethod;
 import Solution.Splitting;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;

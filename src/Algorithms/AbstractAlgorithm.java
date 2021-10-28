@@ -10,7 +10,6 @@ import Solution.AbstractSolution;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
-import Solution.SelectionMethod;
 import Solution.VectorOperations;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
