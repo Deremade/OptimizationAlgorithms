@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import Solution.OptimizationSolution;
 import Solution.VectorOperations;
+import staticMethods.SolutionMethods;
 
 public interface PSOalgorithm<E> {
 
@@ -30,13 +31,13 @@ public interface PSOalgorithm<E> {
 		Collection<OptimizationSolution<E>> movement = new LinkedList<OptimizationSolution<E>>();
 		Collection<OptimizationSolution<E>> nearbySolutions = vectorOperations().nearbySolutions(particles, mover, nearDist());
 		movement.add(vectorOperations().scaleSolution(
-				vectorOperations().difference(vectorOperations().bestSolution(nearbySolutions), mover)
+				vectorOperations().difference(SolutionMethods.bestSolution(nearbySolutions), mover)
 				, localBestScale()));
 		movement.add(vectorOperations().scaleSolution(
-				vectorOperations().difference(vectorOperations().worstSolution(nearbySolutions), mover)
+				vectorOperations().difference(SolutionMethods.worstSolution(nearbySolutions), mover)
 				, localWorstScale()));
 		movement.add(vectorOperations().scaleSolution(
-				vectorOperations().difference(vectorOperations().bestSolution(particles), mover)
+				vectorOperations().difference(SolutionMethods.bestSolution(particles), mover)
 				, overallBestscale()));
 		movement.add(vectorOperations().scaleSolution(
 				mover

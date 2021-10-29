@@ -90,4 +90,25 @@ public class SolutionMethods {
 		}
 		return merged;
 	}
+	
+	
+	public static <E, S extends OptimizationSolution<E>> S bestSolution(Collection<S> nearbySolutions) {
+		S best = null;
+		for(S sp : nearbySolutions) 
+			if(best == null) best = sp;
+			else
+				if(sp.betterThan(best))
+					best = sp;
+		return best;
+	}
+	
+	public static <E, S extends OptimizationSolution<E>> S worstSolution(Collection<S> nearbySolutions) {
+		S worst = null;
+		for(S sp : nearbySolutions) 
+			if(worst == null) worst = sp;
+			else
+				if(worst.betterThan(sp))
+					worst = sp;
+		return worst;
+	}
 }

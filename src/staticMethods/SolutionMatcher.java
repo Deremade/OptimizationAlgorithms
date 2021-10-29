@@ -26,6 +26,10 @@ public abstract class SolutionMatcher implements matchingAlgorithm {
 	public static <E> Closest closest(VectorOperations<E> vector, int groupSize) {
 		return new Closest(vector, groupSize);
 	}
+	
+	public static <E> RoundRobin roundRobin() {
+		return new RoundRobin();
+	}
 }
 
 interface matchingAlgorithm {
@@ -184,6 +188,24 @@ class Closest extends SolutionMatcher {
 			//remove all items from the solList
 			solList.removeAll(ll);
 		}
+		return matches;
+	}
+	
+}
+
+class RoundRobin extends SolutionMatcher {
+
+	@Override
+	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+		// TODO Auto-generated method stub
+		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
+		for(S sol : solutions)
+			for(S sol1 : solutions) {
+				LinkedList<S> match = new LinkedList<S>();
+				match.add(sol);
+				match.add(sol1);
+				matches.add(match);
+			}
 		return matches;
 	}
 	

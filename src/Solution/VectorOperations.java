@@ -99,26 +99,6 @@ public interface VectorOperations<E> {
 		return nearby;
 	}
 	
-	public default OptimizationSolution<E> bestSolution(Collection<OptimizationSolution<E>> nearbySolutions) {
-		OptimizationSolution<E> best = null;
-		for(OptimizationSolution<E> sp : nearbySolutions) 
-			if(best == null) best = sp;
-			else
-				if(sp.betterThan(best))
-					best = sp;
-		return best;
-	}
-	
-	public default OptimizationSolution<E> worstSolution(Collection<OptimizationSolution<E>> nearbySolutions) {
-		OptimizationSolution<E> worst = null;
-		for(OptimizationSolution<E> sp : nearbySolutions) 
-			if(worst == null) worst = sp;
-			else
-				if(worst.betterThan(sp))
-					worst = sp;
-		return worst;
-	}
-	
 	public default  <S extends OptimizationSolution<E>> S closest(Collection<S> sample, S sol) {
 		S closest = null;
 		sample.remove(sol);
