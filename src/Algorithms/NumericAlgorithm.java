@@ -9,12 +9,14 @@ import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 import Solution.Mutation.mutate;
+import Solution.NumericalElm;
 import Test.CircleProblem;
 import staticMethods.NumbersComparitor;
 
 public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	public static Random r = new Random();
 	int initialSize;
+	NumericalElm<N> numElm = new NumericalElm<N>();
 
 	public NumericAlgorithm(int algTp, Problem<N> problem, int initialSize) {
 		super(algTp, problem);
@@ -55,6 +57,12 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 			error += Math.pow(solution.getElm(n).doubleValue(), 2);
 		}
 		return Math.pow(error, 0.5);
+	}
+
+	@Override
+	public ElemType<N> elmType() {
+		// TODO Auto-generated method stub
+		return numElm;
 	}
 
 }

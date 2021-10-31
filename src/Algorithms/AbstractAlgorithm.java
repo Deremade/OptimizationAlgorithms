@@ -108,12 +108,6 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	protected abstract void change(OptimizationSolution<E> solution);
 
-
-	@Override
-	public ElemType<E> elmType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
 
 
