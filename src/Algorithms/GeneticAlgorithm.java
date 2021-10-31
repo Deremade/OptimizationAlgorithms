@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import Solution.ElemType;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Splitting;
@@ -12,8 +13,10 @@ import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 import staticMethods.SolutionMethods;
 
-public interface GeneticAlgorithm<E> extends Splitting<E>{
+public interface GeneticAlgorithm<E>{
 	public static Random r = new  Random();
+	
+	ElemType<E> elmType();
 
 	/**
 	 * Enumeration of the different ways to cross two solutions together
@@ -84,7 +87,7 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 				 for(E elm : elms)
 					 if(Math.random() > 0.5)
 						 splitElms.add(elm);
-			 newSolution.setElm(split(splitElms), code);
+			 newSolution.setElm(elmType().split(splitElms), code);
 		 }
 		 return newSolution;
 	}
@@ -116,7 +119,7 @@ public interface GeneticAlgorithm<E> extends Splitting<E>{
 	public default <S extends OptimizationSolution<E>> S splitDifferenceCrossover(Collection<S> parents) {
 		S newSolution = SolutionMethods.getRandom(parents).emptySolution();
 		 for(String code : SolutionMethods.placeCodes(parents))
-			 newSolution.setElm(split(SolutionMethods.getElms(code, parents)), code);
+			 newSolution.setElm(elmType().split(SolutionMethods.getElms(code, parents)), code);
 		 return newSolution;
 	}
 

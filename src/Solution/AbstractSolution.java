@@ -13,6 +13,8 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
 
 	public AbstractSolution(Problem<E> problem, AbstractAlgorithm<E> aA) {
 		super();
@@ -53,7 +55,7 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	public void setElm(E elm, String placeCode) {
 		int index = Integer.parseInt(placeCode);
 		while(!hasPlaceCode(placeCode))
-			this.add(AA.randomSelect());
+			this.add(AA.elmType().randomSelect());
 		this.set(index, elm);
 	}
 

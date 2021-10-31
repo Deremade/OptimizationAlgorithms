@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import staticMethods.SolutionMethods;
 
 public interface VectorOperations<E> {
-
-	public E addElms(Collection<E> elements);
+	
+	ElemType<E> elmType();
 	
 	/**
 	 * @param elm1
@@ -18,7 +18,7 @@ public interface VectorOperations<E> {
 		LinkedList<E> ll = new LinkedList<E>();
 		ll.add(elm1);
 		ll.add(elm2);
-		return addElms(ll);
+		return  elmType().addElms(ll);
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public interface VectorOperations<E> {
 	 * The "End"
 	 * @return The difference between the elements, (as well as the direction +/-)
 	 */
-	public E difference(E elm1, E elm2);
+	//public E difference(E elm1, E elm2);
 	
 	public <S extends OptimizationSolution<E>> double solutionLength(S solution);
 	
@@ -42,15 +42,6 @@ public interface VectorOperations<E> {
 	}
 	
 	/**
-	 * @param elm
-	 * Element
-	 * @param scale
-	 * The decimal by which it scales
-	 * @return The resulting element
-	 */
-	public E scale(E elm, double scale);
-	
-	/**
 	 * Performs scale() on a whole solution of Elements
 	 * @param solution
 	 * @param scale
@@ -59,7 +50,7 @@ public interface VectorOperations<E> {
 	public default OptimizationSolution<E> scaleSolution(OptimizationSolution<E> solution, double scale){
 		OptimizationSolution<E> scaled = solution.emptySolution();
 		for(String placeCode : solution.placeCodes())
-			scaled.placeElm(scale(solution.getElm(placeCode), scale), placeCode);
+			scaled.placeElm( elmType().scale(solution.getElm(placeCode), scale), placeCode);
 		return scaled;
 	}
 	
@@ -72,7 +63,7 @@ public interface VectorOperations<E> {
 	public default <S extends OptimizationSolution<E>> S addSolutions(Collection<S> solutions) {
 		S newSolution = SolutionMethods.getRandom(solutions).emptySolution();
 		 for(String code : SolutionMethods.placeCodes(solutions))
-			 newSolution.placeElm(addElms(SolutionMethods.getElms(code, solutions)), code);
+			 newSolution.placeElm( elmType().addElms(SolutionMethods.getElms(code, solutions)), code);
 		 return newSolution;
 	}
 	

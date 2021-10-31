@@ -2,6 +2,7 @@ package Algorithms;
 
 import java.util.Collection;
 
+import Solution.ElemType;
 import Solution.Mutation;
 import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
@@ -50,15 +51,15 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	}
 
 	@Override
-	public E split(Collection<E> genes) {
-		// TODO Auto-generated method stub
-		return AA.split(genes);
-	}
-
-	@Override
 	public mutate mutationMethod() {
 		// TODO Auto-generated method stub
 		return AA.mutationMethod();
+	}
+
+	@Override
+	public ElemType<E> elmType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

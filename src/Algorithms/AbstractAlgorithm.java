@@ -6,12 +6,11 @@ import java.util.LinkedList;
 import java.util.Map.Entry;
 
 import Algorithms.GeneticAlgorithm.crossover;
-import Solution.AbstractSolution;
+import Solution.ElemType;
 import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 import Solution.VectorOperations;
-import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
 public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E>, VectorOperations<E> {
@@ -109,12 +108,12 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 
 	protected abstract void change(OptimizationSolution<E> solution);
 
-	public abstract E addElms(Collection<E> elements);
 
-	public abstract E difference(E elm1, E elm2);
-
-	public abstract E scale(E elm, double scale);
-
+	@Override
+	public ElemType<E> elmType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 
@@ -127,27 +126,15 @@ class VectorOpInstance<E> implements VectorOperations<E> {
 	AbstractAlgorithm<E> AA;
 
 	@Override
-	public E addElms(Collection<E> elements) {
-		// TODO Auto-generated method stub
-		return AA.addElms(elements);
-	}
-
-	@Override
-	public E difference(E elm1, E elm2) {
-		// TODO Auto-generated method stub
-		return AA.difference(elm1, elm2);
-	}
-
-	@Override
-	public E scale(E elm, double scale) {
-		// TODO Auto-generated method stub
-		return AA.scale(elm, scale);
-	}
-
-	@Override
 	public <S extends OptimizationSolution<E>> double solutionLength(S solution) {
 		// TODO Auto-generated method stub
 		return AA.solutionLength(solution);
+	}
+
+	@Override
+	public ElemType<E> elmType() {
+		// TODO Auto-generated method stub
+		return AA.elmType();
 	}
 	
 }
