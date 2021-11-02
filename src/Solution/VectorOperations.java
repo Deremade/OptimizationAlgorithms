@@ -9,27 +9,6 @@ public interface VectorOperations<E> {
 	
 	ElemType<E> elmType();
 	
-	/**
-	 * @param elm1
-	 * @param elm2
-	 * @return the sum of the elements
-	 */
-	public default E addElms(E elm1, E elm2) {
-		LinkedList<E> ll = new LinkedList<E>();
-		ll.add(elm1);
-		ll.add(elm2);
-		return  elmType().addElms(ll);
-	}
-	
-	/**
-	 * @param elm1
-	 * The "Start"
-	 * @param elm2
-	 * The "End"
-	 * @return The difference between the elements, (as well as the direction +/-)
-	 */
-	//public E difference(E elm1, E elm2);
-	
 	public <S extends OptimizationSolution<E>> double solutionLength(S solution);
 	
 	public default OptimizationSolution<E> difference(OptimizationSolution<E> sol1, OptimizationSolution<E> sol2) {

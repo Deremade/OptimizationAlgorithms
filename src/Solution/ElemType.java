@@ -1,6 +1,7 @@
 package Solution;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Random;
 
 import staticMethods.NumbersComparitor;
@@ -30,6 +31,18 @@ public interface ElemType<E> extends Splitting<E>{
 	 * @return resulting sum
 	 */
 	public E addElms(Collection<E> elements);
+	
+	/**
+	 * @param elm1
+	 * @param elm2
+	 * @return the sum of the elements
+	 */
+	public default E addElms(E elm1, E elm2) {
+		LinkedList<E> ll = new LinkedList<E>();
+		ll.add(elm1);
+		ll.add(elm2);
+		return  addElms(ll);
+	}
 	
 	/**
 	 * @return a random element

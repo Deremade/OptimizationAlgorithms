@@ -33,7 +33,7 @@ public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	@Override
 	public OptimizationSolution<N> randomSolution() {
 		// TODO Auto-generated method stub
-		AbstractSolution<N> newSolution = new AbstractSolution<N>(problem, this);
+		AbstractSolution<N> newSolution = new AbstractSolution<N>(problem, this.elmType());
 		int i = 0;
 		while(i < initialSize) {
 			newSolution.add(elmType().randomSelect());

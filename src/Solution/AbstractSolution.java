@@ -8,7 +8,7 @@ import Algorithms.AbstractAlgorithm;
 public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<E> {
 	boolean autoRemove = false;
 	private Problem<E> problem;
-	public AbstractAlgorithm<E> AA;
+	private ElemType<E> elmType;
 	/**
 	 * 
 	 */
@@ -16,10 +16,10 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	
 	
 
-	public AbstractSolution(Problem<E> problem, AbstractAlgorithm<E> aA) {
+	public AbstractSolution(Problem<E> problem, ElemType<E> eT) {
 		super();
 		this.setProblem(problem);
-		AA = aA;
+		elmType = eT;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 
 	@Override
 	public OptimizationSolution<E> emptySolution() {
-		return new AbstractSolution<E>(getProblem(), AA);
+		return new AbstractSolution<E>(getProblem(), elmType);
 	}
 
 	public Problem<E> getProblem() {
@@ -55,7 +55,7 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	public void setElm(E elm, String placeCode) {
 		int index = Integer.parseInt(placeCode);
 		while(!hasPlaceCode(placeCode))
-			this.add(AA.elmType().randomSelect());
+			this.add(elmType.randomSelect());
 		this.set(index, elm);
 	}
 
