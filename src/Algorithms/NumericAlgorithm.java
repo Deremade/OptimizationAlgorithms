@@ -1,30 +1,20 @@
 package Algorithms;
 
-import java.util.Collection;
 import java.util.Random;
 
 import Solution.AbstractSolution;
 import Solution.ElemType;
-import Solution.Mutation;
 import Solution.OptimizationSolution;
 import Solution.Problem;
-import Solution.Mutation.mutate;
 import Solution.NumericalElm;
-import Test.CircleProblem;
-import staticMethods.NumbersComparitor;
 
 public class NumericAlgorithm<N extends Number> extends AbstractAlgorithm<N>{
 	public static Random r = new Random();
 	int initialSize;
 	NumericalElm<N> numElm = new NumericalElm<N>();
 
-	public NumericAlgorithm(int algTp, Problem<N> problem, int initialSize) {
-		super(algTp, problem);
-		this.initialSize = initialSize;
-	}
-	
-	public NumericAlgorithm(Mutation.mutate algTp, Problem<N> problem, int initialSize) {
-		super(algTp, problem);
+	public NumericAlgorithm(Problem<N> problem, int initialSize) {
+		super(problem);
 		this.initialSize = initialSize;
 	}
 	

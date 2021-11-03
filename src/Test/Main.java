@@ -18,7 +18,7 @@ import staticMethods.SolutionMatcher;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		NumericAlgorithm<Double> na = new NumericAlgorithm<Double>(1, new CircleProblem<Double>(), 3);
+		NumericAlgorithm<Double> na = new NumericAlgorithm<Double>(new CircleProblem<Double>(), 3);
 		na.setAlgType(1);
 		na.generateSolutions(10);
 		na.setParticleSwarmOpt(1, 0.25, 0.25, 0.25, 0.25);

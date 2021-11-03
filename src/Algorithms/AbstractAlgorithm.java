@@ -7,20 +7,20 @@ import java.util.Map.Entry;
 
 import Algorithms.GeneticAlgorithm.crossover;
 import Solution.ElemType;
-import Solution.Mutation;
+import Solution.MutationMethod;
 import Solution.OptimizationSolution;
 import Solution.Problem;
 import Solution.VectorOperations;
 import staticMethods.SolutionMatcher;
 
-public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<E>, VectorOperations<E> {
+public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, VectorOperations<E> {
 	Collection<OptimizationSolution<E>> solutions = new LinkedList<OptimizationSolution<E>>();
-	mutate mutationType;
 	public Problem<E> problem;
 	public GeneticAlgorithmInstance<E> evolutionary_algorithm = null;
 	PSOalgorithmInstance<E> pos_algorithm;
 	public VectorOperations<E> vo = new VectorOpInstance<E>(this);
 	int algType = 0;
+	MutationMethod mutator;
 	
 	public void setParticleSwarmOpt(double nearDist, double localBestScale, double overallBestscale, double localWorstScale, double curVelScale) {
 		pos_algorithm = new PSOalgorithmInstance<E>(nearDist, localBestScale,overallBestscale,localWorstScale, curVelScale, vo);
@@ -41,27 +41,14 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 	}
 	
 	@Override
-	public mutate mutationMethod() {
-		// TODO Auto-generated method stub
-		return mutationType;
-	}
-	
-	@Override
 	public Collection<OptimizationSolution<E>> solutions() {
 		// TODO Auto-generated method stub
 		return solutions;
 	}
 	
 
-	public AbstractAlgorithm(mutate algTp, Problem<E> problem) {
+	public AbstractAlgorithm(Problem<E> problem) {
 		super();
-		this.mutationType = algTp;
-		this.problem = problem;
-	}
-	
-	public AbstractAlgorithm(int algTp, Problem<E> problem) {
-		super();
-		this.mutationType = Mutation.getMutationmType(algTp);
 		this.problem = problem;
 	}
 
@@ -73,7 +60,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 		if(algType == 0)
 			simpleChange();
 		if(algType == 1)
-			evolutionary_algorithm.generation(solutions, this);
+			evolutionary_algorithm.generation(solutions, mutator);
 		if(algType == 2)
 			pos_algorithm.changeAll(solutions);
 	}
@@ -85,7 +72,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, Mutation<
 	public void simpleChange() {
 		HashMap<OptimizationSolution<E>, OptimizationSolution<E>> hm = new HashMap<OptimizationSolution<E>, OptimizationSolution<E>>();
 		for(OptimizationSolution<E> solution : solutions) {
-			OptimizationSolution<E> newSolution = mutatedCopy(solution, mutationMethod());
+			OptimizationSolution<E> newSolution = randomSolution();
 			if(newSolution.betterThan(solution)) {
 				if(newSolution.isValid())
 					hm.put(solution, newSolution);

@@ -3,8 +3,6 @@ package Algorithms;
 import java.util.Collection;
 
 import Solution.ElemType;
-import Solution.Mutation;
-import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 
 public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
@@ -48,12 +46,6 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	public crossover crossoverMethod() {
 		// TODO Auto-generated method stub
 		return crossMethod;
-	}
-
-	@Override
-	public mutate mutationMethod() {
-		// TODO Auto-generated method stub
-		return AA.mutationMethod();
 	}
 
 	@Override

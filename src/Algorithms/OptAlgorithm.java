@@ -2,7 +2,6 @@ package Algorithms;
 
 import java.util.Collection;
 
-import Solution.Mutation;
 import Solution.OptimizationSolution;
 
 /**
@@ -70,8 +69,6 @@ public interface OptAlgorithm<E> {
 	 * runs a single iteration of the optimization algorithm
 	 */	
 	public void iteration();
-	
-	Mutation.mutate mutationMethod();
 	
 	/**
 	 * Runs a number of iterations

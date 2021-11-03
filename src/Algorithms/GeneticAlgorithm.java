@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import Solution.ElemType;
-import Solution.Mutation;
+import Solution.MutationMethod;
 import Solution.OptimizationSolution;
 import Solution.Splitting;
-import Solution.Mutation.mutate;
 import staticMethods.SolutionMatcher;
 import staticMethods.SolutionMethods;
 
@@ -46,7 +45,7 @@ public interface GeneticAlgorithm<E>{
 	 * a set of solutions to cross
 	 * @return the child, the result of crossing over
 	 */
-	default public OptimizationSolution<E> mate(crossover type, Collection<OptimizationSolution<E>> parents) {
+	default public <S extends OptimizationSolution<E>> S mate(crossover type, LinkedList<S> parents) {
 		switch(type) {
 		case Crisscross:
 			return crisscross(parents);
@@ -128,8 +127,8 @@ public interface GeneticAlgorithm<E>{
 	 * @param parents
 	 * @return child
 	 */
-	public default OptimizationSolution<E> randomCrossover(Collection<OptimizationSolution<E>> parents)  {
-		 OptimizationSolution<E> newSolution = SolutionMethods.getRandom(parents).emptySolution();
+	public default <S extends OptimizationSolution<E>> S randomCrossover(LinkedList<S> parents)  {
+		 S newSolution = SolutionMethods.getRandom(parents).emptySolution();
 		 for(String code : SolutionMethods.placeCodes(parents))
 			 newSolution.setElm(SolutionMethods.randomElmAtPlaceCode(code, parents), code);
 		 return newSolution;
@@ -184,19 +183,19 @@ public interface GeneticAlgorithm<E>{
 	 * Uses the selectionMethod() function to trim the population via the selection process
 	 * @param population
 	 */
-	default void subjectToSelection(Collection<OptimizationSolution<E>> population) {
+	default <S extends OptimizationSolution<E>> void subjectToSelection(Collection<S> population) {
 		selectionMethod().subjectToSelection(population);
 	}
 	
 	/**
 	 * Simulates "Mating season" by crossing solutions with their match-ups
-	 * @param solutions
+	 * @param population
 	 * @return children, all newly produced solutions
 	 */
-	default Collection<OptimizationSolution<E>> matingSeason(Collection<OptimizationSolution<E>> solutions){
-		Collection<LinkedList<OptimizationSolution<E>>> matches = genMatches(solutions);
-		LinkedList<OptimizationSolution<E>> children = new LinkedList<OptimizationSolution<E>>();
-		for(LinkedList<OptimizationSolution<E>> parents : matches) 
+	default <S extends OptimizationSolution<E>> Collection<S> matingSeason(Collection<S> population){
+		Collection<LinkedList<S>> matches = matcher().genMatches(population);
+		LinkedList<S> children = new LinkedList<S>();
+		for(LinkedList<S> parents : matches) 
 			children.add(mate(crossoverMethod(), parents));
 		return children;
 	}
@@ -207,17 +206,13 @@ public interface GeneticAlgorithm<E>{
 	crossover crossoverMethod();
 	
 	/**
-	 * @return the mutation method to be used in this algorithm
-	 */
-	Mutation.mutate mutationMethod();
-	
-	/**
 	 * Simulates a generation of the algorithm
 	 * @param population
 	 */
-	default void generation(Collection<OptimizationSolution<E>> population, Mutation<E> mutation) {
+	default <S extends OptimizationSolution<E>> void generation(Collection<S> population, MutationMethod mm) {
 		population.addAll(matingSeason(population));
-		population.addAll(mutation.mutateAll(population, mutationMethod()));
+		for(S sol : population)
+			mm.mutate(sol, elmType());
 		subjectToSelection(population);
 	}
 }

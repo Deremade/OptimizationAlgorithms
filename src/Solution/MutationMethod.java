@@ -4,11 +4,7 @@ import java.util.Random;
 
 import staticMethods.SolutionMethods;
 
-public abstract class Mutator {
-
-}
-
-interface MutationMethod {
+public interface MutationMethod {
 	public static Random r = new Random();
 	
 	public <E, S extends OptimizationSolution<E>> S mutate(S sol, ElemType<E> elmType);
