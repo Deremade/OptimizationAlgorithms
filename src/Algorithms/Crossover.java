@@ -100,12 +100,30 @@ class Split implements Crossover {
 }
 
 class RandomSplit implements Crossover {
+	ElemType<?> et;
+	
+	public <E> RandomSplit(ElemType<?> elmType){
+		et = elmType;
+	}
+	
+	@SuppressWarnings("unchecked")
+	<E> ElemType<E> elmType(){
+		return (ElemType<E>) et;	
+	}
 
 	@Override
 	public <E, S extends OptimizationSolution<E>> S crossover(Collection<S> solutions) {
 		S newSolution = SolutionMethods.getRandom(solutions).emptySolution();
-		 for(String code : SolutionMethods.placeCodes(solutions))
-			 newSolution.setElm(SolutionMethods.randomElmAtPlaceCode(code, solutions), code);
+		ElemType<E> et = elmType();
+		 for(String code : SolutionMethods.placeCodes(solutions)) {
+			 Collection<E> elms = SolutionMethods.getElms(code, solutions);
+			 Collection<E> splitElms = new LinkedList<E>();
+			 while(splitElms.isEmpty())
+				 for(E elm : elms)
+					 if(Math.random() > 0.5)
+						 splitElms.add(elm);
+			 newSolution.setElm(et.split(splitElms), code);
+		 }
 		 return newSolution;
 	}
 	
