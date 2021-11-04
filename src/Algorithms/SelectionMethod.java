@@ -12,12 +12,16 @@ import staticMethods.SolutionMethods;
 
 public abstract class SelectionMethod implements Selector{
 
-	public static SelectionMethod topSurvivors(int capacity) {
+	public static TopSurvivors topSurvivors(int capacity) {
 		return new TopSurvivors(capacity);
 	}
 	
 	public static TopGoruped topGroups(int winners, SolutionMatcher solutionMatcher) {
 		return new TopGoruped(winners, solutionMatcher);
+	}
+	
+	public static <E> FiveStages fiveStages(MutationMethod mutation, VectorOperations<E> vector, SolutionMatcher solMatcher) {
+		return new FiveStages(mutation, vector, solMatcher);
 	}
 }
 
@@ -97,8 +101,14 @@ class FiveStages extends SelectionMethod {
 	VectorOperations<?> vectOp;
 	MutationMethod mutation;
 	boolean fighting;
-	SolutionMatcher breakIntoTwo = SolutionMatcher.roundRobin();
+	SolutionMatcher breakIntoTwo = SolutionMatcher.randomMatching(2);
 	SolutionMatcher solMatch;
+	
+	public <E> FiveStages(MutationMethod mm, VectorOperations<E> vo, SolutionMatcher sm) {
+		mutation = mm;
+		vectOp = vo;
+		solMatch = sm;
+	}
 
 	
 	public <E, S extends OptimizationSolution<E>> Collection<S> combat(Collection<LinkedList<S>> collection) {
