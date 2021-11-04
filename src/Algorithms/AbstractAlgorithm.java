@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-import Algorithms.GeneticAlgorithm.crossover;
 import Solution.ElemType;
 import Solution.MutationMethod;
 import Solution.OptimizationSolution;
@@ -26,14 +25,9 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, VectorOpe
 		pos_algorithm = new PSOalgorithmInstance<E>(nearDist, localBestScale,overallBestscale,localWorstScale, curVelScale, vo);
 	}
 	
-	public void setGeneticAlgorithm(crossover crossMethod, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
+	public void setGeneticAlgorithm(Crossover crossMethod, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
 		evolutionary_algorithm = new GeneticAlgorithmInstance<E>(crossMethod, selectivePressures,
 				matingStrategy, this);
-	}
-
-	public void setGeneticAlgorithm(int crossoverType, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
-		// TODO Auto-generated method stub
-		setGeneticAlgorithm(GeneticAlgorithm.getCrossoverType(crossoverType), selectivePressures, matingStrategy);
 	}
 
 	public double changeSizeChance() {
