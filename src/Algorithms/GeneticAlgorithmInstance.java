@@ -6,22 +6,13 @@ import Solution.ElemType;
 import staticMethods.SolutionMatcher;
 
 public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
-	crossover crossMethod;
+	Crossover crossMethod;
 	SelectionMethod selectivePressures;
 	
-	public GeneticAlgorithmInstance(crossover crossMethod, SelectionMethod selectivePressures,
+	public GeneticAlgorithmInstance(Crossover crossMethod, SelectionMethod selectivePressures,
 			SolutionMatcher matingStrategy, AbstractAlgorithm<E> aA) {
 		super();
 		this.crossMethod = crossMethod;
-		this.selectivePressures = selectivePressures;
-		this.matingStrategy = matingStrategy;
-		AA = aA;
-	}
-	
-	public GeneticAlgorithmInstance(int crossMethod, SelectionMethod selectivePressures,
-			SolutionMatcher matingStrategy, AbstractAlgorithm<E> aA) {
-		super();
-		this.crossMethod = GeneticAlgorithm.getCrossoverType(crossMethod);
 		this.selectivePressures = selectivePressures;
 		this.matingStrategy = matingStrategy;
 		AA = aA;
@@ -42,16 +33,18 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 		return matingStrategy;
 	}
 
-	@Override
-	public crossover crossoverMethod() {
-		// TODO Auto-generated method stub
-		return crossMethod;
-	}
+
 
 	@Override
 	public ElemType<E> elmType() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Crossover crossoverMethod() {
+		// TODO Auto-generated method stub
+		return crossMethod;
 	}
 
 }
