@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Collection;
 
 import Algorithms.AbstractAlgorithm;
+import Algorithms.Crossover;
 import Algorithms.GeneticAlgorithm;
 import Algorithms.NumericAlgorithm;
 import Algorithms.SelectionMethod;
@@ -22,7 +23,7 @@ public class Main {
 		na.setAlgType(1);
 		na.generateSolutions(10);
 		na.setParticleSwarmOpt(1, 0.25, 0.25, 0.25, 0.25);
-		//na.setGeneticAlgorithm(1, SelectionMethod.topGroups(1, SolutionMatcher.bestWorst()), SolutionMatcher.randomMatching(2));
+		na.setGeneticAlgorithm(Crossover.crissCross(), SelectionMethod.topGroups(1, SolutionMatcher.bestWorst()), SolutionMatcher.randomMatching(2));
 		
 		
 		System.out.println(na.displaySolutions());

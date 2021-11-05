@@ -19,7 +19,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, VectorOpe
 	PSOalgorithmInstance<E> pos_algorithm;
 	public VectorOperations<E> vo = new VectorOpInstance<E>(this);
 	int algType = 0;
-	MutationMethod mutator;
+	MutationMethod mutator = MutationMethod.cycle();
 	
 	public void setParticleSwarmOpt(double nearDist, double localBestScale, double overallBestscale, double localWorstScale, double curVelScale) {
 		pos_algorithm = new PSOalgorithmInstance<E>(nearDist, localBestScale,overallBestscale,localWorstScale, curVelScale, vo);
@@ -27,7 +27,7 @@ public abstract class AbstractAlgorithm<E> implements OptAlgorithm<E>, VectorOpe
 	
 	public void setGeneticAlgorithm(Crossover crossMethod, SelectionMethod selectivePressures, SolutionMatcher matingStrategy) {
 		evolutionary_algorithm = new GeneticAlgorithmInstance<E>(crossMethod, selectivePressures,
-				matingStrategy, this);
+				matingStrategy, vo.elmType());
 	}
 
 	public double changeSizeChance() {

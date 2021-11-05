@@ -20,6 +20,10 @@ public interface Crossover {
 		return list;
 	}
 	
+	public static CrissCross crissCross() {
+		return new CrissCross();
+	}
+	
 }
 
 class CrissCross implements Crossover {

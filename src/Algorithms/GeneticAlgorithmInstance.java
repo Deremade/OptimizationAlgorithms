@@ -10,7 +10,7 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	SelectionMethod selectivePressures;
 	
 	public GeneticAlgorithmInstance(Crossover crossMethod, SelectionMethod selectivePressures,
-			SolutionMatcher matingStrategy, AbstractAlgorithm<E> aA) {
+			SolutionMatcher matingStrategy, ElemType<E> aA) {
 		super();
 		this.crossMethod = crossMethod;
 		this.selectivePressures = selectivePressures;
@@ -19,7 +19,7 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	}
 
 	SolutionMatcher matingStrategy;
-	AbstractAlgorithm<E> AA;
+	ElemType<E> AA;
 
 	@Override
 	public SelectionMethod selectionMethod() {
@@ -38,7 +38,7 @@ public class GeneticAlgorithmInstance<E> implements GeneticAlgorithm<E> {
 	@Override
 	public ElemType<E> elmType() {
 		// TODO Auto-generated method stub
-		return null;
+		return AA;
 	}
 
 	@Override

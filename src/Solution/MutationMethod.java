@@ -42,6 +42,10 @@ public interface MutationMethod {
 		}
 	}
 	
+	public static Cycle cycle() {
+		return new Cycle();
+	}
+	
 }
 
 class Cycle implements MutationMethod {
