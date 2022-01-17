@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import Algorithms.AbstractAlgorithm;
 
-public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSolution<E> {
+public class ListSolution<E> extends LinkedList<E> implements OptimizationSolution<E> {
 	boolean autoRemove = false;
 	private Problem<E> problem;
 	private ElemType<E> elmType;
@@ -16,7 +16,7 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 	
 	
 
-	public AbstractSolution(Problem<E> problem, ElemType<E> eT) {
+	public ListSolution(Problem<E> problem, ElemType<E> eT) {
 		super();
 		this.setProblem(problem);
 		elmType = eT;
@@ -40,7 +40,7 @@ public class AbstractSolution<E> extends LinkedList<E> implements OptimizationSo
 
 	@Override
 	public OptimizationSolution<E> emptySolution() {
-		return new AbstractSolution<E>(getProblem(), elmType);
+		return new ListSolution<E>(getProblem(), elmType);
 	}
 
 	public Problem<E> getProblem() {
