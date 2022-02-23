@@ -5,8 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import Solution.OptimizationSolution;
-import Solution.VectorOperations;
+import Default.OptAlgorithm;
+import Default.OptSolution;
+import Default.VectorOps;
 
 public abstract class SolutionMatcher implements matchingAlgorithm {
 	public static Random r = new Random();
@@ -19,11 +20,11 @@ public abstract class SolutionMatcher implements matchingAlgorithm {
 		return new BestWorst();
 	}
 	
-	public static <E> WithinDist withinDist(VectorOperations<E> vector, double distance) {
+	public static <T, S extends OptSolution<T, S>> WithinDist withinDist(VectorOps<T, S> vector, double distance) {
 		return new WithinDist(vector, distance);
 	}
 	
-	public static <E> Closest closest(VectorOperations<E> vector, int groupSize) {
+	public static <T, S extends OptSolution<T, S>> Closest closest(VectorOps<T, S> vector, int groupSize) {
 		return new Closest(vector, groupSize);
 	}
 	
@@ -34,7 +35,7 @@ public abstract class SolutionMatcher implements matchingAlgorithm {
 
 interface matchingAlgorithm {
 	
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions);
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions);
 }
 
 class RandomMatching extends SolutionMatcher{
@@ -51,7 +52,7 @@ class RandomMatching extends SolutionMatcher{
 	int perMatch;
 
 	@Override
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
 		// TODO Auto-generated method stub
 		LinkedList<S> indexedSolutions = new LinkedList<S>();
 		for(S s : solutions) {
@@ -80,7 +81,7 @@ class BestWorst extends SolutionMatcher{
 	}
 
 	@Override
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
 		// TODO Auto-generated method stub
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
 		List<S> solutionList = SolutionMethods.sort(solutions);
@@ -95,8 +96,8 @@ class BestWorst extends SolutionMatcher{
 	}
 }
 
-class WithinDist extends SolutionMatcher{
-	VectorOperations<?> vector;
+class WithinDist  extends SolutionMatcher{
+	VectorOps<?,?> vector;
 	double distance;
 	
 	/**
@@ -106,29 +107,27 @@ class WithinDist extends SolutionMatcher{
 	 * @param distance
 	 * The distance from each other that would qualify them as a group
 	 */
-	public <E> WithinDist(VectorOperations<E> vector, double distance) {
+	public <T, S extends OptSolution<T, S>>  WithinDist(VectorOps<T,S>  vector, double distance) {
 		super();
 		this.vector = vector;
 		this.distance = distance;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <E> VectorOperations<E> vector() {
-		return (VectorOperations<E>) vector;
+	public <T, S extends OptSolution<T, S>> VectorOps<T,S> vector() {
+		return (VectorOps<T,S>) vector;
 	}
 
 	@SuppressWarnings("hiding")
 	@Override
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
-		// TODO Auto-generated method stub
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
 		Collection<S> solList = new LinkedList<S>();
 		solList.addAll(solutions);
-		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
-		VectorOperations<E> vectOp = vector();
-				
 		while(!solList.isEmpty()) {
 			S focus = CollectionMethods.random(solList);
-			Collection<S> match = vectOp.nearbySolutions(solList, focus, distance);
+			@SuppressWarnings("unchecked")
+			Collection<S> match = ((VectorOps<T,S>) vector()).nearbySolutions(solList, focus, distance);
 			//turn the match into a linked list
 			LinkedList<S> ll = new LinkedList<S>();
 			for(S col : match)
@@ -145,7 +144,7 @@ class WithinDist extends SolutionMatcher{
 }
 
 class Closest extends SolutionMatcher {
-	VectorOperations<?> vector;
+	VectorOps<?,?> vector;
 	int num;
 	
 	/**
@@ -155,7 +154,7 @@ class Closest extends SolutionMatcher {
 	 * @param size
 	 * The size of the groups
 	 */
-	public <E> Closest(VectorOperations<E> vector, int size) {
+	public <T, S extends OptSolution<T, S>> Closest(VectorOps<T,S> vector, int size) {
 		super();
 		this.vector = vector;
 		this.num = size-1;
@@ -163,21 +162,21 @@ class Closest extends SolutionMatcher {
 	
 
 	@SuppressWarnings("unchecked")
-	public <E> VectorOperations<E> vector() {
-		return (VectorOperations<E>) vector;
+	public <T, S extends OptSolution<T, S>> VectorOps<T,S> vector() {
+		return (VectorOps<T,S>) vector;
 	}
 	
 	@Override
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
 		// TODO Auto-generated method stub
 		Collection<S> solList = new LinkedList<S>();
 		solList.addAll(solutions);
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
-		VectorOperations<E> vectOp = vector();
 		
 		while(!solList.isEmpty()) {
 			S focus = CollectionMethods.random(solList);
-			Collection<S> match = vectOp.closestItems(solList, focus, num);
+			@SuppressWarnings("unchecked")
+			Collection<S> match = ((VectorOps<T,S>) vector()).closestItems(solList, focus, num);
 			match.add(focus);
 			//turn the match into a linked list
 			LinkedList<S> ll = new LinkedList<S>();
@@ -196,7 +195,7 @@ class Closest extends SolutionMatcher {
 class RoundRobin extends SolutionMatcher {
 
 	@Override
-	public <E, S extends OptimizationSolution<E>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
 		// TODO Auto-generated method stub
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
 		for(S sol : solutions)

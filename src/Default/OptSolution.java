@@ -1,22 +1,10 @@
-package Solution;
+package Default;
 
 import java.util.Collection;
-import java.util.List;
 
 import staticMethods.SolutionMethods;
 
-/**
- *  Defines the methods for interacting with a "Solution" to an optimization problem.
- *  
- * @author David
- *
- * @param <E> The Elements of the solution
- * 
-
- */
- 
-public interface OptimizationSolution<E> extends Comparable<OptimizationSolution<E>> {
-	
+public interface OptSolution<T, S extends OptSolution<T, S>> {
 	/**
 	 * @return A string to make the solution human readable instead of just an arbitrary list of Elements
 	 */
@@ -35,7 +23,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	/**
 	 * @return an empty solution, (usually) a constructor
 	 */
-	<S extends OptimizationSolution<E>> S emptySolution();
+	S emptySolution();
 	
 	/**
 	 * Replace the current element at a location with a new element
@@ -44,7 +32,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param placeCode
 	 * The position or "place code" of the element being replaced
 	 */
-	public void setElm(E elm, String placeCode);
+	public void setElm(T elm, String placeCode);
 	
 	/**
 	 * Place an element at a place code (move other elements around as necessary)
@@ -53,21 +41,21 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param placeCode
 	 * The place it will be inserted
 	 */
-	public void placeElm(E elm, String placeCode);
+	public void placeElm(T elm, String placeCode);
 	
 	/**
 	 * Find the place code of the element
 	 * @param elm
 	 * @return the place code of the element
 	 */
-	public String findElm(E elm);
+	public String findElm(T elm);
 	
 	/**
 	 * Get an element based on it's place code
 	 * @param placeCode
 	 * @return the element at the place code
 	 */
-	public E getElm(String placeCode);
+	public T getElm(String placeCode);
 	
 	/**
 	 * @return a collection of all place codes
@@ -87,7 +75,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param elm
 	 * @param solution
 	 */
-	public default <S extends OptimizationSolution<E>> void setElmFrom(E elm, S solution) {
+	public default void setElmFrom(T elm, S solution) {
 		setElm(elm, solution.findElm(elm));
 	}
 	
@@ -96,7 +84,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param placeCode
 	 * @param solution
 	 */
-	public default <S extends OptimizationSolution<E>> void setElmFrom(String placeCode, S solution) {
+	public default void setElmFrom(String placeCode, S solution) {
 		setElm(solution.getElm(placeCode), placeCode);
 	}
 	
@@ -106,7 +94,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param elm
 	 * @param solution
 	 */
-	public default <S extends OptimizationSolution<E>> void placeElmFrom(E elm, S solution) {
+	public default void placeElmFrom(T elm, S solution) {
 		placeElm(elm, solution.findElm(elm));
 	}
 	
@@ -115,7 +103,7 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	 * @param placeCode
 	 * @param solution
 	 */
-	public default <S extends OptimizationSolution<E>> void placeElmFrom(String placeCode, S solution) {
+	public default void placeElmFrom(String placeCode, S solution) {
 		placeElm(solution.getElm(placeCode), placeCode);
 	}
 	
@@ -128,10 +116,12 @@ public interface OptimizationSolution<E> extends Comparable<OptimizationSolution
 	public boolean removeItem(String placeCode);
 	
 	
-	public <S extends OptimizationSolution<E>> boolean betterThan(S other);
+	public boolean betterThan(S other);
 	
-	public default int compareTo(OptimizationSolution<E> arg0) {
+	public default int compareTo(S arg0) {
 		if (betterThan(arg0)) return 1;
 		else return -1;
 	}
+
+	S change();
 }
