@@ -2,6 +2,8 @@ package Default;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import Algorithms.OptAlgorithm;
+
 /**
  * @author David
  *

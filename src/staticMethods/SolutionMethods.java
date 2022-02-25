@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-import Default.OptAlgorithm;
+import Algorithms.OptAlgorithm;
 import Solution.OptSolution;
 
 public class SolutionMethods {

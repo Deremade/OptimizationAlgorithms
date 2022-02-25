@@ -2,7 +2,7 @@ package mightDelete;
 import java.util.Collection;
 import java.util.List;
 
-import Default.OptAlgorithm;
+import Algorithms.OptAlgorithm;
 import Problems.Problem;
 import Solution.OptSolution;
 

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import Default.OptAlgorithm;
+import Algorithms.OptAlgorithm;
 import Solution.OptSolution;
 import Solution.VectorOps;
 
