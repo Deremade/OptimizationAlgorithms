@@ -1,11 +1,20 @@
-package Default;
+package mightDelete;
 import java.util.Collection;
 import java.util.List;
 
+import Default.OptAlgorithm;
 import Problems.Problem;
 import Solution.OptSolution;
 
 
+/**
+ * @author David
+ * 
+ * An interface for defining all relevant methods for an Algorithm
+ *
+ * @param <T> Type
+ * @param <S> Solution
+ */
 public interface Optamizer<T, S extends OptSolution<T, S>>  {
 
 	S randomSolution();

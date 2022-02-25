@@ -38,6 +38,13 @@ interface matchingAlgorithm {
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions);
 }
 
+/**
+ * @author David
+ *
+	 * Randomly assigns everyone a match
+	 * @param perMatch
+	 * Number of solutions in a match-up
+ */
 class RandomMatching extends SolutionMatcher{
 	/**
 	 * Randomly assigns everyone a match
@@ -53,17 +60,21 @@ class RandomMatching extends SolutionMatcher{
 
 	@Override
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
-		// TODO Auto-generated method stub
+		// list of indexed solutions
 		LinkedList<S> indexedSolutions = new LinkedList<S>();
-		for(S s : solutions) {
+		for(S s : solutions) { //place all solutions intot he list to index them
 			indexedSolutions.add(s);
 		}
+		//Collection of Matches
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
-		while(indexedSolutions.size() >= perMatch) {
-			LinkedList<S> match = new LinkedList<S>();
-			while(match.size() < perMatch) {
+		while(indexedSolutions.size() >= perMatch) {//while matches need to be made
+			LinkedList<S> match = new LinkedList<S>(); //create match
+			while(match.size() < perMatch) {//while match needs to be filled
+				//find random index
 				int index = r.nextInt(Math.min(perMatch, (indexedSolutions.size())));
+				//add to match
 				match.add(indexedSolutions.get(index));
+				//remove from indexed solutions
 				indexedSolutions.remove(index);
 			}
 			matches.add(match);
@@ -72,9 +83,13 @@ class RandomMatching extends SolutionMatcher{
 	}
 }
 
+/**
+ * @author David
+ * Matches the worst solutions with the best solutions and second best with second worst etc.
+ */
 class BestWorst extends SolutionMatcher{
 	/**
-	 * Matches the worst solutions with the best solutions and second best wiht second worst etc.
+	 * Matches the worst solutions with the best solutions and second best with second worst etc.
 	 */
 	public BestWorst() {
 		super();
@@ -82,14 +97,16 @@ class BestWorst extends SolutionMatcher{
 
 	@Override
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
-		// TODO Auto-generated method stub
+		//Create a collection of matches
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
+		//sort the solutions
 		List<S> solutionList = SolutionMethods.sort(solutions);
 		int numOfSol = solutionList.size();
+		//loop through solutions
 		for(int i =0; i < numOfSol/2; i++) {
 			LinkedList<S> match = new LinkedList<S>();
-			match.add(solutionList.get(i));
-			match.add(solutionList.get(numOfSol-i-1));
+			match.add(solutionList.get(i)); //first in list
+			match.add(solutionList.get(numOfSol-i-1));//last in list
 			matches.add(match);
 		}
 		return matches;
@@ -121,10 +138,14 @@ class WithinDist  extends SolutionMatcher{
 	@SuppressWarnings("hiding")
 	@Override
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
+		//Create collection of matches
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
+		//copy list of solutions
 		Collection<S> solList = new LinkedList<S>();
 		solList.addAll(solutions);
+		//While the copy list is not empty
 		while(!solList.isEmpty()) {
+			//Find random focus
 			S focus = CollectionMethods.random(solList);
 			@SuppressWarnings("unchecked")
 			Collection<S> match = ((VectorOps<T,S>) vector()).nearbySolutions(solList, focus, distance);
@@ -143,6 +164,16 @@ class WithinDist  extends SolutionMatcher{
 
 }
 
+/**
+ * @author David
+ * 
+  * Groups elements by finding the closest elements to eachother
+	 * @param vector
+	 * the Vector Operations - determines how "distance" is defined
+	 * @param size
+	 * The size of the groups
+ *
+ */
 class Closest extends SolutionMatcher {
 	VectorOps<?,?> vector;
 	int num;
@@ -168,14 +199,16 @@ class Closest extends SolutionMatcher {
 	
 	@Override
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
-		// TODO Auto-generated method stub
+		// Create a copy list
 		Collection<S> solList = new LinkedList<S>();
 		solList.addAll(solutions);
+		//Collection of matches
 		Collection<LinkedList<S>> matches = new LinkedList<LinkedList<S>>();
 		
-		while(!solList.isEmpty()) {
-			S focus = CollectionMethods.random(solList);
+		while(!solList.isEmpty()) { //while the copy list is not empty
+			S focus = CollectionMethods.random(solList); //find a random focus element
 			@SuppressWarnings("unchecked")
+			//Find closest items
 			Collection<S> match = ((VectorOps<T,S>) vector()).closestItems(solList, focus, num);
 			match.add(focus);
 			//turn the match into a linked list
@@ -192,6 +225,10 @@ class Closest extends SolutionMatcher {
 	
 }
 
+/**
+ * @author David
+ * every solution is matched with every other solution
+ */
 class RoundRobin extends SolutionMatcher {
 
 	@Override

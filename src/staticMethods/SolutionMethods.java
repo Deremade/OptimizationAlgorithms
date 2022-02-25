@@ -12,6 +12,10 @@ import Solution.OptSolution;
 
 public class SolutionMethods {
 
+	/**
+	 * @param solutions
+	 * @return a list of all place codes contained in all solutions
+	 */
 	public static <T, S extends OptSolution<T, S>> Queue<String> placeCodes(Collection<S> solutions) {
 		Queue<String> placeCodes = new ArrayDeque<String>();
 		for(S sol : solutions)
@@ -21,6 +25,11 @@ public class SolutionMethods {
 		return placeCodes;
 	}
 	
+	/**
+	 * @param placeCode
+	 * @param solutions
+	 * @return a list of all elemetns contained at the palce code in all solutions
+	 */
 	public static <T, S extends OptSolution<T, S>> List<T> getElms(String placeCode, Collection<S> solutions){
 		List<T> elms = new LinkedList<T>();
 		for(S sol : solutions)
@@ -29,18 +38,20 @@ public class SolutionMethods {
 		return elms;
 	}
 	
-	public static <E> E getRandom (Collection<E> coll) {
-		if(coll.isEmpty()) return null;
-		int num = (int) (Math.random() * coll.size());
-	    for(E e: coll) if (--num < 0) return e;
-	    throw new AssertionError();
-	}
-	
+	/**
+	 * @param placeCode
+	 * @param solutions
+	 * @return a random element which resides at the place code in at least 1 solution
+	 */
 	public static <T, S extends OptSolution<T, S>> T randomElmAtPlaceCode(String placeCode, Collection<S> solutions) {
-		return getRandom(getElms(placeCode, solutions));
+		return CollectionMethods.random(getElms(placeCode, solutions));
 	}
 	
 	
+	/**
+	 * @param solutions
+	 * @return a sorted list of solutions
+	 */
 	public static <T, S extends OptSolution<T, S>>  List<S> sort(Collection<S> solutions) {
 		List<S> solutionList = new LinkedList<S>();
 		for(S sol : solutions)
@@ -93,6 +104,10 @@ public class SolutionMethods {
 	}
 	
 	
+	/**
+	 * @param nearbySolutions
+	 * @return the best solution
+	 */
 	public static <T, S extends OptSolution<T, S>> S bestSolution(Collection<S> nearbySolutions) {
 		S best = null;
 		for(S sp : nearbySolutions) 
@@ -103,6 +118,10 @@ public class SolutionMethods {
 		return best;
 	}
 	
+	/**
+	 * @param nearbySolutions
+	 * @return the worst solution
+	 */
 	public static <T, S extends OptSolution<T, S>>  S worstSolution(Collection<S> nearbySolutions) {
 		S worst = null;
 		for(S sp : nearbySolutions) 

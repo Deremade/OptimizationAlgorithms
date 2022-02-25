@@ -2,9 +2,17 @@ package Solution;
 
 import java.util.Collection;
 
-import staticMethods.SolutionMethods;
+import staticMethods.CollectionMethods;
 
-public interface OptSolution<T, S extends OptSolution<T, S>> {
+/**
+ * @author David
+ * 
+ * An interface for defining the methods which are used by every solution to be optimized
+ *
+ * @param <T>
+ * @param <S>
+ */
+public interface OptSolution<T, S extends OptSolution<T, S>> extends Comparable<S>{
 	/**
 	 * @return A string to make the solution human readable instead of just an arbitrary list of Elements
 	 */
@@ -69,7 +77,7 @@ public interface OptSolution<T, S extends OptSolution<T, S>> {
 	public Collection<String> emptyPlaceCodes();
 	
 	public default String emptyPlaceCode() {
-		return SolutionMethods.getRandom(emptyPlaceCodes());
+		return CollectionMethods.random(emptyPlaceCodes());
 	}
 	
 	/**

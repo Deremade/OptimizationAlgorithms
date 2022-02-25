@@ -11,9 +11,24 @@ import Solution.OptSolution;
 import staticMethods.SolutionMethods;
 
 
+/**
+ * @author David
+ * 
+ * An interface which allows for defining selection methods
+ *
+ * @param <T>
+ * @param <S>
+ */
 public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 
+	
+	/**
+	 * @param pop
+	 * @param size
+	 * @return All solutions that make it through the selection process
+	 */
 	default public Collection<S> subjecttoSelection(Collection<S> pop, int size) {
+		//Make list to hold valid solutions
 		LinkedList<S> validSolutons = new LinkedList<S>();
 		for(S solution : pop) {
 			if(solution.isValid())
@@ -23,8 +38,19 @@ public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 		return subjectValidToSelection(validSolutons, size);
 	}
 	
-	public Collection<S> subjectValidToSelection(Collection<S> pop, int siz);
+	/**
+	 * @param pop
+	 * A collection of valid solutions
+	 * @param size
+	 * @return All items that make it through the selection process
+	 */
+	public Collection<S> subjectValidToSelection(Collection<S> pop, int size);
 	
+	/**
+	 * @param solutions
+	 * @param size
+	 * @return The most fir [size] solutions
+	 */
 	public default LinkedList<S> mostFit(Collection<S> solutions, int size) {
 		return mostFit(SolutionMethods.sort(solutions), size);
 	}
@@ -46,6 +72,14 @@ public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 	}
 }
 
+/**
+ * @author David
+ * 
+ * Only the most fit survive, all are ranked based on fitness the top survive
+ *
+ * @param <T>
+ * @param <S>
+ */
 class survivalOfThefittest<T, S extends OptSolution<T, S>> implements SelectionMethod<T, S>{
 
 	@Override
