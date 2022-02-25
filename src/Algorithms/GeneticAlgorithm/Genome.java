@@ -1,4 +1,4 @@
-package Default;
+package Algorithms.GeneticAlgorithm;
 
 import Solution.OptSolution;
 

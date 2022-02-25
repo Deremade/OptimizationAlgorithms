@@ -1,8 +1,9 @@
-package Default;
+package Algorithms.GeneticAlgorithm;
 import java.util.Collection;
 import java.util.LinkedList;
 
 import Algorithms.OptAlgorithm;
+import Default.SelectionMethod;
 
 /**
  * @author David
