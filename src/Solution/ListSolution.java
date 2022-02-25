@@ -24,7 +24,7 @@ public interface ListSolution<T> extends OptSolution<T, ListSolution<T>> {
 
 	boolean madeInvalid();
 
-	public default void setElm(T elm, String placeCode) {
+	public default void setElement(T elm, String placeCode) {
 		// TODO Auto-generated method stub
 		solutionList().set(Integer.parseInt(placeCode), elm);
 	}

@@ -7,7 +7,7 @@ import java.util.Random;
 
 import Algorithms.OptAlgorithm;
 import Solution.OptSolution;
-import Solution.VectorOps;
+import VectorOps.VectorOps;
 
 public abstract class SolutionMatcher implements matchingAlgorithm {
 	public static Random r = new Random();

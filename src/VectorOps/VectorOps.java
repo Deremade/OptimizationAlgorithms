@@ -1,6 +1,8 @@
-package Solution;
+package VectorOps;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import Solution.OptSolution;
 
 /**
  * @author David

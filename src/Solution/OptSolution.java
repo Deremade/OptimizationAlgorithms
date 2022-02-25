@@ -34,14 +34,25 @@ public interface OptSolution<T, S extends OptSolution<T, S>> extends Comparable<
 	S emptySolution();
 	
 	/**
-	 * Replace the current element at a location with a new element
+	 * Replace the current element at a location with a new element [makes new placeCode if needed]
 	 * @param elm
 	 * The element the position is being set to
 	 * @param placeCode
 	 * The position or "place code" of the element being replaced
 	 */
-	public void setElm(T elm, String placeCode);
+	public default void setElm(T elm, String placeCode) {
+		if(hasPlaceCode(placeCode))
+			setElement(elm, placeCode);
+		else
+			placeElm(elm, placeCode);
+	}
 	
+	/**sets existing place code to element [error if not available]
+	 * @param elm
+	 * @param placeCode
+	 */
+	public void setElement(T elm, String placeCode);
+
 	/**
 	 * Place an element at a place code (move other elements around as necessary)
 	 * @param elm
