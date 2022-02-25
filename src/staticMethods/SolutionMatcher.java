@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import Default.OptAlgorithm;
-import Default.OptSolution;
-import Default.VectorOps;
+import Solution.OptSolution;
+import Solution.VectorOps;
 
 public abstract class SolutionMatcher implements matchingAlgorithm {
 	public static Random r = new Random();

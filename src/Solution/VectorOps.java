@@ -1,12 +1,12 @@
-package Default;
+package Solution;
 import java.util.Collection;
 import java.util.LinkedList;
 
 public interface VectorOps<T, S extends OptSolution<T, S>>{
 	
-	public S midpoint(S other);
+	public S midpoint(S sol1, S sol2);
 	
-	public S difference(S other);
+	public S difference(S sol1, S sol2);
 	
 	public S add(S sol1, S sol2);
 	
@@ -20,9 +20,11 @@ public interface VectorOps<T, S extends OptSolution<T, S>>{
 		return distance(origin(), sol);
 	}
 	
-	public double distance(S sol1, S sol2);
+	public default double distance(S sol1, S sol2) {
+		return length(difference(sol1, sol2));
+	}
 	
-	public default S minDist(Collection<S> s, S focus) {
+	public default S closestItem(Collection<S> s, S focus) {
 		double min = 0;
 		S closestSol = null;
 		for(S sol : s) {
@@ -43,7 +45,7 @@ public interface VectorOps<T, S extends OptSolution<T, S>>{
 		copy.addAll(solList);
 		Collection<S> returnList = new LinkedList<S>();
 		while(returnList.size() < num) {
-			S closest = minDist(copy, focus);
+			S closest = closestItem(copy, focus);
 			returnList.add(closest);
 			copy.remove(closest);
 		}

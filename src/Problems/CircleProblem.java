@@ -1,4 +1,6 @@
-package Default;
+package Problems;
+
+import Solution.OptSolution;
 
 public class CircleProblem<S extends OptSolution<Double, S>> implements Problem<Double, S> {
 

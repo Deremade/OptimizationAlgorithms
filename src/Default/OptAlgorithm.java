@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import Solution.OptSolution;
 import staticMethods.SolutionMethods;
 
 public interface OptAlgorithm<T, S extends OptSolution<T, S>> {

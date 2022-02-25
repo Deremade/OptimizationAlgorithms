@@ -1,5 +1,7 @@
-package Default;
+package Problems;
 import java.util.List;
+
+import Solution.OptSolution;
 
 public interface Problem<T, S extends OptSolution<T, S>> {
 	

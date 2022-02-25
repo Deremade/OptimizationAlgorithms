@@ -1,4 +1,4 @@
-package Default;
+package Solution;
 
 import java.util.Collection;
 
@@ -62,7 +62,9 @@ public interface OptSolution<T, S extends OptSolution<T, S>> {
 	 */
 	public Collection<String> placeCodes();
 	
-	public boolean hasPlaceCode(String placeCode);
+	public default boolean hasPlaceCode(String placeCode) {
+		return placeCodes().contains(placeCode);
+	}
 	
 	public Collection<String> emptyPlaceCodes();
 	
