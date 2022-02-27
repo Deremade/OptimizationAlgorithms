@@ -43,6 +43,10 @@ public interface OptAlgorithm<T, S extends OptSolution<T, S>> {
 		}
 	}
 	
+	public default void generateSolutions(int numOfsolutions){
+		generateSolutions(solutions(), numOfsolutions);
+	}
+	
 	/**
 	 * Removes all invalid solutions from a collection of solutions
 	 * @param solutions
