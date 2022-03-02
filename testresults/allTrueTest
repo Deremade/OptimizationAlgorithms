@@ -1,0 +1,21 @@
+public static void main(String[] args) {
+		AllTrue at = new AllTrue();
+		at.generateSolutions(10);
+		System.out.println(at.solutions());
+		System.out.println(at.sortedSolutions(at.solutions()));
+		System.out.println(
+		at.compare(at.sortedSolutions(at.solutions()).get(0), at.sortedSolutions(at.solutions()).get(5))
+		);
+		System.out.println(
+				SolutionMethods.bestSolution(at.solutions())
+				);
+		System.out.println(
+				SolutionMethods.worstSolution(at.solutions())
+				);
+	}
+_________________________________________________________________________________________________________
+[[true, false, false], [true, true, true], [true, false, true], [false, false, false], [true, false, true], [true, true, true], [true, true, true], [false, false, false], [false, false, false], [false, false, true]]
+[[false, false, false], [false, false, false], [false, false, false], [true, false, false], [false, false, true], [true, false, true], [true, false, true], [true, true, true], [true, true, true], [true, true, true]]
+-1
+[true, true, true]
+[false, false, false]
