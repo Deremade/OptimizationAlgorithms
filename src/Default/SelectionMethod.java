@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -20,6 +21,10 @@ import staticMethods.SolutionMethods;
  * @param <S>
  */
 public interface SelectionMethod<T, S extends OptSolution<T, S>> {
+	
+	static <T, S extends OptSolution<T, S>> survivalOfThefittest<T, S> survivalOfThefittest() {
+		return new survivalOfThefittest<T,S>();
+	}
 
 	
 	/**
@@ -52,24 +57,16 @@ public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 	 * @return The most fir [size] solutions
 	 */
 	public default LinkedList<S> mostFit(Collection<S> solutions, int size) {
-		return mostFit(SolutionMethods.sort(solutions), size);
-	}
-	
-	public default LinkedList<S> mostFit(LinkedList<Entry<S, Double>> rankedPopulation, int size) {
-		// TODO Auto-generated method stub
-		if(rankedPopulation.size() <= size) { //retunn all solutions if there is less then the number you want
-			LinkedList<S> survivors = new LinkedList<S>();
-			for(Entry<S, Double> entry : rankedPopulation) {
-					survivors.add(entry.getKey());
-			}
-			return survivors;
+		LinkedList<S> mostFit = new LinkedList<S>();
+		List<S> sorted = SolutionMethods.sort(solutions);
+		while(mostFit.size() < size) {
+			S mostFitSol = sorted.get(sorted.size());
+			mostFit.add(mostFitSol);
+			sorted.remove(mostFitSol);
 		}
-		LinkedList<S> survivors = new LinkedList<S>();
-		for(int i = rankedPopulation.size()-1; i > Math.max(rankedPopulation.size()-size, 0); i--) {
-				survivors.add((S) rankedPopulation.get(i).getKey());
-		}
-		return survivors;
+		return mostFit;
 	}
+
 }
 
 /**

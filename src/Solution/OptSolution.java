@@ -13,6 +13,9 @@ import staticMethods.CollectionMethods;
  * @param <S>
  */
 public interface OptSolution<T, S extends OptSolution<T, S>> extends Comparable<S>{
+	
+	S clone();
+	
 	/**
 	 * @return A string to make the solution human readable instead of just an arbitrary list of Elements
 	 */
