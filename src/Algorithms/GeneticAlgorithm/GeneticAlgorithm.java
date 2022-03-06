@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import Algorithms.OptAlgorithm;
 import Default.SelectionMethod;
+import Solution.OptSolution;
 
 /**
  * @author David
@@ -13,7 +14,7 @@ import Default.SelectionMethod;
  * @param <T> Element Type
  * @param <S> Solution
  */
-public interface GeneticAlgorithm<T, S extends Genome<T, S>> extends OptAlgorithm<T, S> {
+public interface GeneticAlgorithm<T, S extends OptSolution<T, S>> extends OptAlgorithm<T, S> {
 	
 	/**An OptAlgorithm that holds delegated Methods
 	 * @return optAlgorithm

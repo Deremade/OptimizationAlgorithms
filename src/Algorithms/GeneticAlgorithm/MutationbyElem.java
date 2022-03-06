@@ -1,14 +1,15 @@
 package Algorithms.GeneticAlgorithm;
 
+import Solution.OptSolution;
 import VectorOps.ElemType;
 
-public interface MutationbyElem<T> extends MutationMethod<T>, ChangeSize {
+public interface MutationbyElem<T> extends MutationMethod<T> {
 
 	double mutationChance();
 
 	ElemType<T> elemType();
 	
-	default <S extends Genome<T, S>> S mutate(S original) {
+	default <S extends OptSolution<T, S>> S mutate(S original) {
 		//Create mutant solution
 		S mutant = original.clone();
 		for(String placeCode : original.placeCodes()) //for every place code
@@ -23,24 +24,11 @@ public interface MutationbyElem<T> extends MutationMethod<T>, ChangeSize {
 	
 	ChangeSize changeSize();
 
-
 	@Override
-	public default <T, S extends Genome<T, S>> boolean willGrow(S solution) {
-		// TODO Auto-generated method stub
-		return changeSize().willGrow(solution);
-	}
-
-	@Override
-	public default <T, S extends Genome<T, S>> boolean willShrink(S solution) {
-		// TODO Auto-generated method stub
-		return changeSize().willGrow(solution);
-	}
-
-	@Override
-	public default <S extends Genome<T, S>> S mutatedCopy(S original) {
+	public default <S extends OptSolution<T, S>> S mutatedCopy(S original) {
 		// TODO Auto-generated method stub
 			S mutant = mutate(original);
-			mutant = changeSize(mutant, elemType());
+			mutant = changeSize().changeSize(mutant, elemType());
 			return mutant;
 	}
 }

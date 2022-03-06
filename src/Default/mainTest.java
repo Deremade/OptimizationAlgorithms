@@ -2,6 +2,8 @@ package Default;
 
 import java.util.Random;
 
+import Algorithms.GeneticAlgorithm.MutationMethod;
+import Algorithms.GeneticAlgorithm.Mutations;
 import Problems.AllTrueTest.AllTrue;
 import staticMethods.SolutionMethods;
 
@@ -21,6 +23,12 @@ public class mainTest {
 				);
 		System.out.println(
 				SolutionMethods.worstSolution(at.solutions())
+				);
+		MutationMethod<Boolean> mutate = Mutations.reRollMutation(at);
+		System.out.println(
+				mutate.mutatedCopy(
+						SolutionMethods.worstSolution(at.solutions())
+						)
 				);
 	}
 

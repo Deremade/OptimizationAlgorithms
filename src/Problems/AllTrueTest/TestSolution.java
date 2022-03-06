@@ -5,7 +5,6 @@ import java.util.List;
 
 import Problems.Problem;
 import Solution.ListSolution;
-import Solution.OptSolution;
 
 public class TestSolution implements ListSolution<Boolean> {
 	LinkedList<Boolean> solutionList = new LinkedList<Boolean>();
