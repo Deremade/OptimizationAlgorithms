@@ -54,5 +54,12 @@ public class TestSolution implements ListSolution<Boolean> {
 	public String toString() {
 		return this.solutionDetails();
 	}
+	
+	public TestSolution clone() {
+		TestSolution ts = new TestSolution(problem);
+		for(String placeCode : placeCodes())
+			ts.placeElm(getElm(placeCode), placeCode);
+		return ts;
+	}
 
 }

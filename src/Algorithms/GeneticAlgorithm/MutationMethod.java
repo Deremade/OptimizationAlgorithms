@@ -3,11 +3,14 @@ package Algorithms.GeneticAlgorithm;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public interface MutationMethod<T, S extends Genome<T, S>> {
+import VectorOps.ElemType;
+
+public interface MutationMethod<T> {
 	
-	S mutatedCopy(S original);
+	<S extends Genome<T, S>> S mutatedCopy(S original);
 	
-	default Collection<S> mutateAll(Collection<S> genePool){
+	default <S extends Genome<T, S>> 
+	Collection<S> mutateAll(Collection<S> genePool){
 		//Mutant list
 		Collection<S> mutants = new LinkedList<S>();
 		for(S genome : genePool) //For every item

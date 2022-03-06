@@ -1,21 +1,14 @@
 package Algorithms.GeneticAlgorithm;
 
 import VectorOps.ElemType;
-import staticMethods.CollectionMethods;
 
-public interface MutationbyElem<T, S extends Genome<T, S>> extends MutationMethod<T, S> {
+public interface MutationbyElem<T> extends MutationMethod<T>, ChangeSize {
 
 	double mutationChance();
 
 	ElemType<T> elemType();
 	
-	default S mutatedCopy(S original) {
-		S mutant = mutate(original);
-		mutant = changeSize(mutant);
-		return mutant;
-	}
-	
-	default S mutate(S original) {
+	default <S extends Genome<T, S>> S mutate(S original) {
 		//Create mutant solution
 		S mutant = original.clone();
 		for(String placeCode : original.placeCodes()) //for every place code
@@ -26,20 +19,28 @@ public interface MutationbyElem<T, S extends Genome<T, S>> extends MutationMetho
 		return mutant;
 	}
 	
-	default S changeSize(S original) {
-		S mutant = original.clone();
-		//Check for growth
-		while(willGrow(mutant))
-			mutant.placeElm(elemType().randomElm(), mutant.emptyPlaceCode());
-		//Check for shrinking
-		while(willSrhink(mutant))
-			mutant.removeItem(CollectionMethods.random(mutant.placeCodes()));
-		return mutant;
-	}
-	
-	boolean willGrow(S solution);
-	
-	boolean willSrhink(S solution);
-	
 	T mutateElem(T elem);
+	
+	ChangeSize changeSize();
+
+
+	@Override
+	public default <T, S extends Genome<T, S>> boolean willGrow(S solution) {
+		// TODO Auto-generated method stub
+		return changeSize().willGrow(solution);
+	}
+
+	@Override
+	public default <T, S extends Genome<T, S>> boolean willShrink(S solution) {
+		// TODO Auto-generated method stub
+		return changeSize().willGrow(solution);
+	}
+
+	@Override
+	public default <S extends Genome<T, S>> S mutatedCopy(S original) {
+		// TODO Auto-generated method stub
+			S mutant = mutate(original);
+			mutant = changeSize(mutant, elemType());
+			return mutant;
+	}
 }

@@ -4,23 +4,24 @@ import Algorithms.OptAlgorithm;
 import VectorOps.ElemType;
 
 public class Mutations {
-
+	
 }
 
-class reRollMutation<T, S extends Genome<T, S>> implements MutationMethod<T, S>{
-	OptAlgorithm<T, S> alg;
+class reRollMutation<T> implements MutationMethod<T>{
+	OptAlgorithm<T, ?> alg;
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public S mutatedCopy(S original) {
+	public <S extends Genome<T, S>> S mutatedCopy(S original) {
 		// TODO Auto-generated method stub
-		return alg.randomSolution();
+		return (S) alg.randomSolution();
 	}
 	
 }
 
-class randomMutations<T, S extends Genome<T, S>> implements MutationbyElem<T, S> {
-	int minSize, maxSize;
+class randomMutations<T> implements MutationbyElem<T> {
 	ElemType<T> elementType;
+	ChangeSize changeSize;
 	double mutationChance;
 
 	@Override
@@ -29,7 +30,6 @@ class randomMutations<T, S extends Genome<T, S>> implements MutationbyElem<T, S>
 		return mutationChance;
 	}
 
-	@Override
 	public ElemType<T> elemType() {
 		// TODO Auto-generated method stub
 		return elementType;
@@ -41,22 +41,11 @@ class randomMutations<T, S extends Genome<T, S>> implements MutationbyElem<T, S>
 		return elemType().randomElm();
 	}
 
-	@Override
-	public boolean willGrow(S solution) {
-		//If it can grow
-		if(solution.placeCodes().size() < maxSize)
-			// 1/size chance of growing
-			return Math.random() < (1/solution.placeCodes().size());
-		return false;
-	}
 
 	@Override
-	public boolean willSrhink(S solution) {
-		//If it can shrink
-		if(solution.placeCodes().size() > minSize)
-			//Max chance
-			return Math.random() < 0.51-(1/solution.placeCodes().size());
-		return false;
+	public ChangeSize changeSize() {
+		// TODO Auto-generated method stub
+		return changeSize;
 	}
-	
+
 }

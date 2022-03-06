@@ -54,7 +54,7 @@ public interface GeneticAlgorithm<T, S extends Genome<T, S>> extends OptAlgorith
 
 	SelectionMethod<T, S> selectionMethod();
 	
-	MutationMethod<T, S> mutationMethod();
+	MutationMethod<T> mutationMethod();
 	
 	/**
 	 * Subject to selection such that only a number of solutions equal to the Capacity remains
