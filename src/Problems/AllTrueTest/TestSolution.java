@@ -60,5 +60,14 @@ public class TestSolution implements ListSolution<Boolean> {
 			ts.placeElm(getElm(placeCode), placeCode);
 		return ts;
 	}
+	
+	public String solutionDetails() {
+		String s = "";
+		for(Boolean b : this.solutionList)
+			if(b) s+= "1";
+			else s += "0";
+		return s;
+		
+	}
 
 }

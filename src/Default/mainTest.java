@@ -25,10 +25,9 @@ public class mainTest {
 				SolutionMethods.worstSolution(at.solutions())
 				);
 		MutationMethod<Boolean> mutate = Mutations.reRollMutation(at);
+		at.iteration();
 		System.out.println(
-				mutate.mutatedCopy(
-						SolutionMethods.worstSolution(at.solutions())
-						)
+				mutate.mutateAll(at.solutions())
 				);
 	}
 

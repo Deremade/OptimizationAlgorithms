@@ -9,6 +9,10 @@ public class Mutations {
 	public static <T> reRollMutation<T> reRollMutation(OptAlgorithm<T, ?> alg){
 		return new reRollMutation<T>(alg);
 	}
+	
+	public static <T> randomMutations<T> randomMutations(ElemType<T> elementType, ChangeSize changeSize, double mutationChance) {
+		return new randomMutations<T>(elementType, changeSize, mutationChance);
+	}
 }
 
 class reRollMutation<T> implements MutationMethod<T>{
@@ -29,6 +33,14 @@ class reRollMutation<T> implements MutationMethod<T>{
 }
 
 class randomMutations<T> implements MutationbyElem<T> {
+	public randomMutations(ElemType<T> elementType, ChangeSize changeSize, double mutationChance) {
+		super();
+		this.elementType = elementType;
+		this.changeSize = changeSize;
+		this.mutationChance = mutationChance;
+	}
+
+
 	ElemType<T> elementType;
 	ChangeSize changeSize;
 	double mutationChance;

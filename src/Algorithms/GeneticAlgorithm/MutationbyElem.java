@@ -13,7 +13,7 @@ public interface MutationbyElem<T> extends MutationMethod<T> {
 		//Create mutant solution
 		S mutant = original.clone();
 		for(String placeCode : original.placeCodes()) //for every place code
-			if(Math.random() <= mutationChance()) //at the mitation rate
+			if(Math.random() <= mutationChance()) //at the mutation rate
 				mutant.setElement( //set the element to it's mutant version
 					mutateElem(original.getElm(placeCode))
 					, placeCode);

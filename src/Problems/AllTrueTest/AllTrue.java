@@ -10,7 +10,7 @@ import Solution.ListSolution;
 
 public class AllTrue implements ValueProblem<Boolean, ListSolution<Boolean>> , OptAlgorithm<Boolean, ListSolution<Boolean>>{
 	Collection<ListSolution<Boolean>> solutions = new LinkedList<ListSolution<Boolean>>();
-	int size = 3;
+	int size = 10;
 	@Override
 	public boolean isValid(ListSolution<Boolean> solution) {
 		// TODO Auto-generated method stub
