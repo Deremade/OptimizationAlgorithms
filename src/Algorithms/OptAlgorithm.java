@@ -71,26 +71,6 @@ public interface OptAlgorithm<T, S extends OptSolution<T, S>> {
 	
 	/**
 	 * @param solutions
-	 * the Sample of solutions to draw from to find most fit
-	 * @param size
-	 * How many solutions to return
-	 * @return a list of the most fit solutions
-	 */
-	public default LinkedList<S> mostFit(Collection<S> solutions, int size) {
-		//Create list to hold the fit solutions
-		LinkedList<S> mostFitsolutions = new LinkedList<S>();
-		//Sort the existing solutions
-		List<S> sortedsolutions = sortedSolutions(solutions);
-		//While we have yet to find the needed number of solutions
-		while(mostFitsolutions.size() < size) {
-			//add at index
-			mostFitsolutions.add(sortedsolutions.get(mostFitsolutions.size()));
-		}
-		return mostFitsolutions;
-	}
-	
-	/**
-	 * @param solutions
 	 * @return The most fit solution
 	 */
 	public default S mostFitsolution(Collection<S> solutions) {

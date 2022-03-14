@@ -1,4 +1,4 @@
-package Algorithms.GeneticAlgorithm;
+package Algorithms.GeneticAlgorithm.Mutation;
 
 import java.util.Collection;
 import java.util.LinkedList;

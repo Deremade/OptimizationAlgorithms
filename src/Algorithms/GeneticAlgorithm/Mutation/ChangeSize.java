@@ -1,4 +1,4 @@
-package Algorithms.GeneticAlgorithm;
+package Algorithms.GeneticAlgorithm.Mutation;
 
 import Solution.OptSolution;
 import VectorOps.ElemType;

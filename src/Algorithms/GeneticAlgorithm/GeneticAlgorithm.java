@@ -3,8 +3,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import Algorithms.OptAlgorithm;
+import Algorithms.GeneticAlgorithm.Mutation.MutationMethod;
 import Default.SelectionMethod;
 import Solution.OptSolution;
+import staticMethods.SolutionMethods;
 
 /**
  * @author David
@@ -96,6 +98,6 @@ public interface GeneticAlgorithm<T, S extends OptSolution<T, S>> extends OptAlg
 	 * @return the most fit solutions
 	 */
 	public default LinkedList<S> mostFit() {
-		return mostFit(solutions(), capacity());
+		return SolutionMethods.bestSolutions(solutions(), capacity());
 	}
 }

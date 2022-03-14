@@ -131,4 +131,26 @@ public class SolutionMethods {
 					worst = sp;
 		return worst;
 	}
+	
+
+	
+	/**
+	 * @param solutions
+	 * the Sample of solutions to draw from to find most fit
+	 * @param size
+	 * How many solutions to return
+	 * @return a list of the most fit solutions
+	 */
+	public static <T, S extends OptSolution<T, S>>  LinkedList<S> bestSolutions(Collection<S> solutions, int size) {
+		//Create list to hold the fit solutions
+		LinkedList<S> mostFitsolutions = new LinkedList<S>();
+		//Sort the existing solutions
+		List<S> sortedsolutions = sort(solutions);
+		//While we have yet to find the needed number of solutions
+		while(mostFitsolutions.size() < size) {
+			//add at index
+			mostFitsolutions.add(sortedsolutions.get(mostFitsolutions.size()));
+		}
+		return mostFitsolutions;
+	}
 }
