@@ -1,9 +1,6 @@
-package Algorithms.GeneticAlgorithm;
+package Algorithms.GeneticAlgorithm.Mutation;
 
 import Algorithms.OptAlgorithm;
-import Algorithms.GeneticAlgorithm.Mutation.ChangeSize;
-import Algorithms.GeneticAlgorithm.Mutation.MutationMethod;
-import Algorithms.GeneticAlgorithm.Mutation.MutationbyElem;
 import Solution.OptSolution;
 import VectorOps.ElemType;
 

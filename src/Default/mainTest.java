@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import Algorithms.GeneticAlgorithm.CrossoverMethod;
-import Algorithms.GeneticAlgorithm.Mutations;
 import Algorithms.GeneticAlgorithm.Mutation.MutationMethod;
+import Algorithms.GeneticAlgorithm.Mutation.Mutations;
 import Problems.AllTrueTest.AllTrue;
 import Problems.AllTrueTest.TestSolution;
 import Solution.ListSolution;
