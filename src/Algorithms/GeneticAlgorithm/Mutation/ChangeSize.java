@@ -3,6 +3,7 @@ package Algorithms.GeneticAlgorithm.Mutation;
 import Solution.OptSolution;
 import VectorOps.ElemType;
 import staticMethods.CollectionMethods;
+import staticMethods.RNG;
 
 public interface ChangeSize {
 	
@@ -21,6 +22,17 @@ public interface ChangeSize {
 	
 	<T, S extends OptSolution<T, S>> boolean willShrink(S solution);
 
+	public static wontChange wontChange() {
+		return new wontChange();
+	}
+	
+	public static rubberBandbyInverse rubberBandbyInverse() {
+		return new rubberBandbyInverse();
+	}
+	
+	public static rubberBandbyInverse rubberBandbyInverse(int minSize, int maxSize) {
+		return new rubberBandbyInverse(minSize, maxSize);
+	}
 }
 
 class wontChange implements ChangeSize{
@@ -58,7 +70,7 @@ class rubberBandbyInverse implements ChangeSize {
 		//If it can grow
 		if(solution.placeCodes().size() < maxSize)
 			// 1/size chance of growing
-			return Math.random() < (1/solution.placeCodes().size());
+			return RNG.randDouble() < Math.pow(solution.placeCodes().size(), -1);
 		return false;
 	}
 
@@ -67,7 +79,7 @@ class rubberBandbyInverse implements ChangeSize {
 		//If it can shrink
 		if(solution.placeCodes().size() > minSize)
 			//Max chance
-			return Math.random() < 0.50-(1/solution.placeCodes().size());
+			return Math.random() < 0.50-Math.pow(solution.placeCodes().size(), -1);
 		return false;
 	}
 }

@@ -3,39 +3,53 @@ package staticMethods;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-
-import Algorithms.OptAlgorithm;
 import Solution.OptSolution;
 import VectorOps.VectorOps;
 
-public abstract class SolutionMatcher implements matchingAlgorithm {
-	public static Random r = new Random();
+public interface SolutionMatcher {
 	
+	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions);
+	
+	/**
+	 * Randomly selects items for each "Match"
+	 * @param perMatch
+	 * how many items per match
+	 */
 	public static RandomMatching randomMatching(int perMatch) {
 		return new RandomMatching(perMatch);
 	}
 	
+	/**
+	 * Matches the best solutions with the worst, second best with second worst, etc.
+	 */
 	public static BestWorst bestWorst() {
 		return new BestWorst();
 	}
 	
+	/**
+	 * @param vector
+	 * @param distance
+	 * @return Matches that group items within a certain vector "distance" from each other
+	 */
 	public static <T, S extends OptSolution<T, S>> WithinDist withinDist(VectorOps<T, S> vector, double distance) {
 		return new WithinDist(vector, distance);
 	}
 	
+	/**
+	 * @param vector
+	 * @param groupSize
+	 * @return Matches that group items that are closest to each other in "Vector space"
+	 */
 	public static <T, S extends OptSolution<T, S>> Closest closest(VectorOps<T, S> vector, int groupSize) {
 		return new Closest(vector, groupSize);
 	}
 	
+	/**
+	 * @return Matches that group every item with every other item
+	 */
 	public static <E> RoundRobin roundRobin() {
 		return new RoundRobin();
 	}
-}
-
-interface matchingAlgorithm {
-	
-	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions);
 }
 
 /**
@@ -45,7 +59,7 @@ interface matchingAlgorithm {
 	 * @param perMatch
 	 * Number of solutions in a match-up
  */
-class RandomMatching extends SolutionMatcher{
+class RandomMatching implements SolutionMatcher{
 	/**
 	 * Randomly assigns everyone a match
 	 * @param perMatch
@@ -62,7 +76,7 @@ class RandomMatching extends SolutionMatcher{
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {
 		// list of indexed solutions
 		LinkedList<S> indexedSolutions = new LinkedList<S>();
-		for(S s : solutions) { //place all solutions intot he list to index them
+		for(S s : solutions) { //place all solutions into the list to index them
 			indexedSolutions.add(s);
 		}
 		//Collection of Matches
@@ -71,7 +85,7 @@ class RandomMatching extends SolutionMatcher{
 			LinkedList<S> match = new LinkedList<S>(); //create match
 			while(match.size() < perMatch) {//while match needs to be filled
 				//find random index
-				int index = r.nextInt(Math.min(perMatch, (indexedSolutions.size())));
+				int index = RNG.randInt(Math.min(perMatch, (indexedSolutions.size())));
 				//add to match
 				match.add(indexedSolutions.get(index));
 				//remove from indexed solutions
@@ -87,7 +101,7 @@ class RandomMatching extends SolutionMatcher{
  * @author David
  * Matches the worst solutions with the best solutions and second best with second worst etc.
  */
-class BestWorst extends SolutionMatcher{
+class BestWorst implements SolutionMatcher{
 	/**
 	 * Matches the worst solutions with the best solutions and second best with second worst etc.
 	 */
@@ -113,7 +127,7 @@ class BestWorst extends SolutionMatcher{
 	}
 }
 
-class WithinDist  extends SolutionMatcher{
+class WithinDist implements SolutionMatcher{
 	VectorOps<?,?> vector;
 	double distance;
 	
@@ -174,7 +188,7 @@ class WithinDist  extends SolutionMatcher{
 	 * The size of the groups
  *
  */
-class Closest extends SolutionMatcher {
+class Closest implements SolutionMatcher {
 	VectorOps<?,?> vector;
 	int num;
 	
@@ -229,7 +243,7 @@ class Closest extends SolutionMatcher {
  * @author David
  * every solution is matched with every other solution
  */
-class RoundRobin extends SolutionMatcher {
+class RoundRobin implements SolutionMatcher {
 
 	@Override
 	public <T, S extends OptSolution<T, S>> Collection<LinkedList<S>> genMatches(Collection<S> solutions) {

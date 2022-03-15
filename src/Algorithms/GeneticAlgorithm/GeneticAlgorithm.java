@@ -47,7 +47,10 @@ public interface GeneticAlgorithm<T, S extends OptSolution<T, S>> extends OptAlg
 	@Override
 	public default void iteration() {
 		solutions().addAll(matingSeason());
-		subjecttoSelection();
+		solutions().addAll(subjectToMutation());
+		Collection<S> survivors = subjecttoSelection();
+		solutions().clear();
+		solutions().addAll(survivors);
 	}
 	
 	/**
@@ -58,6 +61,8 @@ public interface GeneticAlgorithm<T, S extends OptSolution<T, S>> extends OptAlg
 	SelectionMethod<T, S> selectionMethod();
 	
 	MutationMethod<T> mutationMethod();
+	
+	CrossoverMethod crossoverMethod();
 	
 	/**
 	 * Subject to selection such that only a number of solutions equal to the Capacity remains
@@ -79,7 +84,9 @@ public interface GeneticAlgorithm<T, S extends OptSolution<T, S>> extends OptAlg
 	 * The parents of the child
 	 * @return a "Child"
 	 */
-	public S genChild(Collection<S> parents);
+	public default S genChild(Collection<S> parents) {
+		return crossoverMethod().crossover(parents);
+	}
 	
 	/*
 	 * Return all parents and children of said parents from mating

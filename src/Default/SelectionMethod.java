@@ -1,12 +1,7 @@
 package Default;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import Solution.OptSolution;
 import staticMethods.SolutionMethods;
@@ -22,6 +17,9 @@ import staticMethods.SolutionMethods;
  */
 public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 	
+	/**
+	 * @return Selection Method which keeps only the "best" solutions
+	 */
 	static <T, S extends OptSolution<T, S>> survivalOfThefittest<T, S> survivalOfThefittest() {
 		return new survivalOfThefittest<T,S>();
 	}
@@ -60,7 +58,7 @@ public interface SelectionMethod<T, S extends OptSolution<T, S>> {
 		LinkedList<S> mostFit = new LinkedList<S>();
 		List<S> sorted = SolutionMethods.sort(solutions);
 		while(mostFit.size() < size) {
-			S mostFitSol = sorted.get(sorted.size());
+			S mostFitSol = sorted.get(sorted.size()-1);
 			mostFit.add(mostFitSol);
 			sorted.remove(mostFitSol);
 		}

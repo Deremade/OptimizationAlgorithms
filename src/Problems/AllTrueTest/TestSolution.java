@@ -63,10 +63,14 @@ public class TestSolution implements ListSolution<Boolean> {
 	
 	public String solutionDetails() {
 		String s = "";
+		int trueSpots = 0;
 		for(Boolean b : this.solutionList)
-			if(b) s+= "1";
+			if(b) {
+				s+= "1";
+				trueSpots++;
+			}
 			else s += "0";
-		return s;
+		return s+"-"+trueSpots;
 		
 	}
 
