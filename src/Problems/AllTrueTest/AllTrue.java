@@ -7,6 +7,7 @@ import Algorithms.OptAlgorithm;
 import Default.mainTest;
 import Problems.ValueProblem;
 import Solution.ListSolution;
+import staticMethods.RNG;
 
 public class AllTrue implements ValueProblem<Boolean, ListSolution<Boolean>> , OptAlgorithm<Boolean, ListSolution<Boolean>>{
 	Collection<ListSolution<Boolean>> solutions = new LinkedList<ListSolution<Boolean>>();
@@ -36,7 +37,7 @@ public class AllTrue implements ValueProblem<Boolean, ListSolution<Boolean>> , O
 	public ListSolution<Boolean> randomSolution() {
 		ListSolution<Boolean> rSolution = new TestSolution(this);
 		while(rSolution.solutionList().size() < size)
-			rSolution.placeElm(mainTest.RNG.nextBoolean(), rSolution.emptyPlaceCode());
+			rSolution.placeElm(RNG.randBoolean(), rSolution.emptyPlaceCode());
 		return rSolution;
 	}
 

@@ -2,7 +2,6 @@ package Problems.AllTrueTest;
 
 import VectorOps.ElemType;
 import staticMethods.RNG;
-import staticMethods.SolutionMatcher;
 
 public class BoolElem implements ElemType<Boolean> {
 
@@ -20,13 +19,11 @@ public class BoolElem implements ElemType<Boolean> {
 
 	@Override
 	public Boolean scale(Boolean elem, double scale) {
-		// TODO Auto-generated method stub
-		return elem;
+		return !(elem ^ (scale > 0));
 	}
 
 	@Override
 	public Boolean randomElm() {
-		// TODO Auto-generated method stub
 		return RNG.randBoolean();
 	}
 
