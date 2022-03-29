@@ -2,7 +2,6 @@ package Problems.AllTrueTest;
 
 import VectorOps.ElemType;
 import staticMethods.RNG;
-import staticMethods.SolutionMatcher;
 
 public class BoolElem implements ElemType<Boolean> {
 
@@ -15,7 +14,7 @@ public class BoolElem implements ElemType<Boolean> {
 	@Override
 	public Boolean difference(Boolean a, Boolean b) {
 		// TODO Auto-generated method stub
-		return !(a || b);
+		return !(a == b);
 	}
 
 	@Override

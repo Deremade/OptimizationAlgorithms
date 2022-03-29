@@ -60,7 +60,10 @@ public interface ListSolution<T> extends OptSolution<T, ListSolution<T>> {
 	 * @see Solution.OptSolution#getElm(java.lang.String)
 	 */
 	public default T getElm(String placeCode) {
-		return solutionList().get(Integer.parseInt(placeCode));
+		if(this.hasPlaceCode(placeCode))
+			return solutionList().get(Integer.parseInt(placeCode));
+		else
+			return null;
 	}
 
 	/* (non-Javadoc)
