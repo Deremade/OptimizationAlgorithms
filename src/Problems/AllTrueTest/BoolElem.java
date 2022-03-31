@@ -8,6 +8,9 @@ public class BoolElem implements ElemType<Boolean> {
 	@Override
 	public Boolean add(Boolean a, Boolean b) {
 		// TODO Auto-generated method stub
+		if(a == null && b == null) return false;
+		if(a == null) return b;
+		if(b == null) return a;
 		return a || b;
 	}
 
