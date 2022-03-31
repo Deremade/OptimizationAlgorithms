@@ -1,19 +1,9 @@
 package Default;
 
-import java.util.LinkedList;
 import java.util.Random;
-
-import Algorithms.GeneticAlgorithm.CrossoverMethod;
-import Algorithms.GeneticAlgorithm.Mutation.MutationMethod;
-import Algorithms.GeneticAlgorithm.Mutation.Mutations;
-import Problems.Problem;
 import Problems.AllTrueTest.ATTGenetics;
 import Problems.AllTrueTest.AllTrue;
-import Problems.AllTrueTest.TestSolution;
-import Solution.ListSolution;
-import Solution.OptSolution;
 import VectorOps.BooleanVector;
-import staticMethods.SolutionMatcher;
 import staticMethods.SolutionMethods;
 
 public class mainTest {
