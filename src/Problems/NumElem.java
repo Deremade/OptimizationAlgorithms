@@ -1,4 +1,4 @@
-package Problems.AllTrueTest;
+package Problems;
 
 import VectorOps.ElemType;
 import staticMethods.NumbersComparitor;
